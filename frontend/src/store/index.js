@@ -19,11 +19,8 @@ if(currentToken != null) {
 export default new Vuex.Store({
   state: {
     token: currentToken || '',
-    user: currentUser || {},
-    games: [],
-    gamesTestData: [{gameId: "1", gameName: "traders", host: "alex", balance: 100000,
-        gameStatus: "Active", playerStatus: "Pending"}, {gameId: "2", gameName: "pirates", host: "alex", balance: 100000,
-        gameStatus: "Active", playerStatus: "Pending"}]
+    user: currentUser || {username :"testUser1"},
+    games: [{gameName: "testGame1", host: "testUser1", gameStatus: true},{gameName: "testGame2", host: "testUser2", gameStatus: false},{gameName: "testGame3", host: "testUser3", gameStatus: true}]
   },
   mutations: {
     SET_AUTH_TOKEN(state, token) {
