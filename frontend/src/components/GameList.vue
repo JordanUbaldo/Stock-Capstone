@@ -1,6 +1,6 @@
 <template>
   <ul>
-      <li v-for="game in games" v-bind:key="game.id">{{ game.name }} <img v-if="host" src="assets/Crown.png" alt=""></li>
+      <li v-for="game in this.$store.state.games" v-bind:key="game.id">{{ game.name }} <img v-show="game.host == this.$store.state.user.username" src="assets/Crown.png" alt="Host Image"></li>
   </ul>
 </template>
 
@@ -18,7 +18,9 @@ export default {
 
     },
     methods: {
-
+        checkHost(){
+            
+        }
     },
     created() {
         gamesService
