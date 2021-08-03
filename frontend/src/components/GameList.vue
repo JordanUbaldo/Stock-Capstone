@@ -7,21 +7,14 @@
 </template>
 
 <script>
-<<<<<<< HEAD
 //import gamesService from "@/services/GamesService.js";
-=======
-// import gamesService from "@/services/GamesService.js";
->>>>>>> 6e47035e6d6566525c95f98ed534440a73c6b21e
 
 export default {
     name: "game-list",
     data() {
         return {
-<<<<<<< HEAD
             games: [],
             host : false
-=======
->>>>>>> 6e47035e6d6566525c95f98ed534440a73c6b21e
        };
     },
     computed: {
@@ -33,7 +26,6 @@ export default {
     },
     methods: {
     },
-<<<<<<< HEAD
 /*    created() {
         gamesService
             .getGames()
@@ -44,17 +36,6 @@ export default {
             })
     }
 */
-=======
-    // created() {
-    //     gamesService
-    //         .getGames()
-    //         .then(response => {
-    //             if(response.status === 200) {
-    //                 this.$store.commit("SET_GAMES", response.data);
-    //             }
-    //         })
-    // }
->>>>>>> 6e47035e6d6566525c95f98ed534440a73c6b21e
 }
 </script>
 
