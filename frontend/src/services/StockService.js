@@ -1,0 +1,6 @@
+/*
+External API calls
+See list of Stocks GET
+Trade Stocks
+See List of Trades
+*/
