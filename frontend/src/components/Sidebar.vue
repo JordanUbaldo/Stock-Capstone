@@ -1,10 +1,9 @@
 <template>
   <div>
-      <game-list />
-      <invite-list />
       <login />
       <register />
-      SIDEBAR
+      <game-list />
+      <invite-list />
   </div>
 </template>
 
