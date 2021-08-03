@@ -41,6 +41,9 @@ export default new Vuex.Store({
     },
     SET_GAMES(state, data) {
       state.games = data;
+    },
+    SET_INVITES(state, data) {
+      state.invites = data;
     }
   }
 })
