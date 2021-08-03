@@ -5,13 +5,14 @@
 </template>
 
 <script>
-import gamesService from "@/services/GamesService.js";
+//import gamesService from "@/services/GamesService.js";
 
 export default {
     name: "game-list",
     data() {
         return {
-            host : false,
+            games: [],
+            host : false
        };
     },
     computed: {
@@ -20,7 +21,7 @@ export default {
     methods: {
 
     },
-    created() {
+/*    created() {
         gamesService
             .getGames()
             .then(response => {
@@ -29,6 +30,7 @@ export default {
                 }
             })
     }
+*/
 }
 </script>
 
