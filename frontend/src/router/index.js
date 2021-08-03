@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../views/Home.vue'
-import Login from '../views/Login.vue'
-import Logout from '../views/Logout.vue'
-import Register from '../views/Register.vue'
+import Login from '../components/Login.vue'
+import Logout from '../components/Logout.vue'
+import Register from '../components/Register.vue'
 import store from '../store/index'
 import Test from '@/views/Test.vue'
 

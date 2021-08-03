@@ -2,6 +2,8 @@
   <div>
       <game-list />
       <invite-list />
+      <login />
+      <register />
       SIDEBAR
   </div>
 </template>
