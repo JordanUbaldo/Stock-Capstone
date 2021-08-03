@@ -20,7 +20,8 @@ export default new Vuex.Store({
   state: {
     token: currentToken || '',
     user: currentUser || {},
-    games: [{gameId: "1", gameName: "traders", host: "alex", balance: 100000,
+    games: [],
+    gamesTestData: [{gameId: "1", gameName: "traders", host: "alex", balance: 100000,
         gameStatus: "Active", playerStatus: "Pending"}, {gameId: "2", gameName: "pirates", host: "alex", balance: 100000,
         gameStatus: "Active", playerStatus: "Pending"}]
   },
