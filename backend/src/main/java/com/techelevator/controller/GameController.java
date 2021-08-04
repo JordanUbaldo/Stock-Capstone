@@ -13,7 +13,6 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping
 @PreAuthorize("isAuthenticated()")
 public class GameController {
 

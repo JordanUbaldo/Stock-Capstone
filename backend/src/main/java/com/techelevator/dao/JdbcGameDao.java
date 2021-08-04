@@ -6,7 +6,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
-import javax.sql.DataSource;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,14 +34,14 @@ public class JdbcGameDao implements GameDao{
             String balances = "INSERT INTO balances (game_id, username) VALUES (?, ?);";
             String status = "Accepted";
             try {
-                newGameId = jdbcTemplate.queryForObject(games, Integer.class, game.getGameName(), game.getHost(), game.getEndDate());
+                newGameId = jdbcTemplate.queryForObject(games, Integer.class, game.getGameName(), game.getHost(), LocalDate.parse(game.getEndDate()));
                 jdbcTemplate.queryForRowSet(userStatus, game.getGameId(), game.getHost(), status);
                 jdbcTemplate.queryForRowSet(balances, game.getGameId(), game.getHost());
                 // if all processes successful we switch result boolean to true
-            } catch(DataAccessException e) {
-                System.out.println("Error accessing data " + e.getMessage());
             } catch (NullPointerException j) {
                 System.out.println(j.getMessage());
+            } catch(DataAccessException e) {
+                System.out.println("Error accessing data " + e.getMessage());
             }
 
         return newGameId;
@@ -54,7 +55,7 @@ public class JdbcGameDao implements GameDao{
                 "JOIN user_status s ON g.game_id = s.game_id " +
                 "JOIN users u ON s.username = u.username " +
                 // we show only games user have joined
-                "WHERE u.username = ? && p.user_status = 'Accepted';";
+                "WHERE u.username = ? AND s.user_status ILIKE 'Accepted';";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, username);
         while(results.next()) {
             // helper method converts database response into Game object
