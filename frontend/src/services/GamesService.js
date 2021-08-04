@@ -9,9 +9,10 @@ export default {
     getGames() {
         return http.get('/games');
     },
-    createGame(game){
-        return http.post('/games', game);
-    },
+    createGame(game,token){
+        return http.post('/games',
+        game,{headers: {'Authorization': `Bearer ${token}`}})
+},
     gameInvite(invite){
         return http.post(`/games/${this.$store.state.gameId}/invite`, invite)
     }

@@ -9,7 +9,7 @@
                 <label for="endDate">End Date</label>
                 <input v-model="game.endDate" type="date">
             </div>
-            <button type="submit" v-on:click="createGame(game)">Create Game</button>
+            <button type="submit" v-on:click="createGame">Create Game</button>
         </form>
     </div>
 </template>
@@ -22,16 +22,16 @@ export default {
     data() {
         return {
             game: {
-                gameName: "",
-                endDate: ""
+                endDate: "",
+                gameName: ""
             },
         }
     },
     computed: {
     },
     methods: {
-        createGame(game) {
-            gamesService.createGame(game).then(response => {
+        createGame() {
+            gamesService.createGame(this.game,this.$store.state.token).then(response => {
                 if (response.stauts === 201) {
                     if (response.data > 0) {
                         this.$store.commit("SET_CURRENT_GAME_ID", response.data);

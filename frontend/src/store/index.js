@@ -19,8 +19,14 @@ if(currentToken != null) {
 export default new Vuex.Store({
   state: {
     token: currentToken || '',
+    //Test user Data
     user: currentUser || {username :"testUser1"},
-    games: [{gameName: "testGame1", host: "testUser1", gameStatus: true, playerStatus: "Accepted"},{gameName: "testGame2", host: "testUser2", gameStatus: false, playerStatus: "Accepted"},{gameName: "testGame3", host: "testUser3", gameStatus: true, playerStatus: "Pending"}, {gameName: "testGame4", host: "testUser3", gameStatus: true, playerStatus: "Accepted"}],
+    //Test Game Data
+    games: [{gameName: "testGame1", host: "testUser1", gameStatus: true, playerStatus: "Accepted"},
+    {gameName: "testGame2", host: "testUser2", gameStatus: false, playerStatus: "Accepted"},
+    {gameName: "testGame3", host: "testUser3", gameStatus: true, playerStatus: "Pending"},
+    {gameName: "testGame4", host: "testUser3", gameStatus: true, playerStatus: "Accepted"}],
+
     currentGameId: 0,
     users: []
   },
