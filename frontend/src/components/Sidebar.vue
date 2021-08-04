@@ -2,6 +2,7 @@
   <div>
       <login />
       <register />
+      <create-game-btn />
       <game-list />
       <invite-list />
   </div>
@@ -12,6 +13,7 @@ import GameList from '@/components/GameList.vue';
 import InviteList from '@/components/InviteList.vue';
 import Login from '@/components/Login.vue';
 import Register from '@/components/Register.vue';
+import CreateGameBtn from '@/components/CreateGameBtn.vue';
 
 export default {
     name: "TheSidebar",
@@ -19,7 +21,8 @@ export default {
         GameList,
         InviteList,
         Login,
-        Register
+        Register,
+        CreateGameBtn
     }
 };
 </script>
