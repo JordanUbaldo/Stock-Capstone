@@ -3,9 +3,9 @@ package com.techelevator.model;
 public class Game {
 
     private Long gameId;
-    private Long host;
+    private String host;
     private String gameName;
-    private String gameStatus;
+    private boolean gameActive = true;
     private String startDate;
     private String endDate;
 
@@ -20,17 +20,17 @@ public class Game {
 
     public void setGameId(Long gameId) { this.gameId = gameId; }
 
-    public Long getHost() { return host; }
+    public String getHost() { return host; }
 
-    public void setHost(Long host) { this.host = host; }
+    public void setHost(String host) { this.host = host; }
 
     public String getGameName() { return gameName; }
 
     public void setGameName(String gameName) { this.gameName = gameName; }
 
-    public String getGameStatus() { return gameStatus; }
+    public boolean getGameActive() { return gameActive; }
 
-    public void setGameStatus(String gameStatus) { this.gameStatus = gameStatus; }
+    public void setGameActive(String gameStatus) { this.gameActive = gameActive; }
 
     public String getStartDate() { return startDate; }
 

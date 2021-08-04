@@ -29,15 +29,15 @@ public class JdbcGameDao implements GameDao{
         boolean result = false;
         // findGameByName returns with boolean - true if the name is available; false if name already exists
         if(gameDao.findGameByName(game.getGameName())) {
-            String games = "INSERT INTO games (game_name, game_status, host, start_date, end_date) " +
-                    "VALUES (?, ?, ?, ?, ?) RETURNING game_id;";
+            String games = "INSERT INTO games (game_name, host, end_date) " +
+                    "VALUES (?, ?, ?) RETURNING game_id;";
             String userStatus = "INSERT INTO user_status (game_id, username, user_status) " +
                     "VALUES (? ,?, ?);";
             String balances = "INSERT INTO balances (game_id, username) VALUES (?, ?);";
             String status = "Accepted";
             Long newGameId;
             try {
-                newGameId = jdbcTemplate.queryForObject(games, Long.class, game.getGameName(), game.getGameStatus(), game.getHost(), game.getStartDate(), game.getEndDate());
+                newGameId = jdbcTemplate.queryForObject(games, Long.class, game.getGameName(), game.getHost(), game.getEndDate());
                 jdbcTemplate.queryForRowSet(userStatus, game.getGameId(), game.getHost(), status);
                 jdbcTemplate.queryForRowSet(balances, game.getGameId(), game.getHost());
                 // if all processes successful we switch result boolean to true
