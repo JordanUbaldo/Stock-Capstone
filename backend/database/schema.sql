@@ -30,19 +30,16 @@ CREATE SEQUENCE seq_balance_id
   NO MAXVALUE
   NO MINVALUE
   CACHE 1;
-  
 CREATE SEQUENCE seq_type_id
   INCREMENT BY 1
   NO MAXVALUE
   NO MINVALUE
   CACHE 1;
-  
 CREATE SEQUENCE seq_trade_id
   INCREMENT BY 1
   NO MAXVALUE
   NO MINVALUE
   CACHE 1;
-  
 CREATE TABLE users (
 	user_id int DEFAULT nextval('seq_user_id'::regclass) NOT NULL,
 	username varchar(50) NOT NULL UNIQUE,
