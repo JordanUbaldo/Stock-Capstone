@@ -8,6 +8,6 @@ const http = axios.create({
 export default {
 
     getStock(ticker) {
-        return http.get(`/stocks/${ticker}${key}`);
+        return http.get(`/${ticker}${key}`);
     }
 }
