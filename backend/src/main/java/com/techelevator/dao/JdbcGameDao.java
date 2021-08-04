@@ -1,6 +1,8 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.Game;
+import com.techelevator.model.Player;
+import com.techelevator.model.User;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -68,6 +70,18 @@ public class JdbcGameDao implements GameDao{
     }
 
     @Override
+    public List<Player> viewUsersInTheGame(int gameId) {
+        List<Player> users = new ArrayList<>();
+        String sql = "SELECT game_id, username, user_status FROM user_status WHERE game_id = ?";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, gameId);
+        while(results.next()) {
+            Player player = mapRowToPlayer(results);
+            users.add(player);
+        }
+        return users;
+    }
+
+    @Override
     public boolean invitePlayers(String username, int gameId) {
         // returning false if method fails
         boolean result = false;
@@ -98,6 +112,15 @@ public class JdbcGameDao implements GameDao{
             result = false;
         }
         return result;
+    }
+
+    //helper method to create Player object from database response
+    private Player mapRowToPlayer (SqlRowSet p) {
+        Player player = new Player();
+        player.setUsername(p.getString("username"));
+        player.setGameId(p.getInt("game_id"));
+        player.setStatus(p.getString("user_status"));
+        return player;
     }
 
     // helper method to create Game object from database response
