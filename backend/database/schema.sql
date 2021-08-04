@@ -30,40 +30,19 @@ CREATE SEQUENCE seq_balance_id
   NO MAXVALUE
   NO MINVALUE
   CACHE 1;
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-=======
-  
->>>>>>> ee93fe8bbbea0eaacfd3c8cfb214a16721c24f5a
-=======
->>>>>>> 3dc58722ccecbfc47d44d74aa2ce15c3c3e32406
 CREATE SEQUENCE seq_type_id
   INCREMENT BY 1
   NO MAXVALUE
   NO MINVALUE
   CACHE 1;
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-=======
-  
->>>>>>> ee93fe8bbbea0eaacfd3c8cfb214a16721c24f5a
-=======
->>>>>>> 3dc58722ccecbfc47d44d74aa2ce15c3c3e32406
 CREATE SEQUENCE seq_trade_id
   INCREMENT BY 1
   NO MAXVALUE
   NO MINVALUE
   CACHE 1;
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-=======
-  
->>>>>>> ee93fe8bbbea0eaacfd3c8cfb214a16721c24f5a
-=======
->>>>>>> 3dc58722ccecbfc47d44d74aa2ce15c3c3e32406
 CREATE TABLE users (
 	user_id int DEFAULT nextval('seq_user_id'::regclass) NOT NULL,
 	username varchar(50) NOT NULL UNIQUE,

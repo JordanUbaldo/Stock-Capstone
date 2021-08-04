@@ -26,7 +26,7 @@ public class JdbcGameDao implements GameDao{
     public int createGame(Game game) {
         int newGameId = 0;
         // findGameByName returns with boolean - true if the name is available; false if name already exists
-
+        if(this.findGameByName(game.getGameName())) {
             String games = "INSERT INTO games (game_name, host, end_date) " +
                     "VALUES (?, ?, ?) RETURNING game_id;";
             String userStatus = "INSERT INTO user_status (game_id, username, user_status) " +
@@ -40,11 +40,10 @@ public class JdbcGameDao implements GameDao{
                 // if all processes successful we switch result boolean to true
             } catch (NullPointerException j) {
                 System.out.println(j.getMessage());
-                System.out.println("First catch");
-            } catch(DataAccessException e) {
+            } catch (DataAccessException e) {
                 System.out.println("Error accessing data " + e.getMessage());
             }
-
+        }
         return newGameId;
     }
     @Override
