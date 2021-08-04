@@ -1,22 +1,22 @@
 <template>
   <div id="gameContainer">
     <game-summary id="summary" />
-    <game-details id="details"></game-details>
-    <leader-board />
+    <game-details id="details" />
+    <leader-board id="leaderboard"></leader-board>
   </div>
 </template>
 
 <script>
 import GameDetails from "@/components/GameDetails"
 import GameSummary from "@/components/GameSummary"
-import Leaderboard from "@/components/LeaderBoard"
+import LeaderBoard from "@/components/LeaderBoard"
 
 export default {
     name: "game",
     components: {
         GameDetails,
         GameSummary,
-        Leaderboard
+        LeaderBoard
     }
 }
 </script>
@@ -32,21 +32,23 @@ export default {
 
     #game-container {
         display: grid;
+        grid-template-columns: 1fr 2fr;
         grid-template-areas:
-            "summary summary"
-            "details leaderboard"
+            "summary details"
+            "summary details";
     }
 
     summary {
-        grid-area: summary
+        grid-area: summary;
+    }
+
+    leaderBoard {
+        grid-area: leaderboard;
     }
 
     details {
-        grid-area: details
+        grid-area: details;
     }
 
-    leaderboard {
-        grid-area: lea
-    }
 
 </style>
