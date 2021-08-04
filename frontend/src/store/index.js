@@ -20,7 +20,9 @@ export default new Vuex.Store({
   state: {
     token: currentToken || '',
     user: currentUser || {username :"testUser1"},
-    games: [{gameName: "testGame1", host: "testUser1", gameStatus: true, playerStatus: "Accepted"},{gameName: "testGame2", host: "testUser2", gameStatus: false, playerStatus: "Accepted"},{gameName: "testGame3", host: "testUser3", gameStatus: true, playerStatus: "Pending"}, {gameName: "testGame4", host: "testUser3", gameStatus: true, playerStatus: "Accepted"}]
+    games: [{gameName: "testGame1", host: "testUser1", gameStatus: true, playerStatus: "Accepted"},{gameName: "testGame2", host: "testUser2", gameStatus: false, playerStatus: "Accepted"},{gameName: "testGame3", host: "testUser3", gameStatus: true, playerStatus: "Pending"}, {gameName: "testGame4", host: "testUser3", gameStatus: true, playerStatus: "Accepted"}],
+    currentGameId: 0,
+    users: []
   },
   mutations: {
     SET_AUTH_TOKEN(state, token) {
@@ -44,6 +46,9 @@ export default new Vuex.Store({
     },
     SET_INVITES(state, data) {
       state.invites = data;
+    },
+    SET_CURRENT_GAME_ID(state, data) {
+      state.currentGameId = data;
     }
   }
 })

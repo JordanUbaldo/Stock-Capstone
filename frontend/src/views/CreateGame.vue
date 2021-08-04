@@ -1,17 +1,19 @@
 <template>
     <div>
-        <form action=""></form>
+        <h1>Create Game</h1>
+        <create-game-form />
+        <send-invites />
     </div>
 </template>
 
 <script>
+import CreateGameForm from '@/components/CreateGameForm';
+import SendInvites from '@/components/SendInvites.vue';
+
 export default {
-        name: "create-game",
-    data() {
-        return {
-        }
-    },
-    computed: {
+    components: {
+        CreateGameForm,
+        SendInvites
     }
 }
 </script>
