@@ -1,11 +1,11 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.Game;
+import com.techelevator.model.Player;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
-
 import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,19 +15,17 @@ public class JdbcGameDao implements GameDao{
 
     // objects to access database
     private JdbcTemplate jdbcTemplate;
-    private GameDao gameDao;
 
 
-    public JdbcGameDao (DataSource dataSource, GameDao gameDao) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
-        this.gameDao = gameDao;
+    public JdbcGameDao (JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public int createGame(Game game) {
         int newGameId = 0;
         // findGameByName returns with boolean - true if the name is available; false if name already exists
-        if(gameDao.findGameByName(game.getGameName())) {
+
             String games = "INSERT INTO games (game_name, host, end_date) " +
                     "VALUES (?, ?, ?) RETURNING game_id;";
             String userStatus = "INSERT INTO user_status (game_id, username, user_status) " +
@@ -44,7 +42,7 @@ public class JdbcGameDao implements GameDao{
             } catch (NullPointerException j) {
                 System.out.println(j.getMessage());
             }
-        }
+
         return newGameId;
     }
     @Override
@@ -65,6 +63,18 @@ public class JdbcGameDao implements GameDao{
             games.add(game);
         }
         return games;
+    }
+
+    @Override
+    public List<Player> viewUsersInTheGame(int gameId) {
+        List<Player> users = new ArrayList<>();
+        String sql = "SELECT game_id, username, user_status FROM user_status WHERE game_id = ?";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, gameId);
+        while(results.next()) {
+            Player player = mapRowToPlayer(results);
+            users.add(player);
+        }
+        return users;
     }
 
     @Override
@@ -98,6 +108,15 @@ public class JdbcGameDao implements GameDao{
             result = false;
         }
         return result;
+    }
+
+    //helper method to create Player object from database response
+    private Player mapRowToPlayer (SqlRowSet p) {
+        Player player = new Player();
+        player.setUsername(p.getString("username"));
+        player.setGameId(p.getInt("game_id"));
+        player.setStatus(p.getString("user_status"));
+        return player;
     }
 
     // helper method to create Game object from database response

@@ -30,6 +30,9 @@ public class GameController {
         return gameDao.viewGames(principal.getName());
     }
 
+    @RequestMapping(path = "/games/{gameId}/users", method = RequestMethod.GET)
+    public List<Player> viewPlayers(@Valid @PathVariable int gameId) { return gameDao.viewUsersInTheGame(gameId); }
+
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/games", method = RequestMethod.POST)
     public int createGame(@Valid @RequestBody Game game, Principal principal) {
