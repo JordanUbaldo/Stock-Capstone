@@ -24,29 +24,28 @@ public class JdbcGameDao implements GameDao{
     }
 
     @Override
-    public boolean createGame(Game game) {
-        // boolean to confirm we created a game
-        boolean result = false;
+    public int createGame(Game game) {
+        int newGameId = 0;
         // findGameByName returns with boolean - true if the name is available; false if name already exists
         if(gameDao.findGameByName(game.getGameName())) {
-            String games = "INSERT INTO games (game_name, game_status, host, start_date, end_date) " +
-                    "VALUES (?, ?, ?, ?, ?) RETURNING game_id;";
+            String games = "INSERT INTO games (game_name, host, end_date) " +
+                    "VALUES (?, ?, ?) RETURNING game_id;";
             String userStatus = "INSERT INTO user_status (game_id, username, user_status) " +
                     "VALUES (? ,?, ?);";
             String balances = "INSERT INTO balances (game_id, username) VALUES (?, ?);";
             String status = "Accepted";
-            Long newGameId;
             try {
-                newGameId = jdbcTemplate.queryForObject(games, Long.class, game.getGameName(), game.getGameStatus(), game.getHost(), game.getStartDate(), game.getEndDate());
+                newGameId = jdbcTemplate.queryForObject(games, Integer.class, game.getGameName(), game.getHost(), game.getEndDate());
                 jdbcTemplate.queryForRowSet(userStatus, game.getGameId(), game.getHost(), status);
                 jdbcTemplate.queryForRowSet(balances, game.getGameId(), game.getHost());
                 // if all processes successful we switch result boolean to true
-                result = true;
             } catch(DataAccessException e) {
                 System.out.println("Error accessing data " + e.getMessage());
+            } catch (NullPointerException j) {
+                System.out.println(j.getMessage());
             }
         }
-        return result;
+        return newGameId;
     }
     @Override
     public List<Game> viewGames(String username) {
@@ -69,7 +68,7 @@ public class JdbcGameDao implements GameDao{
     }
 
     @Override
-    public boolean invitePlayers(String username, Long gameId) {
+    public boolean invitePlayers(String username, int gameId) {
         // returning false if method fails
         boolean result = false;
         // default status for invited players - "Pending"

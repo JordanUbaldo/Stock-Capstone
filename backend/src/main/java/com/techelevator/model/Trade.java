@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 
 public class Trade {
 
-    private Long tradeId;
-    private Long gameId;
-    private Long userId;
+    private int tradeId;
+    private int gameId;
+    private String username;
     private String stockTicker;
     private String tradeName;
     private BigDecimal amount;
@@ -19,7 +19,7 @@ public class Trade {
 
     }
 
-    public Trade(Long gameId, String stockTicker, String tradeName, BigDecimal pricePerShare, int sharesNumber, String tradeType) {
+    public Trade(int gameId, String stockTicker, String tradeName, BigDecimal pricePerShare, int sharesNumber, String tradeType) {
         this.gameId = gameId;
         this.stockTicker = stockTicker;
         this.tradeName = tradeName;
@@ -37,17 +37,17 @@ public class Trade {
 
     public void setTradeName(String tradeName) { this.tradeName = tradeName; }
 
-    public Long getTradeId() { return tradeId; }
+    public int getTradeId() { return tradeId; }
 
-    public void setTradeId(Long tradeId) { this.tradeId = tradeId; }
+    public void setTradeId(int tradeId) { this.tradeId = tradeId; }
 
-    public Long getGameId() { return gameId; }
+    public int getGameId() { return gameId; }
 
-    public void setGameId(Long gameId) { this.gameId = gameId; }
+    public void setGameId(int gameId) { this.gameId = gameId; }
 
-    public Long getUserId() { return userId; }
+    public String getUserId() { return username; }
 
-    public void setUserId(Long userId) { this.userId = userId; }
+    public void setUserId(String username) { this.username = username; }
 
     public String getStockTicker() { return stockTicker; }
 
