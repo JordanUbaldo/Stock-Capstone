@@ -24,7 +24,7 @@ export default ({
   }
 
   sidebar {
-    grid-area: sidebar-view;
+    grid-area: sidebar;
   }
 
   content {

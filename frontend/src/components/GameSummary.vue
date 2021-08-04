@@ -1,11 +1,11 @@
 <template>
   <div>
       <!-- Game Name -->
-      <p>Name</p>
+      <p>Name of Game</p>
       <!-- End Date -->
       <p>End Date</p>
       <!-- Invite Button for Host -->
-      <p>Invite Button</p>
+      <button type="submit">Invite</button>
   </div>
 </template>
 

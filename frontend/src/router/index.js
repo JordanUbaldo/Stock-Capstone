@@ -8,6 +8,7 @@ import Register from '../components/Register.vue'
 import store from '../store/index'
 import Test from '@/views/Test.vue'
 import CreateGame from '../views/CreateGame.vue'
+import Stock from '../components/Stock.vue'
 
 Vue.use(Router)
 
@@ -63,6 +64,7 @@ const router = new Router({
     },
     {
       path: "/game",
+      //path: "/game/:id",
       name: "game",
       component: Game
     },
@@ -70,6 +72,11 @@ const router = new Router({
       path: "/create",
       name: "create",
       component: CreateGame
+    },
+    {
+      path: "/stock",
+      name: "stock",
+      component: Stock
     }
   ]
 })
