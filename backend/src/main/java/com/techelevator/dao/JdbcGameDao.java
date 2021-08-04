@@ -2,12 +2,10 @@ package com.techelevator.dao;
 
 import com.techelevator.model.Game;
 import com.techelevator.model.Player;
-import com.techelevator.model.User;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
-
 import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,19 +15,17 @@ public class JdbcGameDao implements GameDao{
 
     // objects to access database
     private JdbcTemplate jdbcTemplate;
-    private GameDao gameDao;
 
 
-    public JdbcGameDao (DataSource dataSource, GameDao gameDao) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
-        this.gameDao = gameDao;
+    public JdbcGameDao (JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public int createGame(Game game) {
         int newGameId = 0;
         // findGameByName returns with boolean - true if the name is available; false if name already exists
-        if(gameDao.findGameByName(game.getGameName())) {
+
             String games = "INSERT INTO games (game_name, host, end_date) " +
                     "VALUES (?, ?, ?) RETURNING game_id;";
             String userStatus = "INSERT INTO user_status (game_id, username, user_status) " +
@@ -46,7 +42,7 @@ public class JdbcGameDao implements GameDao{
             } catch (NullPointerException j) {
                 System.out.println(j.getMessage());
             }
-        }
+
         return newGameId;
     }
     @Override
