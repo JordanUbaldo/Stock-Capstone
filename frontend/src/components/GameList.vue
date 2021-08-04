@@ -4,16 +4,21 @@
   <ul>
       <li v-for="game in games" v-bind:key="game.Id">{{ game.gameName }} <img class="hostImage" v-show="game.host == $store.state.user.username" src="../assets/Crown.png" alt="Host Image"></li>
   </ul>
+  <button v-on:click="viewGames">view games</button>
+  <p>
+      {{this.games}}
+  </p>
   </div>
 </template>
 
 <script>
-// import gamesService from "@/services/GamesService.js";
+ import gamesService from "@/services/GamesService.js";
 
 export default {
     name: "game-list",
     data() {
         return {
+            gameList: []
        };
     },
     computed: {
@@ -28,6 +33,11 @@ export default {
         }
     },
     methods: {
+        viewGames() {
+            gamesService.getGames().then(response => {
+                this.gameList = response;
+            })
+        }
     },
 /*    created() {
         gamesService

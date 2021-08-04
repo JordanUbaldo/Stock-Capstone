@@ -3,6 +3,7 @@
     <game-summary id="summary" />
     <game-details id="details" />
     <leader-board id="leaderboard"></leader-board>
+    <button v-on:click="viewGames"></button>
   </div>
 </template>
 
@@ -10,9 +11,17 @@
 import GameDetails from "@/components/GameDetails"
 import GameSummary from "@/components/GameSummary"
 import LeaderBoard from "@/components/LeaderBoard"
+import gamesService from "@/services/GamesService"
 
 export default {
     name: "game",
+    methods: {
+        viewGames() {
+            gamesService.getGames().then(response => {
+                console.log(response);
+            })
+        }
+    },
     components: {
         GameDetails,
         GameSummary,

@@ -19,7 +19,7 @@ import com.techelevator.dao.UserDao;
 import com.techelevator.security.jwt.JWTFilter;
 import com.techelevator.security.jwt.TokenProvider;
 
-import java.security.Principal;
+
 import java.util.List;
 
 @RestController
