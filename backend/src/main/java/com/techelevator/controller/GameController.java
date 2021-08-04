@@ -3,6 +3,7 @@ package com.techelevator.controller;
 import com.techelevator.dao.GameDao;
 import com.techelevator.dao.UserDao;
 import com.techelevator.model.Game;
+import com.techelevator.model.Player;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -37,9 +38,8 @@ public class GameController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/games/{gameId}/invite", method = RequestMethod.POST)
-    // What object we will be passing when we invite players??? I need username and gameId to make a post request to database
-    public boolean invitePlayers(@Valid @RequestBody Game game) {
-        return gameDao.invitePlayers(game.getGameName(), game.getGameId());
+    public boolean invitePlayers(@Valid @RequestBody Player player) {
+        return gameDao.invitePlayers(player.getUsername(), player.getGameId());
     }
 
 }
