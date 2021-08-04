@@ -40,6 +40,7 @@ public class JdbcGameDao implements GameDao{
                 // if all processes successful we switch result boolean to true
             } catch (NullPointerException j) {
                 System.out.println(j.getMessage());
+                System.out.println("First catch");
             } catch(DataAccessException e) {
                 System.out.println("Error accessing data " + e.getMessage());
             }
