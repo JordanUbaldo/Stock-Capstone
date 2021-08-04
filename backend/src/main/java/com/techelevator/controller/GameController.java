@@ -32,7 +32,7 @@ public class GameController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/games", method = RequestMethod.POST)
-    public boolean createGame(@Valid @RequestBody Game game, Principal principal) {
+    public int createGame(@Valid @RequestBody Game game, Principal principal) {
         game.setHost(principal.getName());
         return gameDao.createGame(game);
     }

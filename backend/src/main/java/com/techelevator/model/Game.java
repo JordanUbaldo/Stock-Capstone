@@ -2,7 +2,7 @@ package com.techelevator.model;
 
 public class Game {
 
-    private Long gameId;
+    private int gameId;
     private String host;
     private String gameName;
     private boolean gameActive = true;
@@ -16,9 +16,9 @@ public class Game {
         this.endDate = endDate;
     }
 
-    public Long getGameId() { return gameId; }
+    public int getGameId() { return gameId; }
 
-    public void setGameId(Long gameId) { this.gameId = gameId; }
+    public void setGameId(int gameId) { this.gameId = gameId; }
 
     public String getHost() { return host; }
 
@@ -30,7 +30,7 @@ public class Game {
 
     public boolean getGameActive() { return gameActive; }
 
-    public void setGameActive(String gameStatus) { this.gameActive = gameActive; }
+    public void setGameActive(boolean gameActive) { this.gameActive = gameActive; }
 
     public String getStartDate() { return startDate; }
 

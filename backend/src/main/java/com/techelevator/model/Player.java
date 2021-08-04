@@ -3,7 +3,7 @@ package com.techelevator.model;
 public class Player {
 
     private String username;
-    private Long gameId;
+    private int gameId;
 
 
 
@@ -15,11 +15,11 @@ public class Player {
         this.username = username;
     }
 
-    public Long getGameId() {
+    public int getGameId() {
         return gameId;
     }
 
-    public void setGameId(Long gameId) {
+    public void setGameId(int gameId) {
         this.gameId = gameId;
     }
 }
