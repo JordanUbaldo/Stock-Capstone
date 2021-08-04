@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../views/Home.vue'
+import Game from '../views/Game.vue'
 import Login from '../components/Login.vue'
 import Logout from '../components/Logout.vue'
 import Register from '../components/Register.vue'
@@ -58,6 +59,11 @@ const router = new Router({
       path: "/test",
       name: "test",
       component: Test
+    },
+    {
+      path: "/game",
+      name: "game",
+      component: Game
     }
   ]
 })
