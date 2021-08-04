@@ -1,10 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../views/Home.vue'
-import Login from '../views/Login.vue'
-import Logout from '../views/Logout.vue'
-import Register from '../views/Register.vue'
+import Game from '../views/Game.vue'
+import Login from '../components/Login.vue'
+import Logout from '../components/Logout.vue'
+import Register from '../components/Register.vue'
 import store from '../store/index'
+import Test from '@/views/Test.vue'
+import CreateGame from '../views/CreateGame.vue'
+import Stock from '../components/Stock.vue'
 
 Vue.use(Router)
 
@@ -53,6 +57,27 @@ const router = new Router({
         requiresAuth: false
       }
     },
+    {
+      path: "/test",
+      name: "test",
+      component: Test
+    },
+    {
+      path: "/game",
+      //path: "/game/:id",
+      name: "game",
+      component: Game
+    },
+    {
+      path: "/create",
+      name: "create",
+      component: CreateGame
+    },
+    {
+      path: "/stock",
+      name: "stock",
+      component: Stock
+    }
   ]
 })
 
@@ -62,7 +87,7 @@ router.beforeEach((to, from, next) => {
 
   // If it does and they are not logged in, send the user to "/login"
   if (requiresAuth && store.state.token === '') {
-    next("/login");
+    next("/home");
   } else {
     // Else let them go to their next destination
     next();
