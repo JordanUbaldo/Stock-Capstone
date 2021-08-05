@@ -37,7 +37,6 @@ public class JdbcGameDao implements GameDao{
                 newGameId = jdbcTemplate.queryForObject(games, Integer.class, game.getGameName(), game.getHost(), LocalDate.parse(game.getEndDate()));
                 jdbcTemplate.queryForRowSet(userStatus, newGameId, game.getHost(), status);
                 jdbcTemplate.queryForRowSet(balances, newGameId, game.getHost());
-                // if all processes successful we switch result boolean to true
             } catch (NullPointerException j) {
                 System.out.println("Null data caught! " + j.getMessage());
             } catch (DataAccessException e) {
@@ -46,16 +45,17 @@ public class JdbcGameDao implements GameDao{
         }
         return newGameId;
     }
+
     @Override
     public List<Game> viewGames(String username) {
         // viewGames returns with a list of games
         List<Game> games = new ArrayList<>();
-        String sql = "SELECT game_name, end_date " +
+        String sql = "SELECT game_id, game_name, game_active, host, start_date, end_date " +
                 "FROM games g " +
                 "JOIN user_status s ON g.game_id = s.game_id " +
                 "JOIN users u ON s.username = u.username " +
                 // we show only games user have joined
-                "WHERE u.username = ? AND s.user_status ILIKE 'Accepted';";
+                "WHERE u.username = ? AND s.user_status != 'Declined';";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, username);
         while(results.next()) {
             // helper method converts database response into Game object
@@ -123,7 +123,11 @@ public class JdbcGameDao implements GameDao{
     // helper method to create Game object from database response
     private Game mapRowToGame(SqlRowSet g) {
         Game game = new Game();
+        game.setGameId(g.getInt("game_id"));
         game.setGameName(g.getString("game_name"));
+        game.setGameActive(g.getBoolean("game_active"));
+        game.setHost(g.getString("host"));
+        game.setStartDate(g.getString("start_date"));
         game.setEndDate(g.getString("end_date"));
         return game;
     }
