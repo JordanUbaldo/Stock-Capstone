@@ -31,7 +31,6 @@ export default {
     methods: {
         invitePlayer(user){
             const invite= { status: "Pending", username: user}
-            console.log(invite)
             gameService.gameInvite(this.$store.state.currentGameId,invite,this.$store.state.token)
             .then(response => {
                 if (response.status === 201){

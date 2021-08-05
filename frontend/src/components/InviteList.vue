@@ -4,21 +4,20 @@
       <ul>
           <li v-for="invite in invited" v-bind:key="invite.gameId">
             {{invite.gameName}}
-            <button>Accept</button>
-            <button>Decline</button>
+            <button @click.prevent="accept(invite.gameId)">Accept</button>
+            <button @click="decline">Decline</button>
           </li>
       </ul>
   </div>
 </template>
 
 <script>
-//import gamesService from '@/services/GamesService.js';
+import gameService from '@/services/GamesService.js';
 
 export default {
     name: "invite-list",
     data() {
         return {
-            invites: []
         }
     },
     computed: {
@@ -27,8 +26,15 @@ export default {
         }
     },
     methods: {
-        accept(){
-
+        accept(gameId){
+            const invite= { status: "Accepted", username: this.$store.state.user.username}
+            console.log(invite)
+            gameService.gameInvite(gameId,invite,this.$store.state.token)
+            .then(response => {
+                if (response.status === 201){
+                    console.log("Accepted")
+                }
+            })
         },
         decline(){
             

@@ -4,10 +4,6 @@
   <ul>
       <li v-for="game in games" v-bind:key="game.Id">{{ game.gameName }} <img class="hostImage" v-show="game.host == $store.state.user.username" src="../assets/Crown.png" alt="Host Image"></li>
   </ul>
-  <button v-on:click="viewGames">view games</button>
-  <p>
-      {{this.games}}
-  </p>
   </div>
 </template>
 
