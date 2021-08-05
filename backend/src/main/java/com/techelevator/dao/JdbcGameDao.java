@@ -50,7 +50,7 @@ public class JdbcGameDao implements GameDao{
     public List<Game> viewGames(String username) {
         // viewGames returns with a list of games
         List<Game> games = new ArrayList<>();
-        String sql = "SELECT game_id, game_name, game_active, host, start_date, end_date " +
+        String sql = "SELECT g.game_id, g.game_name, g.game_active, g.host, g.start_date, g.end_date " +
                 "FROM games g " +
                 "JOIN user_status s ON g.game_id = s.game_id " +
                 "JOIN users u ON s.username = u.username " +
