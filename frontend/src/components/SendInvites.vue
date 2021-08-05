@@ -34,7 +34,7 @@ export default {
             console.log(invite)
             gameService.gameInvite(this.$store.state.currentGameId,invite,this.$store.state.token)
             .then(response => {
-                if (response.status === 200){
+                if (response.status === 201){
                     alert("Invite Sent")
                 }
             })
