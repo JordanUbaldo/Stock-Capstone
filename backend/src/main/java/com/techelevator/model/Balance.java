@@ -4,53 +4,55 @@ import java.math.BigDecimal;
 
 public class Balance {
 
-    private long balanceId;
-    private long gameId;
-    private long userId;
+    private int balanceId;
+    private int gameId;
+    private String userName;
     private BigDecimal amount = new BigDecimal(100000);
+
+    public Balance() {
+
+    }
 
 
     //Constructor for putting into DB after received from FE
-    public Balance(long gameId, long userId) {
+    public Balance(int gameId, String userName) {
         this.gameId = gameId;
-        this.userId = userId;
+        this.userName = userName;
     }
 
     //Constructor for pulling information from DB
-    public Balance(long balanceId, long gameId, long userId, BigDecimal amount) {
+    public Balance(int balanceId, int gameId, String userName, BigDecimal amount) {
         this.balanceId = balanceId;
         this.gameId = gameId;
-        this.userId = userId;
+        this.userName = userName;
         this.amount = amount;
     }
 
     //Space for methods
 
 
-
-
-    public long getBalanceId() {
+    public int getBalanceId() {
         return balanceId;
     }
 
-    public void setBalanceId(long balanceId) {
+    public void setBalanceId(int balanceId) {
         this.balanceId = balanceId;
     }
 
-    public long getGameId() {
+    public int getGameId() {
         return gameId;
     }
 
-    public void setGameId(long gameId) {
+    public void setGameId(int gameId) {
         this.gameId = gameId;
     }
 
-    public long getUserId() {
-        return userId;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public BigDecimal getAmount() {
