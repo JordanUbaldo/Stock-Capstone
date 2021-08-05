@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../views/Home.vue'
 import Game from '../views/Game.vue'
-import Login from '../components/Login.vue'
 import Logout from '../components/Logout.vue'
 import Register from '../components/Register.vue'
 import store from '../store/index'
@@ -31,14 +30,6 @@ const router = new Router({
       component: Home,
       meta: {
         requiresAuth: true
-      }
-    },
-    {
-      path: "/login",
-      name: "login",
-      component: Login,
-      meta: {
-        requiresAuth: false
       }
     },
     {
