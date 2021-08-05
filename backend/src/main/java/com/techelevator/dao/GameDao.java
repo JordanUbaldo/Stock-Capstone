@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface GameDao {
     int createGame(Game game);
-    List<Game> viewGames(String username);
+    List<Game> viewGames(String username, String status);
     List<Player> viewUsersInTheGame(int gameId);
     boolean invitePlayers(String username, int gameId);
     boolean findGameByName(String gameName);
