@@ -8,5 +8,8 @@ export default {
 
     getUsers() {
         return http.get('/users');
+    },
+    getUsersForGame(gameId) {
+        return http.get(`/games/${gameId}/users`);
     }
 }
