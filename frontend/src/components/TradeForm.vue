@@ -60,8 +60,10 @@ export default {
             this.totalCost = this.numShares * this.pricePerShare;
             this.trade.amountOfMoney = this.totalCost;
         },
-        postTrade() {
+        async postTrade() {
             stockService.postTrade(this.trade, this.$store.state.token);
+            const rawStocksResponse = await stockService.getStocks(this.gameId, this.$store.state.token);
+            this.$store.commit('SET_CURRENT_USER_STOCKS', rawStocksResponse.data);
         }
     }
     

@@ -30,7 +30,8 @@ export default new Vuex.Store({
     // {gameName: "testGame4", host: "testUser3", gameStatus: true, playerStatus: "Accepted"}],
 
     currentGameId: 0,
-    allUsers: []
+    allUsers: [],
+    currentUserStocks: []
   },
   mutations: {
     SET_AUTH_TOKEN(state, token) {
@@ -60,6 +61,9 @@ export default new Vuex.Store({
     },
     SET_CURRENT_GAME_ID(state, data) {
       state.currentGameId = data;
+    },
+    SET_CURRENT_USER_STOCKS(state, data) {
+      state.currentUserStocks = data;
     }
   }
 })

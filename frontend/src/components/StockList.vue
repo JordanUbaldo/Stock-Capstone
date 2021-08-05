@@ -2,7 +2,7 @@
   <div id="container">
       <h2>Your Stocks:</h2>
       <ul>
-          <li v-for="stock in stocks" v-bind:key="stock.stockTicker" class="stockSummary">
+          <li v-for="stock in ownedStocks" v-bind:key="stock.stockTicker" class="stockSummary">
               {{stock.stockTicker}}
               {{stock.stockName}}
               {{stock.numberOfShares}}
@@ -22,16 +22,29 @@ export default {
     data() {
         return {
             gameId: 1003,
-            stocks: []
+            //stocks: []
         } 
     },
     components: {
         StockDetails
     },
+    computed: {
+        ownedStocks() {
+            return this.$store.state.currentUserStocks;
+        }
+    },
+   /* methods: {
+        async updateStocks() {
+            const rawStocksResponse = await stockService.getStocks(this.gameId, this.$store.state.token);
+            this.stocks = rawStocksResponse.data;
+        }
+    },*/
     async created() {
         const rawStocksResponse = await stockService.getStocks(this.gameId, this.$store.state.token);
-        this.stocks = rawStocksResponse.data;
+        this.$store.commit('SET_CURRENT_USER_STOCKS', rawStocksResponse.data);
+        this.stocks = this.$store.state.currentUserStocks;
     }
+    
 }
 </script>
 
