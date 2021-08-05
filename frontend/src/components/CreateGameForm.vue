@@ -18,7 +18,7 @@
 import gamesService from "@/services/GamesService.js";
 
 export default {
-        name: "create-game",
+    name: "create-game",
     data() {
         return {
             game: {
@@ -32,12 +32,12 @@ export default {
     methods: {
         createGame() {
             gamesService.createGame(this.game,this.$store.state.token).then(response => {
-                if (response.stauts === 201) {
+                if (response.status === 201) {
                     if (response.data > 0) {
                         this.$store.commit("SET_CURRENT_GAME_ID", response.data);
-                        alert("Game Created!")
+                        alert("Game Created!");
                     } else if(response.data === 0) {
-                        alert("Failed to Create Game")
+                        alert("Failed to Create Game");
                     }
                 }
             })
