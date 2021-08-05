@@ -25,9 +25,10 @@ export default {
     },
     computed: {
         users() {
+
+            let usersInGame = await userService.getUsersForGame(this.$store.state.currentGameId);
             const uninvited = this.$store.state.allUsers.filter(async user => {
                 console.log(this.$store.state.currentGameId);
-                let usersInGame = await userService.getUsersForGame(this.$store.state.currentGameId);
                 return !usersInGame.includes(user);
             })
             return uninvited;

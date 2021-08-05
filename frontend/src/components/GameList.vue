@@ -24,7 +24,7 @@ export default {
     computed: {
         games() {
             let results = this.$store.state.games.filter((game) => {
-                return game.gameStatus
+                return game.gameStatus == "Active"
             });
             results = results.filter(game => {
                 return game.playerStatus == "Accepted";
@@ -39,16 +39,6 @@ export default {
             })
         }
     },
-/*    created() {
-        gamesService
-            .getGames()
-            .then(response => {
-                if(response.status === 200) {
-                    this.$store.commit("SET_GAMES", response.data);
-                }
-            })
-    }
-*/
 }
 </script>
 
