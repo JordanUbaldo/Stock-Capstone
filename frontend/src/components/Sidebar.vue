@@ -1,8 +1,14 @@
 <template>
   <div>
       <div id="logged-out" v-if="!$store.state.token">
+        <button v-show="!loginBtnState" @click="loginBtn" >Login</button>
+        <button v-show="!registerBtnState" @click="registerBtn" >Register</button>
+        <div v-show="loginBtnState">
         <login />
+        </div>
+        <div v-show="registerBtnState">
         <register />
+        </div>
       </div>
       <div id="logged-in" v-else>
         <logout-btn />
@@ -25,6 +31,8 @@ export default {
     name: "TheSidebar",
     data() {
       return {
+        loginBtnState: true,
+        registerBtnState: false
       }  
     },
     components: {
@@ -34,6 +42,18 @@ export default {
         Register,
         CreateGameBtn,
         LogoutBtn
+    },
+    methods: {
+      loginBtn(){
+        this.$router.push("/");
+        this.loginBtnState = !this.loginBtnState
+        this.registerBtnState = false
+      },
+      registerBtn(){
+        this.$router.push("/");
+        this.registerBtnState = !this.registerBtnState
+        this.loginBtnState = false
+      }
     }
 };
 </script>

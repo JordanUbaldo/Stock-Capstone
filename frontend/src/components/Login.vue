@@ -31,7 +31,6 @@
         v-model="user.password"
         required
       />
-      <router-link :to="{ name: 'register' }">Need an account?</router-link>
       <button type="submit">Sign in</button>
     </form>
   </div>
@@ -55,6 +54,7 @@ export default {
   },
   methods: {
     login() {
+      this.$router.push("/");
       authService
         .login(this.user)
         .then(response => {

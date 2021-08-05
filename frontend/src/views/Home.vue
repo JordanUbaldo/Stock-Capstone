@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-    <h1>Home</h1>
-    <p>You must be authenticated to see this</p>
+    <h1>Filler Game Name</h1>
+    <img src= "../assets/DiamondHands.png" alt="Home Image">
   </div>
 </template>
 

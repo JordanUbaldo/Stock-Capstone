@@ -24,7 +24,7 @@ export default {
     computed: {
         games() {
             let results = this.$store.state.games.filter((game) => {
-                return game.gameStatus == "Active"
+                return game.gameActive == true
             });
             results = results.filter(game => {
                 return game.playerStatus == "Accepted";
@@ -34,7 +34,7 @@ export default {
     },
     methods: {
         viewGames() {
-            gamesService.getGames().then(response => {
+            gamesService.getGames(this.$store.state.token).then(response => {
                 this.gameList = response;
             })
         }
