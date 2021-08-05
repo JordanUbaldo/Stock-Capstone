@@ -4,8 +4,8 @@
       <ul>
           <li v-for="invite in invited" v-bind:key="invite.gameId">
             {{invite.gameName}}
-            <button @click.prevent="accept(invite.gameId)">Accept</button>
-            <button @click="decline">Decline</button>
+            <button @click="accept(invite.gameId)">Accept</button>
+            <button @click="decline(invite.gameId)">Decline</button>
           </li>
       </ul>
   </div>
@@ -33,14 +33,51 @@ export default {
             .then(response => {
                 if (response.status === 201){
                     console.log("Accepted")
+                        gameService
+            .getGames(this.$store.state.token, "Accepted")
+            .then(response => {
+                if(response.status === 200) {
+                    this.$store.commit("SET_ACCEPTED_GAMES", response.data);
+                }
+            })
+
+        gameService
+            .getGames(this.$store.state.token, "Pending")
+            .then(response => {
+                if(response.status === 200) {
+                    this.$store.commit("SET_INVITES", response.data);
+                }
+            })
                 }
             })
         },
-        decline(){
-            
+        decline(gameId){
+            const invite= { status: "Declined", username: this.$store.state.user.username}
+            console.log(invite)
+            gameService.gameInvite(gameId,invite,this.$store.state.token)
+            .then(response => {
+                if (response.status === 201){
+                    console.log("Declined")
+                            gameService
+            .getGames(this.$store.state.token, "Accepted")
+            .then(response => {
+                if(response.status === 200) {
+                    this.$store.commit("SET_ACCEPTED_GAMES", response.data);
+                }
+            })
+
+        gameService
+            .getGames(this.$store.state.token, "Pending")
+            .then(response => {
+                if(response.status === 200) {
+                    this.$store.commit("SET_INVITES", response.data);
+                }
+            })
+                }
+            })
+        }  
         }
     }
-}
 </script>
 
 <style>

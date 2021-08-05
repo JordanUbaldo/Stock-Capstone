@@ -1,5 +1,5 @@
 <template>
-  <div id="container">
+  <div id="router_view">
     <div id="summary">
     <game-summary />
     </div>
@@ -36,17 +36,6 @@ export default {
 </script>
 
 <style>
-        #container {
-        display: grid;
-        grid-template-columns: 2fr 1fr 1fr;
-        grid-template-areas:
-            "summary summary summary"
-            "details details leaderboard"
-            "details details leaderboard"
-            "details details leaderboard"
-            "details details leaderboard";
-    }
-
     #summary {
         grid-area: summary;
         border: 1px solid black;
@@ -59,6 +48,16 @@ export default {
 
     #leaderBoard {
         grid-area: leaderboard;
+    }
+    #router_view {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        grid-template-areas:
+            "summary summary summary"
+            "details details leaderboard"
+            "details details leaderboard"
+            "details details leaderboard"
+            "details details leaderboard";
     }
 
 

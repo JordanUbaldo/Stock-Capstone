@@ -11,6 +11,7 @@
 
 <script>
 import gameService from '@/services/GamesService';
+// import userService from '@/services/UserService';
 export default {
     data() {
         return {
@@ -37,7 +38,12 @@ export default {
                     alert("Invite Sent")
                 }
             })
-
+            // userService.getUsersForGame(this.$store.state.currentGameId, this.$store.state.token)
+            //         .then(response => {
+            //         if (response.status === 200) {
+            //         this.$store.commit("SET_CURRENT_GAME_USERS", response.data)
+            //         }
+            //         });
         }
     }
 }
