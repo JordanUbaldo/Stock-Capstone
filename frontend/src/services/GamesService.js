@@ -13,8 +13,8 @@ export default {
         return http.post('/games',
         game,{headers: {'Authorization': `Bearer ${token}`}});
     },
-    gameInvite(invite,token){
-        return http.post(`/games/${this.$store.state.gameId}/invite`, invite,
+    gameInvite(id,invite,token){
+        return http.post(`/games/${id}/invite`, invite,
         {headers: {'Authorization': `Bearer ${token}`}});
     }
 }

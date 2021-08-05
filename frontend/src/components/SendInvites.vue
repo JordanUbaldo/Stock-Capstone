@@ -14,10 +14,6 @@ import gameService from '@/services/GamesService';
 export default {
     data() {
         return {
-            invite: {
-                playStatus: "Pending",
-                username: ""
-            }
         };
 
     },
@@ -33,9 +29,10 @@ export default {
         }
     },
     methods: {
-        invitePlayer(username){
-            this.username = username
-            gameService.gameInvite(this.invite,this.$store.state.token)
+        invitePlayer(user){
+            const invite= { status: "Pending", username: user}
+            console.log(invite)
+            gameService.gameInvite(this.$store.state.currentGameId,invite,this.$store.state.token)
             .then(response => {
                 if (response.status === 200){
                     alert("Invite Sent")
