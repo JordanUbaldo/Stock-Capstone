@@ -5,12 +5,14 @@ import com.techelevator.model.Trade;
 import com.techelevator.model.TradeResponse;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Component
 public class JdbcTradeDao implements TradeDao {
     private JdbcTemplate jdbcTemplate;
 

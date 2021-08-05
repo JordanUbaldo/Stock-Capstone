@@ -7,7 +7,7 @@ import Register from '../components/Register.vue'
 import store from '../store/index'
 import Test from '@/views/Test.vue'
 import CreateGame from '../views/CreateGame.vue'
-import Stock from '../components/Stock.vue'
+import StockDetails from '../components/StockDetails.vue'
 
 Vue.use(Router)
 
@@ -29,7 +29,7 @@ const router = new Router({
       name: 'home',
       component: Home,
       meta: {
-        requiresAuth: true
+        requiresAuth: false
       }
     },
     {
@@ -67,7 +67,7 @@ const router = new Router({
     {
       path: "/stock",
       name: "stock",
-      component: Stock
+      component: StockDetails
     }
   ]
 })

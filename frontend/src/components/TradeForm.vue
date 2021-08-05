@@ -1,6 +1,6 @@
 <template>
   <div id="content">
-      <form v-on:submit.prevent>
+      <form v-on:submit.prevent="postTrade">
           <br>
           <div class="trade">
             <label for="tradeType">Buy/Sell: </label>
@@ -27,13 +27,15 @@
 </template>
 
 <script>
+import stockService from '@/services/StockService';
+
 export default {
     name: "trade-form",
     props: ['symbol', 'stockName', 'pricePerShare'],
     data() {
         return {
             trade: {
-                gameId: 0,
+                gameId: this.$store.state.currentGameId,
                 tickerSymbol: this.symbol,
                 stockName: this.stockName,
                 tradeType: "",
@@ -55,6 +57,9 @@ export default {
             this.trade.numberOfShares = this.numShares;
             this.totalCost = this.numShares * this.pricePerShare;
             this.trade.amountOfMoney = this.totalCost;
+        },
+        postTrade() {
+            stockService.postTrade(this.trade, this.$store.state.token);
         }
     }
     

@@ -15,6 +15,6 @@ export default {
         return httpExternal.get(`/${ticker}${key}`);
     },
     postTrade(trade, token) {
-        return httpInternal.post(trade, {headers: {'Authorization': `Bearer ${token}`}})
+        return httpInternal.post('/games/trades', trade, {headers: {'Authorization': `Bearer ${token}`}})
     }
 }

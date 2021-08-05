@@ -1,7 +1,7 @@
 <!-- NOTE COMPLETED NEED TO FIGURE OUT HOW TO RETRIEVE DATA-->
 <template>
     <div>
-        {{users}}
+        <!--{{users}}-->
         <ul>
             <!-- <li v-for="user in users" v-bind:key="user.username">
             {{user.username}} -->
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import userService from "@/services/UserService.js";
+//import userService from "@/services/UserService.js";
 
 export default {
     data() {
@@ -24,7 +24,7 @@ export default {
 
     },
     computed: {
-        users() {
+/*        users() {
 
             let usersInGame = await userService.getUsersForGame(this.$store.state.currentGameId);
             const uninvited = this.$store.state.allUsers.filter(async user => {
@@ -33,6 +33,7 @@ export default {
             })
             return uninvited;
         }
+*/
     }
 
 }

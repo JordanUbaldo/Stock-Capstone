@@ -6,10 +6,10 @@ const http = axios.create({
 
 export default {
 
-    getUsers() {
-        return http.get('/users');
+    getUsers(token) {
+        return http.get('/users', {headers: {'Authorization': `Bearer ${token}`}});
     },
-    getUsersForGame(gameId) {
-        return http.get(`/games/${gameId}/users`);
+    getUsersForGame(gameId, token) {
+        return http.get(`/games/${gameId}/users`, {headers: {'Authorization': `Bearer ${token}`}});
     }
 }
