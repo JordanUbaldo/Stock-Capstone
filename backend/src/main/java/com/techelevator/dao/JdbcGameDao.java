@@ -94,18 +94,18 @@ public class JdbcGameDao implements GameDao{
                 System.out.println("Error accessing data " + e.getMessage());
             }
         } else if (status.equals("Accepted")) {
-            sql = "UPDATE user_status SET user_status = 'Accepted' WHERE username = ?;";
+            sql = "UPDATE user_status SET user_status = 'Accepted' WHERE username = ? AND game_id = ?;";
             try {
-                jdbcTemplate.update(sql, username);
+                jdbcTemplate.update(sql, username, gameId);
                 // if successful - turning result boolean to true
                 result = true;
             } catch (DataAccessException e) {
                 System.out.println("Error accessing data " + e.getMessage());
             }
         } else {
-            sql = "UPDATE user_status SET user_status = 'Declined' WHERE username = ?;";
+            sql = "UPDATE user_status SET user_status = 'Declined' WHERE username = ? AND game_id = ?;";
             try {
-                jdbcTemplate.update(sql, username);
+                jdbcTemplate.update(sql, username, gameId);
                 // if successful - turning result boolean to true
                 result = true;
             } catch (DataAccessException e) {
