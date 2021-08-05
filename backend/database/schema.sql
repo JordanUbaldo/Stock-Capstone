@@ -54,7 +54,7 @@ CREATE TABLE users (
 CREATE TABLE games (
 	game_id int DEFAULT nextval('seq_game_id'::regclass) NOT NULL,
 	game_name varchar(50) NOT NULL,
-	game_status varchar(50) DEFAULT 'Active' NOT NULL,
+	game_active boolean DEFAULT TRUE NOT NULL,
 	host varchar(50) NOT NULL,
 	start_date date DEFAULT CURRENT_DATE NOT NULL,
 	end_date date NOT NULL,
@@ -73,7 +73,7 @@ CREATE TABLE balances (
 	balance_id int DEFAULT nextval('seq_balance_id'::regclass) NOT NULL,
 	game_id int NOT NULL,
 	username varchar(50) NOT NULL,
-	amount decimal(13, 2) NOT NULL,
+	amount decimal(13, 2) DEFAULT 100000.00 NOT NULL,
 	CONSTRAINT PK_balances PRIMARY KEY (balance_id),
 	CONSTRAINT FK_game_id FOREIGN KEY (game_id) REFERENCES games (game_id),
 	CONSTRAINT FK_username FOREIGN KEY (username) REFERENCES users (username)
@@ -90,7 +90,7 @@ CREATE TABLE trades (
 	game_id int NOT NULL,
 	username varchar(50) NOT NULL,
 	type_id int NOT NULL,
-	stock_ticker int NOT NULL,
+	stock_ticker varchar(10) NOT NULL,
 	stock_name varchar(50) NOT NULL,
 	amount decimal(13, 2) NOT NULL,
 	purchase_date date DEFAULT CURRENT_DATE NOT NULL,
