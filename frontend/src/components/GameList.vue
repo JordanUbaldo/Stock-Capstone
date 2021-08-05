@@ -26,15 +26,15 @@ export default {
             let results = this.$store.state.games.filter((game) => {
                 return game.gameActive == true
             });
-            results = results.filter(game => {
-                return game.playerStatus == "Accepted";
-            });
+            // results = results.filter(game => {
+            //     return game.playerStatus == "Accepted";
+            // });
             return results;
         }
     },
     methods: {
         viewGames() {
-            gamesService.getGames(this.$store.state.token).then(response => {
+            gamesService.getGames(this.$store.state.token, "Active").then(response => {
                 this.gameList = response;
             })
         }

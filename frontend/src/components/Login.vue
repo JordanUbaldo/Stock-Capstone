@@ -63,10 +63,18 @@ export default {
             this.$store.commit("SET_USER", response.data.user);
 
         gamesService
-            .getGames(this.$store.state.token)
+            .getGames(this.$store.state.token, "Accepted")
             .then(response => {
                 if(response.status === 200) {
-                    this.$store.commit("SET_GAMES", response.data);
+                    this.$store.commit("SET_ACCEPTED_GAMES", response.data);
+                }
+            })
+
+        gamesService
+            .getGames(this.$store.state.token, "Pending")
+            .then(response => {
+                if(response.status === 200) {
+                    this.$store.commit("SET_INVITES", response.data);
                 }
             })
 

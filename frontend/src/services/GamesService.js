@@ -6,8 +6,8 @@ const http = axios.create({
 
 export default {
 
-    getGames(token) {
-        return http.get('/games',{headers: {'Authorization': `Bearer ${token}`}});
+    getGames(token, status) {
+        return http.get(`/games/${status}`,{headers: {'Authorization': `Bearer ${token}`}});
     },
     createGame(game,token){
         return http.post('/games',

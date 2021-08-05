@@ -38,32 +38,27 @@ export default {
 <style>
         #container {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 2fr 1fr 1fr;
         grid-template-areas:
             "summary summary summary"
+            "details details leaderboard"
             "details details leaderboard"
             "details details leaderboard"
             "details details leaderboard";
     }
 
     #summary {
-        border: 1px solid black;
-    }
-
-    #details {
-        border: 1px solid black;
-    }
-
-    #summary {
         grid-area: summary;
-    }
-
-    #leaderBoard {
-        grid-area: leaderboard;
+        border: 1px solid black;
     }
 
     #details {
         grid-area: details;
+        border: 1px solid black;
+    }
+
+    #leaderBoard {
+        grid-area: leaderboard;
     }
 
 

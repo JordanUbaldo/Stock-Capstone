@@ -20,9 +20,10 @@ export default new Vuex.Store({
   state: {
     token: currentToken || '',
     //Test user Data
-    user: currentUser || {username :"testUser1"},
+    user: currentUser || {},
     //Test Game Data
-    games: [],
+    acceptedGames: [],
+    invites: [],
     
     // [{gameName: "testGame1", host: "testUser1", gameStatus: true, playerStatus: "Accepted"},
     // {gameName: "testGame2", host: "testUser2", gameStatus: false, playerStatus: "Accepted"},
@@ -52,7 +53,7 @@ export default new Vuex.Store({
       state.user = {};
       axios.defaults.headers.common = {};
     },
-    SET_GAMES(state, data) {
+    SET_ACCEPTED_GAMES(state, data) {
       state.games = data;
     },
     SET_INVITES(state, data) {
