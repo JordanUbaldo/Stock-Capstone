@@ -3,7 +3,7 @@ package com.techelevator.model;
 import java.math.BigDecimal;
 
 public class TradeResponse {
-    private Long gameId;
+    private int gameId;
     private String stockTicker;
     private String stockName;
     private String tradeDate;
@@ -11,11 +11,11 @@ public class TradeResponse {
     private int numberOfShares;
     private String tradeType;
 
-    public Long getGameId() {
+    public int getGameId() {
         return gameId;
     }
 
-    public void setGameId(Long gameId) {
+    public void setGameId(int gameId) {
         this.gameId = gameId;
     }
 

@@ -1,13 +1,14 @@
 package com.techelevator.dao;
 
-import com.techelevator.model.StockResponse;
-import com.techelevator.model.Trade;
-import com.techelevator.model.TradeResponse;
+import com.techelevator.model.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.security.Principal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class JdbcTradeDao implements TradeDao {
     }
 
     @Override
-    public List<StockResponse> getStocksByGameId(long gameId) {
+    public List<StockResponse> getStocksByGameId(int gameId) {
         List<StockResponse> result = new ArrayList<>();
 
         String sql = "SELECT stock_ticker, stock_name, shares, price_per_share * shares as total_cost FROM trades " +
@@ -36,7 +37,7 @@ public class JdbcTradeDao implements TradeDao {
     }
 
     @Override
-    public List<TradeResponse> getTradesByGameId(long gameId) {
+    public List<TradeResponse> getTradesByGameId(int gameId) {
         List<TradeResponse> result = new ArrayList<>();
 
         String sql = "SELECT game_id, shares, price_per_share, stock_name, stock_ticker, purchase_date, typ.type FROM trades AS tra " +
@@ -49,18 +50,68 @@ public class JdbcTradeDao implements TradeDao {
         }
 
         return result;
-
     }
 
     @Override
-    public void tradeStock(Trade trade) {
-        //Insert Trade to DB
+    public void tradeStocks(TradeRequest trade, Principal principal) {
+        String sqlForTrade = "INSERT INTO trades (game_id, username, type_id, stock_ticker, stock_name, amount, purchase_date, price_per_share, shares)\n" +
+                "VALUES (?,?,?,?,?,?,?,?,?);";
+        String sqlForGetBalance = "SELECT * FROM balances WHERE game_id = ? AND username = ?;";
+        String sqlForUpdateBalance = "UPDATE balances SET amount = ? " +
+                "WHERE game_id = ? AND username = ?;";
+        Balance balance = new Balance();
+        String username = principal.getName();
+        int typeId = getTypeId(trade.getTradeType());
 
+        //To check if has enough money to buy stocks
+        if (trade.getTradeType().equalsIgnoreCase("Buy")) {
+            SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sqlForGetBalance, trade.getGameId(), username);
+            if (rowSet.next()) {
+                balance = mapRowToBalance(rowSet);
+            }
+            if (balance.getAmount().subtract(new BigDecimal("19.95")).compareTo(trade.getAmountOfMoney()) >= 0) {
+                BigDecimal newBalance = balance.getAmount().subtract(new BigDecimal("19.95")).subtract(trade.getAmountOfMoney());
+                jdbcTemplate.update(sqlForTrade, trade.getGameId(), username, typeId, trade.getStockTicker(), trade.getStockName(), trade.getAmountOfMoney(), LocalDate.now(), trade.getPurchasePrice(), trade.getNumberOfShares());
+                jdbcTemplate.update(sqlForUpdateBalance, newBalance, trade.getGameId(), username);
+            } else {
+                throw new RuntimeException("Balance is not enough!");
+            }
+        }
+
+        //Sell stocks and update balance amount
+        if (trade.getTradeType().equalsIgnoreCase("Sell")) {
+            BigDecimal newBalance = balance.getAmount().add(trade.getAmountOfMoney()).subtract(new BigDecimal("19.95"));
+            jdbcTemplate.update(sqlForTrade, trade.getGameId(), username, typeId, trade.getStockTicker(), trade.getStockName(), trade.getAmountOfMoney(), LocalDate.now(), trade.getPurchasePrice(), trade.getNumberOfShares());
+            jdbcTemplate.update(sqlForUpdateBalance, newBalance, trade.getGameId(), username);
+        }
+    }
+
+
+
+    private int getTypeId(String tradeType) {
+        String sql = "SELECT type_id FROM trade_type WHERE type = ?";
+        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, tradeType);
+        int result = 0;
+        if (rowSet.next()) {
+            result = rowSet.getInt("type_id");
+        }
+        return result;
+    }
+
+
+    private Balance mapRowToBalance(SqlRowSet rowSet) {
+        Balance result = new Balance();
+        result.setBalanceId(rowSet.getInt("balance_id"));
+        result.setGameId(rowSet.getInt("game_id"));
+        result.setUserName(rowSet.getString("username"));
+        result.setAmount(rowSet.getBigDecimal("amount"));
+
+        return result;
     }
 
     private TradeResponse mapRowToTrade(SqlRowSet rowSet) {
         TradeResponse result = new TradeResponse();
-        result.setGameId(rowSet.getLong("game_id"));
+        result.setGameId(rowSet.getInt("game_id"));
         result.setNumberOfShares(rowSet.getInt("shares"));
         result.setPurchasePrice(rowSet.getBigDecimal("price_per_share"));
         result.setStockName(rowSet.getString("stock_name"));
