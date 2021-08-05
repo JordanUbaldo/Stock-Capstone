@@ -35,11 +35,11 @@ public class JdbcGameDao implements GameDao{
             String status = "Accepted";
             try {
                 newGameId = jdbcTemplate.queryForObject(games, Integer.class, game.getGameName(), game.getHost(), LocalDate.parse(game.getEndDate()));
-                jdbcTemplate.queryForRowSet(userStatus, game.getGameId(), game.getHost(), status);
-                jdbcTemplate.queryForRowSet(balances, game.getGameId(), game.getHost());
+                jdbcTemplate.queryForRowSet(userStatus, newGameId, game.getHost(), status);
+                jdbcTemplate.queryForRowSet(balances, newGameId, game.getHost());
                 // if all processes successful we switch result boolean to true
             } catch (NullPointerException j) {
-                System.out.println(j.getMessage());
+                System.out.println("Null data caught! " + j.getMessage());
             } catch (DataAccessException e) {
                 System.out.println("Error accessing data " + e.getMessage());
             }
