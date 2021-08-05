@@ -27,6 +27,13 @@ public class GameController {
 
     @RequestMapping(path = "/games/{status}", method = RequestMethod.GET)
     public List<Game> viewGames( @Valid @PathVariable String status, Principal principal) {
+//        if (status == "accepted") {
+//            status = "Accepted";
+//        } else if (status == "pending") {
+//            status = "Pending";
+//        } else {
+//            status = "Declined";
+//        }
         return gameDao.viewGames(principal.getName(), status);
     }
 
@@ -42,8 +49,8 @@ public class GameController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/games/{gameId}/invite", method = RequestMethod.POST)
-    public boolean invitePlayers(@Valid @RequestBody Player player) {
-        return gameDao.invitePlayers(player.getUsername(), player.getGameId());
+    public boolean invitePlayers(@Valid @PathVariable int gameId, @RequestBody Player player) {
+        return gameDao.invitePlayers(player.getUsername(), player.getStatus(), gameId);
     }
 
 }

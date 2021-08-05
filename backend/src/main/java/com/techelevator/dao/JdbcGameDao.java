@@ -79,18 +79,38 @@ public class JdbcGameDao implements GameDao{
     }
 
     @Override
-    public boolean invitePlayers(String username, int gameId) {
+    public boolean invitePlayers(String username, String status, int gameId) {
         // returning false if method fails
         boolean result = false;
+        String sql;
         // default status for invited players - "Pending"
-        String status = "Pending";
-        String sql = "INSERT INTO user-status (game_id, username, user_status) VALUES (?, ?, ?);";
-        try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, gameId, username, status);
-            // if successful - turning result boolean to true
-            result = true;
-        } catch (DataAccessException e) {
-            System.out.println("Error accessing data " + e.getMessage());
+        if (status.equals("Pending")) {
+            sql = "INSERT INTO user-status (game_id, username, user_status) VALUES (?, ?, ?);";
+            try {
+                SqlRowSet results = jdbcTemplate.queryForRowSet(sql, gameId, username, status);
+                // if successful - turning result boolean to true
+                result = true;
+            } catch (DataAccessException e) {
+                System.out.println("Error accessing data " + e.getMessage());
+            }
+        } else if (status.equals("Accepted")) {
+            sql = "UPDATE user_status SET user_status = 'Accepted' WHERE username = ? RETURNING user_status;";
+            try {
+                SqlRowSet results = jdbcTemplate.queryForRowSet(sql, username);
+                // if successful - turning result boolean to true
+                result = true;
+            } catch (DataAccessException e) {
+                System.out.println("Error accessing data " + e.getMessage());
+            }
+        } else {
+            sql = "UPDATE user_status SET user_status = 'Declined' WHERE username = ? RETURNING user_status;";
+            try {
+                SqlRowSet results = jdbcTemplate.queryForRowSet(sql, username);
+                // if successful - turning result boolean to true
+                result = true;
+            } catch (DataAccessException e) {
+                System.out.println("Error accessing data " + e.getMessage());
+            }
         }
         return result;
     }

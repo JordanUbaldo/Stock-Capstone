@@ -9,6 +9,6 @@ public interface GameDao {
     int createGame(Game game);
     List<Game> viewGames(String username, String status);
     List<Player> viewUsersInTheGame(int gameId);
-    boolean invitePlayers(String username, int gameId);
+    boolean invitePlayers(String username, String status, int gameId);
     boolean findGameByName(String gameName);
 }
