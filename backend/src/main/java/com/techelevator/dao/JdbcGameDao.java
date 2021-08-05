@@ -47,7 +47,7 @@ public class JdbcGameDao implements GameDao{
     }
 
     @Override
-    public List<Game> viewGames(String username) {
+    public List<Game> viewGames(String username, String status) {
         // viewGames returns with a list of games
         List<Game> games = new ArrayList<>();
         String sql = "SELECT g.game_id, g.game_name, g.game_active, g.host, g.start_date, g.end_date " +
@@ -55,8 +55,8 @@ public class JdbcGameDao implements GameDao{
                 "JOIN user_status s ON g.game_id = s.game_id " +
                 "JOIN users u ON s.username = u.username " +
                 // we show only games user have joined
-                "WHERE u.username = ? AND s.user_status != 'Declined';";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, username);
+                "WHERE u.username = ? AND s.user_status = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, username, status);
         while(results.next()) {
             // helper method converts database response into Game object
             Game game = mapRowToGame(results);

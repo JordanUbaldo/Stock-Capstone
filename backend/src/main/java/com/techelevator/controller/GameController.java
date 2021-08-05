@@ -25,9 +25,9 @@ public class GameController {
         this.userDao = userDao;
     }
 
-    @RequestMapping(path = "/games", method = RequestMethod.GET)
-    public List<Game> viewGames(Principal principal) {
-        return gameDao.viewGames(principal.getName());
+    @RequestMapping(path = "/games/{status}", method = RequestMethod.GET)
+    public List<Game> viewGames( @Valid @PathVariable String status, Principal principal) {
+        return gameDao.viewGames(principal.getName(), status);
     }
 
     @RequestMapping(path = "/games/{gameId}/users", method = RequestMethod.GET)
