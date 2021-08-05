@@ -31,7 +31,6 @@
         v-model="user.password"
         required
       />
-      <router-link :to="{ name: 'register' }">Need an account?</router-link>
       <button type="submit">Sign in</button>
     </form>
   </div>
@@ -39,6 +38,7 @@
 
 <script>
 import authService from "../services/AuthService";
+import gamesService from "../services/GamesService";
 
 export default {
   name: "login",
@@ -54,12 +54,22 @@ export default {
   },
   methods: {
     login() {
+      this.$router.push("/");
       authService
         .login(this.user)
         .then(response => {
           if (response.status == 200) {
             this.$store.commit("SET_AUTH_TOKEN", response.data.token);
             this.$store.commit("SET_USER", response.data.user);
+
+        gamesService
+            .getGames(this.$store.state.token)
+            .then(response => {
+                if(response.status === 200) {
+                    this.$store.commit("SET_GAMES", response.data);
+                }
+            })
+
           }
         })
         .catch(error => {
