@@ -23,13 +23,7 @@ export default {
     },
     computed: {
         games() {
-            let results = this.$store.state.games.filter((game) => {
-                return game.gameActive == true
-            });
-            // results = results.filter(game => {
-            //     return game.playerStatus == "Accepted";
-            // });
-            return results;
+            return this.$store.state.acceptedGames
         }
     },
     methods: {

@@ -24,14 +24,9 @@ export default new Vuex.Store({
     //Test Game Data
     acceptedGames: [],
     invites: [],
-    
-    // [{gameName: "testGame1", host: "testUser1", gameStatus: true, playerStatus: "Accepted"},
-    // {gameName: "testGame2", host: "testUser2", gameStatus: false, playerStatus: "Accepted"},
-    // {gameName: "testGame3", host: "testUser3", gameStatus: true, playerStatus: "Pending"},
-    // {gameName: "testGame4", host: "testUser3", gameStatus: true, playerStatus: "Accepted"}],
-
     currentGameId: 0,
-    allUsers: []
+    allUsers: [],
+    currentGameUsers: [],
   },
   mutations: {
     SET_AUTH_TOKEN(state, token) {
@@ -54,13 +49,22 @@ export default new Vuex.Store({
       axios.defaults.headers.common = {};
     },
     SET_ACCEPTED_GAMES(state, data) {
-      state.games = data;
+      state.acceptedGames = data;
     },
     SET_INVITES(state, data) {
       state.invites = data;
     },
     SET_CURRENT_GAME_ID(state, data) {
       state.currentGameId = data;
+    },
+    SET_CURRENT_GAME_USERS(state, data) {
+      state.currentGameUsers = data;
     }
+    // ACCEPT_GAME(state,) {
+
+    // },
+    // DECLINE_GAME(state,) {
+
+    // }
   }
 })

@@ -23,7 +23,15 @@ export default {
     },
     computed: {
         invited() {
-            return this.$store.state.games.filter(game => game.playerStatus == 'Pending');
+            return this.$store.state.invites
+        }
+    },
+    methods: {
+        accept(){
+
+        },
+        decline(){
+            
         }
     }
 }

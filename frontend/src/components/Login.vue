@@ -39,6 +39,7 @@
 <script>
 import authService from "../services/AuthService";
 import gamesService from "../services/GamesService";
+import userService from "../services/UserService";
 
 export default {
   name: "login",
@@ -61,6 +62,14 @@ export default {
           if (response.status == 200) {
             this.$store.commit("SET_AUTH_TOKEN", response.data.token);
             this.$store.commit("SET_USER", response.data.user);
+
+        userService
+          .getUsers(this.$store.state.token)
+          .then(response => {
+            if(response.status === 200) {
+              this.$store.commit("SET_ALL_USERS", response.data);
+            }
+          })
 
         gamesService
             .getGames(this.$store.state.token, "Accepted")
