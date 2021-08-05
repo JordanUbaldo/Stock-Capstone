@@ -28,7 +28,7 @@ export default new Vuex.Store({
     {gameName: "testGame4", host: "testUser3", gameStatus: true, playerStatus: "Accepted"}],
 
     currentGameId: 0,
-    users: []
+    allUsers: []
   },
   mutations: {
     SET_AUTH_TOKEN(state, token) {
@@ -39,6 +39,9 @@ export default new Vuex.Store({
     SET_USER(state, user) {
       state.user = user;
       localStorage.setItem('user',JSON.stringify(user));
+    },
+    SET_ALL_USERS(state, allUsers) {
+      state.allUsers = allUsers;
     },
     LOGOUT(state) {
       localStorage.removeItem('token');

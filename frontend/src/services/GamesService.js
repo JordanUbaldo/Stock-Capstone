@@ -11,9 +11,9 @@ export default {
     },
     createGame(game,token){
         return http.post('/games',
-        game,{headers: {'Authorization': `Bearer ${token}`}})
-},
+        game,{headers: {'Authorization': `Bearer ${token}`}});
+    },
     gameInvite(invite){
-        return http.post(`/games/${this.$store.state.gameId}/invite`, invite)
+        return http.post(`/games/${this.$store.state.gameId}/invite`, invite);
     }
 }

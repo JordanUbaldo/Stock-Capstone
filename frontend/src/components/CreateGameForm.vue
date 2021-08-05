@@ -16,6 +16,7 @@
 
 <script>
 import gamesService from "@/services/GamesService.js";
+import userService from '@/services/UserService.js';
 
 export default {
     name: "create-game",
@@ -31,14 +32,21 @@ export default {
     },
     methods: {
         createGame() {
-            gamesService.createGame(this.game,this.$store.state.token).then(response => {
+            gamesService.createGame(this.game,this.$store.state.token).then(async response => {
                 if (response.status === 201) {
                     if (response.data > 0) {
                         this.$store.commit("SET_CURRENT_GAME_ID", response.data);
-                        alert("Game Created!");
-                    } else if(response.data === 0) {
-                        alert("Failed to Create Game");
+                    if (this.$store.state.allUsers.length === 0) {
+                        let allUsers = (await userService.getUsers()).data.map(element => {
+                            return element.username;
+                        });
+                        
+                        this.$store.commit('SET_ALL_USERS', allUsers);
                     }
+                    alert("Game Created!");
+                } else if(response.data === 0) {
+                    alert("Failed to Create Game");
+                }
                 }
             })
         }
