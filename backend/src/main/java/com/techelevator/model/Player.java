@@ -4,7 +4,16 @@ public class Player {
 
     private String username;
     private int gameId;
-    private String status = "Pending";
+    private String status;
+
+    public Player() {
+
+    }
+
+    public Player(String username, String status) {
+        this.username = username;
+        this.status = status;
+    }
 
 
     public String getStatus() { return status; }

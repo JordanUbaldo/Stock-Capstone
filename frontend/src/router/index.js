@@ -28,9 +28,9 @@ const router = new Router({
       path: '/',
       name: 'home',
       component: Home,
-      meta: {
-        requiresAuth: false
-      }
+      // meta: {
+      //   requiresAuth: true
+      // }
     },
     {
       path: "/logout",

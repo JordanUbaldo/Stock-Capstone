@@ -2,12 +2,8 @@
 <div>
     <h3>Game List</h3>
   <ul>
-      <li v-for="game in games" v-bind:key="game.Id">{{ game.gameName }} <img class="hostImage" v-show="game.host == $store.state.user.username" src="../assets/Crown.png" alt="Host Image"></li>
+     <li v-for="game in games" v-bind:key="game.Id"> <router-link v-bind:to="{name: 'game' }">{{ game.gameName }}</router-link> <img class="hostImage" v-show="game.host == $store.state.user.username" src="../assets/Crown.png" alt="Host Image"></li>
   </ul>
-  <button v-on:click="viewGames">view games</button>
-  <p>
-      {{this.games}}
-  </p>
   </div>
 </template>
 
@@ -23,18 +19,12 @@ export default {
     },
     computed: {
         games() {
-            let results = this.$store.state.games.filter((game) => {
-                return game.gameStatus == "Active"
-            });
-            results = results.filter(game => {
-                return game.playerStatus == "Accepted";
-            });
-            return results;
+            return this.$store.state.acceptedGames
         }
     },
     methods: {
         viewGames() {
-            gamesService.getGames().then(response => {
+            gamesService.getGames(this.$store.state.token, "Active").then(response => {
                 this.gameList = response;
             })
         }

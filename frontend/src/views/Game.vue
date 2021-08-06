@@ -1,9 +1,14 @@
 <template>
-  <div id="gameContainer">
-    <game-summary id="summary" />
-    <game-details id="details" />
-    <leader-board id="leaderboard"></leader-board>
-    <button v-on:click="viewGames"></button>
+  <div id="router_view">
+    <div id="summary">
+    <game-summary />
+    </div>
+    <div id="details">
+    <game-details />
+    </div>
+    <div id="leaderboard">
+    <leader-board />
+    </div>
   </div>
 </template>
 
@@ -32,31 +37,27 @@ export default {
 
 <style>
     #summary {
+        grid-area: summary;
         border: 1px solid black;
     }
 
     #details {
+        grid-area: details;
         border: 1px solid black;
     }
 
-    #game-container {
-        display: grid;
-        grid-template-columns: 1fr 2fr;
-        grid-template-areas:
-            "summary details"
-            "summary details";
-    }
-
-    summary {
-        grid-area: summary;
-    }
-
-    leaderBoard {
+    #leaderBoard {
         grid-area: leaderboard;
     }
-
-    details {
-        grid-area: details;
+    #router_view {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        grid-template-areas:
+            "summary summary summary"
+            "details details leaderboard"
+            "details details leaderboard"
+            "details details leaderboard"
+            "details details leaderboard";
     }
 
 

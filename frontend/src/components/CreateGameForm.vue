@@ -11,14 +11,19 @@
             </div>
             <button type="submit" v-on:click="createGame">Create Game</button>
         </form>
+        <div v-show="gameCreated">
+            <send-invites />
+        </div>
     </div>
 </template>
 
 <script>
 import gamesService from "@/services/GamesService.js";
-//import userService from '@/services/UserService.js';
+import userService from '@/services/UserService.js';
+import SendInvites from '@/components/SendInvites.vue';
 
 export default {
+  components: { SendInvites },
     name: "create-game",
     data() {
         return {
@@ -26,6 +31,7 @@ export default {
                 endDate: "",
                 gameName: ""
             },
+            gameCreated: false
         }
     },
     computed: {
@@ -36,6 +42,22 @@ export default {
                 if (response.status === 201) {
                     if (response.data > 0) {
                         this.$store.commit("SET_CURRENT_GAME_ID", response.data);
+
+                        userService.getUsersForGame(this.$store.state.currentGameId, this.$store.state.token)
+                        .then(response => {
+                            if (response.status === 200) {
+                                this.$store.commit("SET_CURRENT_GAME_USERS", response.data)
+                            }
+                        });
+
+                    if (this.$store.state.allUsers.length === 0) {
+                        let allUsers = (await userService.getUsers()).data.map(element => {
+                            return element.username;
+                        });
+                        
+                        this.$store.commit('SET_ALL_USERS', allUsers);
+                    }
+                    this.gameCreated = true;
                     alert("Game Created!");
                 } else if(response.data === 0) {
                     alert("Failed to Create Game");
