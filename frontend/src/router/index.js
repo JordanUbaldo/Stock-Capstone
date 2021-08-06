@@ -7,6 +7,7 @@ import Register from '../components/Register.vue'
 import store from '../store/index'
 import Test from '@/views/Test.vue'
 import CreateGame from '../views/CreateGame.vue'
+import StockList from '../components/StockList.vue'
 import Stock from '../components/Stock.vue'
 import Invite from '../views/Invite.vue'
 
@@ -64,6 +65,7 @@ const router = new Router({
     {
       path: "/stock",
       name: "stock",
+      component: StockList,
       component: Stock
     },
     {

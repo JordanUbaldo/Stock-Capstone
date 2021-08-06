@@ -19,7 +19,7 @@ VALUES (1001, 'testgame1', FALSE, 'testuser1', '2021-08-01', '2021-08-02'),
 INSERT INTO user_status (game_id, username, user_status)
 VALUES (1003, 'testuser1', 'Accepted'),
        (1003, 'testuser2', 'Accepted'),
-       (1004, 'testuser1', 'Accepted'),
+       (1004, 'testuser1', 'A   ccepted'),
        (1004, 'testuser3', 'Pending'),
        (1005, 'testuser3', 'Accepted'),
        (1006, 'testuser4', 'Accepted');
@@ -39,3 +39,5 @@ VALUES (1001, 1003, 'testuser1', 1, 'APPL', 'Apple', 99858.44, '2021-08-04', 146
        (1004, 1004, 'testuser3', 1, 'TSLA', 'Tesla', 99984.09, '2021-08-04', 719.31, 139),
        (1005, 1005, 'testuser3', 1, 'MSFT', 'Microsoft', 99851.50, '2021-08-04', 285.29, 350),
        (1006, 1006, 'testuser4', 1, 'GOOG', 'Google', 97808.04, '2021-08-04', 2716.89, 36);
+
+--psql -U postgres -d $DATABASE -f "$BASEDIR/user.sql"

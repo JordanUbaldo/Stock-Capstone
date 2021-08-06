@@ -26,6 +26,7 @@ export default new Vuex.Store({
     invites: [],
     currentGameId: 0,
     allUsers: [],
+    currentUserStocks: [],
     currentGameUsers: [],
   },
   mutations: {
@@ -57,8 +58,14 @@ export default new Vuex.Store({
     SET_CURRENT_GAME_ID(state, data) {
       state.currentGameId = data;
     },
+    SET_CURRENT_USER_STOCKS(state, data) {
+      state.currentUserStocks = data;
+    },
     SET_CURRENT_GAME_USERS(state, data) {
       state.currentGameUsers = data;
+    },
+    ADD_USER_TO_GAME(state, data) {
+      state.currentGameUsers.push(data);
     }
     // ACCEPT_GAME(state,) {
 

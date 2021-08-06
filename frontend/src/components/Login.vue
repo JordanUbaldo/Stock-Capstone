@@ -88,7 +88,6 @@ export default {
                     this.$store.commit("SET_INVITES", response.data);
                 }
             })
-
           }
         })
         .catch(error => {
@@ -98,6 +97,15 @@ export default {
             this.invalidCredentials = true;
           }
         });
+
+        if (this.$store.state.allUsers.length === 0) {
+          let allUsers = (userService.getUsers(this.$store.state.token)).data.map(element => {
+              return element.username;
+          });
+            
+          this.$store.commit('SET_ALL_USERS', allUsers);
+          console.log(this.$store.state.allUsers);
+        }
     }
   }
 };
