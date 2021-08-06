@@ -24,13 +24,13 @@ public class StockController {
     }
 
     @RequestMapping(value = "/games/{gameId}/stocks", method = RequestMethod.GET)
-    public List<StockResponse> getStockList(@PathVariable int gameId){
-        return tradeDao.getStocksByGameId(gameId);
+    public List<StockResponse> getStockList(@PathVariable int gameId, Principal principal){
+        return tradeDao.getStocksByGameId(gameId, principal);
     }
 
     @RequestMapping(value = "/games/{gameId}/trades", method = RequestMethod.GET)
-    public List<TradeResponse> getTradeList(@PathVariable int gameId){
-        return tradeDao.getTradesByGameId(gameId);
+    public List<TradeResponse> getTradeList(@PathVariable int gameId, Principal principal){
+        return tradeDao.getTradesByGameId(gameId, principal);
     }
 
     @ResponseStatus(HttpStatus.CREATED)

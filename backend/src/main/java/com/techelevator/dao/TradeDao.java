@@ -9,7 +9,7 @@ import java.security.Principal;
 import java.util.List;
 
 public interface TradeDao {
-    List<StockResponse> getStocksByGameId(int gameId);
-    List<TradeResponse> getTradesByGameId(int gameId);
+    List<StockResponse> getStocksByGameId(int gameId, Principal principal);
+    List<TradeResponse> getTradesByGameId(int gameId, Principal principal);
     void tradeStocks(TradeRequest trade, Principal principal);
 }
