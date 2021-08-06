@@ -5,12 +5,12 @@
       <input type="text" v-model="stockTicker">
       <button type="submit">Get Stock</button>
     </form>
-    <article>
+    <article v-on:hide="console.log('test')">
       <h2>
         {{stockSummary.symbol}}
         {{stockSummary.companyName}}
       </h2>
-      <table v-show="stockSummary !== ''">
+      <table v-show="stockSummary">
         <tr>
           <td>Latest Price</td>
           <td>{{stockSummary.latestPrice}}</td>
@@ -37,7 +37,12 @@
         </tr>
       </table>
     </article>
-    <trade-form v-bind:stockName="stockSummary.companyName" v-bind:symbol="stockSummary.symbol" v-bind:pricePerShare="stockSummary.latestPrice" v-if="stockSummary.symbol && stockSummary.companyName"></trade-form>
+    <trade-form v-bind:stockName="stockSummary.companyName" 
+        v-bind:symbol="stockSummary.symbol" 
+        v-bind:pricePerShare="stockSummary.latestPrice"
+        v-bind:currentGameId=this.$store.state.currentGameId
+        v-if="stockSummary.symbol && stockSummary.companyName"
+    />
   </div>
 </template>
 
@@ -51,7 +56,8 @@ export default {
       return {
         stockTicker: "",
         stockSummary: "",
-        isSearchSuccessful: false
+        isSearchSuccessful: false,
+        showDetailsAndForm: true
       }
     },
     components: {
@@ -63,6 +69,9 @@ export default {
                 this.stockSummary = response.data;
             });
             this.isSearchSuccessful = true;
+        },
+        test() {
+          console.log("Caught emit event");
         }
     },
     computed: {

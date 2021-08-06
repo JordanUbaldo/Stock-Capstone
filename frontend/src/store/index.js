@@ -23,6 +23,7 @@ export default new Vuex.Store({
     acceptedGames: [],
     invites: [],
     currentGameId: 0,
+    currentGameName: '',
     allUsers: [],
     currentUserStocks: [],
     currentGameUsers: [],
@@ -56,8 +57,15 @@ export default new Vuex.Store({
     SET_CURRENT_GAME_ID(state, data) {
       state.currentGameId = data;
     },
+    SET_CURRENT_GAME_NAME(state, data) {
+      localStorage.setItem('currentGameName', data);
+      state.currentGameName = data;
+    },
     SET_CURRENT_USER_STOCKS(state, data) {
       state.currentUserStocks = data;
+    },
+    ADD_STOCK_TO_CURRENT_USER_STOCKS(state, data) {
+      state.currentUserStocks.push(data);
     },
     SET_CURRENT_GAME_USERS(state, data) {
       state.currentGameUsers = data;

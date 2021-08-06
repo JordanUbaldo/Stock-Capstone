@@ -1,5 +1,5 @@
 <template>
-  <div id="content">
+  <div id="content" v-if="show">
       <form v-on:submit.prevent="postTrade">
           <br>
           <div class="trade">
@@ -22,6 +22,7 @@
           <br>
           <br>
           <button type="submit">Submit Trade</button>
+          <button v-on:click="$emit('hide')">Cancel</button>
       </form>
   </div>
 </template>
@@ -31,11 +32,11 @@ import stockService from '@/services/StockService';
 
 export default {
     name: "trade-form",
-    props: ['symbol', 'stockName', 'pricePerShare'],
+    props: ['symbol', 'stockName', 'pricePerShare', 'currentGameId'],
     data() {
         return {
             trade: {
-                gameId: this.$store.state.currentGameId,
+                gameId: parseInt(this.currentGameId),
                 stockTicker: this.symbol,
                 stockName: this.stockName,
                 tradeType: "",
@@ -44,25 +45,29 @@ export default {
                 amountOfMoney: 0
             },
             numShares: 0,
-            totalCost: 0
+            totalCost: 0,
+            show: true
         }
     },
     methods: {
         setNumberOfShares() {
             this.numShares = Math.floor(this.totalCost / this.pricePerShare);
-            this.trade.numberOfShares = this.numShares;
+            this.trade.numberOfShares = parseInt(this.numShares);
             this.totalCost = this.totalCost - (this.totalCost % this.pricePerShare);
             this.trade.amountOfMoney = this.totalCost;
         },
         setTotalCost() {
-            this.trade.numberOfShares = this.numShares;
+            this.trade.numberOfShares = parseInt(this.numShares);
             this.totalCost = this.numShares * this.pricePerShare;
             this.trade.amountOfMoney = this.totalCost;
         },
-        async postTrade() {
+        postTrade() {
             stockService.postTrade(this.trade, this.$store.state.token);
-            const rawStocksResponse = await stockService.getStocks(this.$store.state.currentGameId, this.$store.state.token);
-            this.$store.commit('SET_CURRENT_USER_STOCKS', rawStocksResponse.data);
+            this.$store.commit('ADD_STOCK_TO_CURRENT_USER_STOCKS', this.trade);
+            this.flipFormVisibility();
+        },
+        flipFormVisibility() {
+            this.show = !this.show;
         }
     }
     
