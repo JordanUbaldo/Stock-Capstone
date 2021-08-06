@@ -59,7 +59,7 @@ export default {
     },
     methods: {
         getStockDetails() {
-            stockService.getStock(this.stockTicker).then(response => {
+            stockService.getStockExternal(this.stockTicker).then(response => {
                 this.stockSummary = response.data;
             });
             this.isSearchSuccessful = true;

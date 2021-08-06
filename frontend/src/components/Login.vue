@@ -97,7 +97,7 @@ export default {
         });
 
         if (this.$store.state.allUsers.length === 0) {
-          let allUsers = (await userService.getUsers(this.$store.state.token)).data.map(element => {
+          let allUsers = (userService.getUsers(this.$store.state.token)).data.map(element => {
               return element.username;
           });
             
