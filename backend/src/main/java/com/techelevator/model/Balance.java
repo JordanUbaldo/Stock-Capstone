@@ -5,22 +5,22 @@ import java.math.BigDecimal;
 public class Balance {
 
     private long balanceId;
-    private long gameId;
-    private long userId;
+    private int gameId;
+    private String username;
     private BigDecimal amount = new BigDecimal(100000);
 
-
+    public Balance() { }
     //Constructor for putting into DB after received from FE
-    public Balance(long gameId, long userId) {
+    public Balance(int gameId, String username) {
         this.gameId = gameId;
-        this.userId = userId;
+        this.username = username;
     }
 
     //Constructor for pulling information from DB
-    public Balance(long balanceId, long gameId, long userId, BigDecimal amount) {
+    public Balance(long balanceId, int gameId, String username, BigDecimal amount) {
         this.balanceId = balanceId;
         this.gameId = gameId;
-        this.userId = userId;
+        this.username = username;
         this.amount = amount;
     }
 
@@ -41,16 +41,16 @@ public class Balance {
         return gameId;
     }
 
-    public void setGameId(long gameId) {
+    public void setGameId(int gameId) {
         this.gameId = gameId;
     }
 
-    public long getUserId() {
-        return userId;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public BigDecimal getAmount() {

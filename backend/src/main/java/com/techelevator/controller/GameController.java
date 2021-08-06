@@ -2,6 +2,7 @@ package com.techelevator.controller;
 
 import com.techelevator.dao.GameDao;
 import com.techelevator.dao.UserDao;
+import com.techelevator.model.Balance;
 import com.techelevator.model.Game;
 import com.techelevator.model.Player;
 import com.techelevator.model.Trade;
@@ -53,6 +54,9 @@ public class GameController {
     public boolean invitePlayers(@Valid @PathVariable int gameId, @RequestBody Player player) {
         return gameDao.invitePlayers(player.getUsername(), player.getStatus(), gameId);
     }
+
+    @RequestMapping(path = "/games/{gameId}/balance", method = RequestMethod.GET)
+    public List<Balance> getBalancesByGameId(@Valid @PathVariable int gameId) { return gameDao.getBalancesByGameId(gameId); }
 
     @RequestMapping(path = "/games/{gameId}/leaderboard", method = RequestMethod.GET)
     public List<Trade> leaderboard(@Valid @PathVariable int gameId) {

@@ -1,5 +1,6 @@
 package com.techelevator.dao;
 
+import com.techelevator.model.Balance;
 import com.techelevator.model.Game;
 import com.techelevator.model.Player;
 import com.techelevator.model.Trade;
@@ -13,5 +14,5 @@ public interface GameDao {
     List<Trade> leaderboard(int gameId);
     boolean invitePlayers(String username, String status, int gameId);
     boolean findGameByName(String gameName);
-
+    List<Balance> getBalancesByGameId(int gameId);
 }

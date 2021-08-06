@@ -1,5 +1,6 @@
 package com.techelevator.dao;
 
+import com.techelevator.model.Balance;
 import com.techelevator.model.Game;
 import com.techelevator.model.Player;
 import com.techelevator.model.Trade;
@@ -143,14 +144,31 @@ public class JdbcGameDao implements GameDao{
         }
         return result;
     }
+    @Override
+    public List<Balance> getBalancesByGameId(int gameId) {
+        List<Balance> balances = new ArrayList<>();
+        String sql = "SELECT balance_id, game_id, username, amount FROM balances WHERE game_id = ?;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, gameId);
+            while(results.next()) {
+                Balance balance = mapRowToBalance(results);
+                balances.add(balance);
+            }
+        } catch (NullPointerException e) {
+            System.out.println("Error occurred! " + e.getMessage());
+        } catch (DataAccessException j) {
+            System.out.println("Data Access error! " + j.getMessage());
+        }
+        return balances;
+    }
 
     @Override
     public List<Trade> leaderboard(int gameId) {
         List<Trade> leaders = new ArrayList<>();
 
-        String sql = "SELECT DISTINCT s.username, s.game_id, s.stock_ticker, s.stock_name, s.shares, b.amount" +
+        String sql = "SELECT DISTINCT s.username, s.game_id, s.stock_ticker, s.stock_name, s.shares, b.amount " +
                 "FROM stocks s " +
-                "JOIN balances b ON s.game_id = b.game.id " +
+                "JOIN balances b ON s.game_id = b.game_id " +
                 "WHERE s.game_id = ? " +
                 "ORDER BY amount DESC " +
                 "LIMIT 10;";
@@ -195,6 +213,15 @@ public class JdbcGameDao implements GameDao{
         trade.setSharesNumber(l.getInt("shares"));
         trade.setAmount(l.getBigDecimal("amount"));
         return trade;
+    }
+
+    private Balance mapRowToBalance(SqlRowSet b) {
+        Balance balance = new Balance();
+        balance.setBalanceId(b.getInt("balance_id"));
+        balance.setGameId(b.getInt("game_id"));
+        balance.setUsername(b.getString("username"));
+        balance.setAmount(b.getBigDecimal("amount"));
+        return balance;
     }
 
 
