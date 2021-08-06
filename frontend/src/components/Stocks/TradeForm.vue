@@ -1,5 +1,5 @@
 <template>
-  <div id="content" v-if="show">
+  <div id="content">
       <form v-on:submit.prevent="postTrade">
           <br>
           <div class="trade">
@@ -22,7 +22,7 @@
           <br>
           <br>
           <button type="submit">Submit Trade</button>
-          <button v-on:click="$emit('hide')">Cancel</button>
+          <button v-on:click="$emit('ev')">Cancel</button>
       </form>
   </div>
 </template>
@@ -64,10 +64,6 @@ export default {
         postTrade() {
             stockService.postTrade(this.trade, this.$store.state.token);
             this.$store.commit('ADD_STOCK_TO_CURRENT_USER_STOCKS', this.trade);
-            this.flipFormVisibility();
-        },
-        flipFormVisibility() {
-            this.show = !this.show;
         }
     }
     

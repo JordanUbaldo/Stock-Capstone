@@ -5,7 +5,7 @@
       <input type="text" v-model="stockTicker">
       <button type="submit">Get Stock</button>
     </form>
-    <article v-on:hide="console.log('test')">
+    <article v-on:ev="console.log('test')">
       <h2>
         {{stockSummary.symbol}}
         {{stockSummary.companyName}}
@@ -37,18 +37,11 @@
         </tr>
       </table>
     </article>
-    <trade-form v-bind:stockName="stockSummary.companyName" 
-        v-bind:symbol="stockSummary.symbol" 
-        v-bind:pricePerShare="stockSummary.latestPrice"
-        v-bind:currentGameId=this.$store.state.currentGameId
-        v-if="stockSummary.symbol && stockSummary.companyName"
-    />
   </div>
 </template>
 
 <script>
-import stockService from '../services/StockService';
-import tradeForm from '@/components/TradeForm'
+import stockService from '@/services/StockService';
 
 export default {
     name: 'stock',
@@ -60,21 +53,11 @@ export default {
         showDetailsAndForm: true
       }
     },
-    components: {
-      tradeForm
-    },
     methods: {
-        getStockDetails() {
-            stockService.getStockExternal(this.stockTicker).then(response => {
-                this.stockSummary = response.data;
-            });
-            this.isSearchSuccessful = true;
-        },
-        test() {
-          console.log("Caught emit event");
+        async getStockDetails() {
+            const stockInfo = (await stockService.getStockExternal(this.stockTicker)).data;
+            this.$store.commit("SET_CURRENT_STOCK_DETAILS", stockInfo);
         }
-    },
-    computed: {
     }
 }
 </script>

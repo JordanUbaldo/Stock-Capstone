@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import stockService from "../services/StockService.js";
+import stockService from "@/services/StockService.js";
 import StockDetails from "@/components/StockDetails";
 
 export default {

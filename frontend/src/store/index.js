@@ -29,6 +29,7 @@ export default new Vuex.Store({
     allUsers: [],
     currentUserStocks: [],
     currentGameUsers: [],
+    currentStockDetails: {}
   },
   mutations: {
     SET_AUTH_TOKEN(state, token) {
@@ -74,6 +75,9 @@ export default new Vuex.Store({
     },
     ADD_USER_TO_GAME(state, data) {
       state.currentGameUsers.push(data);
+    },
+    SET_CURRENT_STOCK_DETAILS(state, data) {
+      state.currentStockDetails = data;
     }
     // ACCEPT_GAME(state,) {
 
