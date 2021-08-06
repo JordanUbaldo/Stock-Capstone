@@ -36,14 +36,14 @@ export default {
             .then(response => {
                 if (response.status === 201){
                     alert("Invite Sent")
-                }
-            })
-            // userService.getUsersForGame(this.$store.state.currentGameId, this.$store.state.token)
+                               // userService.getUsersForGame(this.$store.state.currentGameId, this.$store.state.token)
             //         .then(response => {
             //         if (response.status === 200) {
             //         this.$store.commit("SET_CURRENT_GAME_USERS", response.data)
             //         }
             //         });
+                }
+            })
         }
     }
 }

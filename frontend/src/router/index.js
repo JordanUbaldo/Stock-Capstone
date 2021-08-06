@@ -8,6 +8,7 @@ import store from '../store/index'
 import Test from '@/views/Test.vue'
 import CreateGame from '../views/CreateGame.vue'
 import Stock from '../components/Stock.vue'
+import Invite from '../views/Invite.vue'
 
 Vue.use(Router)
 
@@ -28,9 +29,6 @@ const router = new Router({
       path: '/',
       name: 'home',
       component: Home,
-      // meta: {
-      //   requiresAuth: true
-      // }
     },
     {
       path: "/logout",
@@ -54,8 +52,7 @@ const router = new Router({
       component: Test
     },
     {
-      path: "/game",
-      //path: "/game/:id",
+      path: "/game/:gameId",
       name: "game",
       component: Game
     },
@@ -68,6 +65,11 @@ const router = new Router({
       path: "/stock",
       name: "stock",
       component: Stock
+    },
+    {
+    path: "/game/:gameId/invite/",
+    name: "invite",
+    component: Invite
     }
   ]
 })

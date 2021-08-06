@@ -70,6 +70,7 @@ export default {
               //   path: '/login',
               //   query: { registration: 'success' },
               // });
+              alert("Registration Success! Please Login")
             }
           })
           .catch((error) => {
