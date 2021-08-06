@@ -59,6 +59,9 @@ export default new Vuex.Store({
     },
     SET_CURRENT_GAME_USERS(state, data) {
       state.currentGameUsers = data;
+    },
+    ADD_USER_TO_GAME(state, data) {
+      state.currentGameUsers.push(data);
     }
     // ACCEPT_GAME(state,) {
 

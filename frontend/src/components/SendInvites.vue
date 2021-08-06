@@ -15,33 +15,34 @@ import gameService from '@/services/GamesService';
 export default {
     data() {
         return {
+            currentElement: ""
         };
 
     },
     computed: {
         users() {
-            let uninvited;
-            this.$store.state.currentGameUsers.forEach(currentUser => {
-                uninvited = this.$store.state.allUsers.filter(user => {
-                    return user.username != currentUser.username;
-                });
+            let allUsers = this.$store.state.allUsers;
+            let currentGameUsers = this.$store.state.currentGameUsers;
+
+            return allUsers.filter(user => {
+                return !currentGameUsers.map(u => u.username).includes(user.username);
             })
-            return uninvited;
         }
     },
     methods: {
         invitePlayer(user){
             const invite= { status: "Pending", username: user}
-            gameService.gameInvite(this.$store.state.currentGameId,invite,this.$store.state.token)
+            gameService.gameInvite(this.$store.state.currentGameId, invite, this.$store.state.token)
             .then(response => {
                 if (response.status === 201){
                     alert("Invite Sent")
                                // userService.getUsersForGame(this.$store.state.currentGameId, this.$store.state.token)
             //         .then(response => {
             //         if (response.status === 200) {
-            //         this.$store.commit("SET_CURRENT_GAME_USERS", response.data)
+                     this.$store.commit("ADD_USER_TO_GAME", {status: "Pending", username: user, gameId: this.$store.currentGameId});
             //         }
             //         });
+                    //document.getElementById(invite.username).setAttribute("disabled", "");
                 }
             })
         }
