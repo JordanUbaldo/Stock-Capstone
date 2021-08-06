@@ -168,7 +168,7 @@ public class JdbcGameDao implements GameDao{
 
         String sql = "SELECT DISTINCT s.username, s.game_id, s.stock_ticker, s.stock_name, s.shares, b.amount " +
                 "FROM stocks s " +
-                "JOIN balances b ON s.game_id = b.game_id " +
+                "JOIN balances b ON s.game_id = b.game_id AND s.username = b.username " +
                 "WHERE s.game_id = ? " +
                 "ORDER BY amount DESC " +
                 "LIMIT 10;";
