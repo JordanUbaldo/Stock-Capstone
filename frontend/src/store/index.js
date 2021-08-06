@@ -19,7 +19,19 @@ if(currentToken != null) {
 export default new Vuex.Store({
   state: {
     token: currentToken || '',
-    user: currentUser || {}
+    //Test user Data
+    user: currentUser || {username :"testUser1"},
+    //Test Game Data
+    games: [],
+    
+    // [{gameName: "testGame1", host: "testUser1", gameStatus: true, playerStatus: "Accepted"},
+    // {gameName: "testGame2", host: "testUser2", gameStatus: false, playerStatus: "Accepted"},
+    // {gameName: "testGame3", host: "testUser3", gameStatus: true, playerStatus: "Pending"},
+    // {gameName: "testGame4", host: "testUser3", gameStatus: true, playerStatus: "Accepted"}],
+
+    currentGameId: 0,
+    allUsers: [],
+    currentUserStocks: []
   },
   mutations: {
     SET_AUTH_TOKEN(state, token) {
@@ -31,12 +43,27 @@ export default new Vuex.Store({
       state.user = user;
       localStorage.setItem('user',JSON.stringify(user));
     },
+    SET_ALL_USERS(state, allUsers) {
+      state.allUsers = allUsers;
+    },
     LOGOUT(state) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       state.token = '';
       state.user = {};
       axios.defaults.headers.common = {};
+    },
+    SET_GAMES(state, data) {
+      state.games = data;
+    },
+    SET_INVITES(state, data) {
+      state.invites = data;
+    },
+    SET_CURRENT_GAME_ID(state, data) {
+      state.currentGameId = data;
+    },
+    SET_CURRENT_USER_STOCKS(state, data) {
+      state.currentUserStocks = data;
     }
   }
 })

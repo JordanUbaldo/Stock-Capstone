@@ -13,7 +13,8 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-//@PreAuthorize("isAuthenticated()")
+@CrossOrigin
+@PreAuthorize("isAuthenticated()")
 public class StockController {
 
     private TradeDao tradeDao;

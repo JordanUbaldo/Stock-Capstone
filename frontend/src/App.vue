@@ -1,9 +1,43 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link v-bind:to="{ name: 'home' }">Home</router-link>&nbsp;|&nbsp;
-      <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
-    </div>
-    <router-view />
+    <the-sidebar id=sidebar />
+    <router-view id=router_view />
   </div>
 </template>
+ 
+<script>
+import TheSidebar from "@/components/Sidebar.vue";
+
+export default ({
+  components: {
+    TheSidebar
+  }
+})
+</script>
+
+<style>
+  #app {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    grid-template-areas:
+      "sidebar content"
+  }
+
+  sidebar {
+    grid-area: sidebar;
+  }
+
+  content {
+    grid-area: router_view;
+  }
+
+  #sidebar {
+    height: 100vh;
+    border: 1px solid red;
+  }
+
+  #router_view {
+    height: 100vh;
+    border: 1px solid black;
+  }
+</style>

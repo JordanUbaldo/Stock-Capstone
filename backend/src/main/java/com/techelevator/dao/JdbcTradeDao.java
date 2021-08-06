@@ -3,6 +3,7 @@ package com.techelevator.dao;
 import com.techelevator.model.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Component
 public class JdbcTradeDao implements TradeDao {
     private JdbcTemplate jdbcTemplate;
 
