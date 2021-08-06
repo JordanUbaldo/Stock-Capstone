@@ -55,7 +55,9 @@ export default {
   },
   methods: {
     login() {
+      if(this.$route.path != '/'){
       this.$router.push("/");
+      }
       authService
         .login(this.user)
         .then(response => {

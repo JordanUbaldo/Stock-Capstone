@@ -45,12 +45,16 @@ export default {
     },
     methods: {
       loginBtn(){
+        if(this.$route.path != '/'){
         this.$router.push("/");
+        }
         this.loginBtnState = !this.loginBtnState
         this.registerBtnState = false
       },
       registerBtn(){
+        if(this.$route.path != '/'){
         this.$router.push("/");
+        }
         this.registerBtnState = !this.registerBtnState
         this.loginBtnState = false
       }
