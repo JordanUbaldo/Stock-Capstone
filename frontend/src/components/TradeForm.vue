@@ -35,8 +35,7 @@ export default {
     data() {
         return {
             trade: {
-                //gameId: this.$store.state.currentGameId,
-                gameId: 1003,
+                gameId: this.$store.state.currentGameId,
                 stockTicker: this.symbol,
                 stockName: this.stockName,
                 tradeType: "",
