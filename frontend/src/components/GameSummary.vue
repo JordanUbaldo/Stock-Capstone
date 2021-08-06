@@ -5,7 +5,7 @@
       <!-- End Date -->
       <p>End Date</p>
       <!-- Invite Button for Host -->
-      <button type="submit">Invite</button>
+      <router-link v-bind:to="{ name:'invite', params: { gameId : $store.state.currentGameId}}"><button type="button">Invite</button></router-link>
   </div>
 </template>
 
