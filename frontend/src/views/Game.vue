@@ -31,6 +31,9 @@ export default {
         GameDetails,
         GameSummary,
         LeaderBoard
+    },
+    created() {
+        
     }
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div>
       <!-- Game Name -->
-      <p>Name of Game</p>
+      <p>{{ $store.state.currentGameName }}</p>
       <!-- End Date -->
       <p>End Date</p>
       <!-- Invite Button for Host -->
@@ -11,7 +11,8 @@
 
 <script>
 export default {
-    name: "game-summary"
+    name: "game-summary",
+
 }
 </script>
 
