@@ -19,9 +19,7 @@ if(currentToken != null) {
 export default new Vuex.Store({
   state: {
     token: currentToken || '',
-    //Test user Data
-    user: currentUser || {},
-    //Test Game Data
+    user: currentUser || {},  
     acceptedGames: [],
     invites: [],
     currentGameId: 0,
@@ -67,11 +65,5 @@ export default new Vuex.Store({
     ADD_USER_TO_GAME(state, data) {
       state.currentGameUsers.push(data);
     }
-    // ACCEPT_GAME(state,) {
-
-    // },
-    // DECLINE_GAME(state,) {
-
-    // }
   }
 })

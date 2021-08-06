@@ -5,16 +5,12 @@
             {{user.username}}
             <button @click="invitePlayer(user.username)">Invite</button>
             </li>
-            <p>{{users}}</p>
-            <p>123</p>
-            <p>{{currentGameUsers}}</p> 
         </ul>
     </div>
 </template>
 
 <script>
 import gameService from '@/services/GamesService';
-import userService from '@/services/UserService';
 export default {
     data() {
         return {

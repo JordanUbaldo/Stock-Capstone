@@ -98,14 +98,14 @@ export default {
           }
         });
 
-        if (this.$store.state.allUsers.length === 0) {
-          let allUsers = (userService.getUsers(this.$store.state.token)).data.map(element => {
-              return element.username;
-          });
+        // if (this.$store.state.allUsers.length === 0) {
+        //   let allUsers = (userService.getUsers(this.$store.state.token)).data.map(element => {
+        //       return element.username;
+        //   });
             
-          this.$store.commit('SET_ALL_USERS', allUsers);
-          console.log(this.$store.state.allUsers);
-        }
+        //   this.$store.commit('SET_ALL_USERS', allUsers);
+        //   console.log(this.$store.state.allUsers);
+        // }
     }
   }
 };

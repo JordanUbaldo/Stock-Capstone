@@ -35,8 +35,7 @@ export default {
     data() {
         return {
             trade: {
-                //gameId: this.$store.state.currentGameId,
-                gameId: 1003,
+                gameId: this.$store.state.currentGameId,
                 stockTicker: this.symbol,
                 stockName: this.stockName,
                 tradeType: "",
@@ -62,7 +61,7 @@ export default {
         },
         async postTrade() {
             stockService.postTrade(this.trade, this.$store.state.token);
-            const rawStocksResponse = await stockService.getStocks(this.gameId, this.$store.state.token);
+            const rawStocksResponse = await stockService.getStocks(this.$store.state.currentGameId, this.$store.state.token);
             this.$store.commit('SET_CURRENT_USER_STOCKS', rawStocksResponse.data);
         }
     }
