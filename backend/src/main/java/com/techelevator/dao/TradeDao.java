@@ -17,5 +17,4 @@ public interface TradeDao {
     void changeBalance(int gameId, String username, BigDecimal amount);
     Balance findMaxAmountByGameId(int gameId);
     void tradeStocks(TradeRequest trade, Principal principal) throws InsufficientFundsException, InsufficientSharesException, NonExistentStockException;
-    User getWinUserByGameId(int gameId, Principal principal);
 }

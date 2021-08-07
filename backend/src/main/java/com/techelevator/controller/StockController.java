@@ -56,7 +56,7 @@ public class StockController {
         }
         Balance maxBalance = tradeDao.findMaxAmountByGameId(gameId);
         gameDao.changeGameStatusByGameId(gameId);
-        return maxBalance.getUserName();
+        return maxBalance.getUsername();
     }
 
     private BigDecimal getLatestPrice(String stockTicker) {
