@@ -10,6 +10,7 @@ export default {
         return http.get(`/games/${status}`,{headers: {'Authorization': `Bearer ${token}`}});
     },
     createGame(game,token){
+        console.log(token);
         return http.post('/games',
         game,{headers: {'Authorization': `Bearer ${token}`}});
     },
