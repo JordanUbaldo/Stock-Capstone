@@ -11,6 +11,7 @@
 
 <script>
 import gameService from '@/services/GamesService';
+
 export default {
     data() {
         return {
@@ -39,7 +40,7 @@ export default {
                 }
             })
         }
-    }
+    },
 }
 </script>
 

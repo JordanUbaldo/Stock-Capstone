@@ -5,13 +5,27 @@
       <!-- End Date -->
       <p>End Date</p>
       <!-- Invite Button for Host -->
-      <router-link v-bind:to="{ name:'invite', params: { gameId : $store.state.currentGameId}}"><button type="button">Invite</button></router-link>
+      <button type="button" @click='routeToInvite'>Invite</button>
   </div>
 </template>
 
 <script>
+import userService from '@/services/UserService.js';
+
 export default {
     name: "game-summary",
+
+    methods: {
+      routeToInvite() {
+        userService.getUsersForGame(this.$store.state.currentGameId, this.$store.state.token)
+        .then(response => {
+            if (response.status === 200) {
+                this.$store.commit("SET_CURRENT_GAME_USERS", response.data)
+            }
+        });
+        this.$router.push({ name: 'invite', params: { gameId : this.$store.state.currentGameId}})
+      }
+    }
 
 }
 </script>

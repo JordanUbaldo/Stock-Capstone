@@ -1,12 +1,12 @@
 <template>
   <div>
       <div id="logged-out" v-if="!$store.state.token">
-        <button v-show="!loginBtnState" @click="loginBtn" >Login</button>
-        <button v-show="!registerBtnState" @click="registerBtn" >Register</button>
-        <div v-show="loginBtnState">
+        <button v-show="!$store.state.loginFormState" @click="loginBtn" >Login</button>
+        <button v-show="!$store.state.registerFormState" @click="registerBtn" >Register</button>
+        <div v-show="$store.state.loginFormState">
         <login />
         </div>
-        <div v-show="registerBtnState">
+        <div v-show="$store.state.registerFormState">
         <register />
         </div>
       </div>
@@ -31,8 +31,6 @@ export default {
     name: "TheSidebar",
     data() {
       return {
-        loginBtnState: true,
-        registerBtnState: false
       }  
     },
     components: {
@@ -48,15 +46,13 @@ export default {
         if(this.$route.path != '/'){
         this.$router.push("/");
         }
-        this.loginBtnState = !this.loginBtnState
-        this.registerBtnState = false
+        this.$store.commit("LOGIN_BTN");
       },
       registerBtn(){
         if(this.$route.path != '/'){
         this.$router.push("/");
         }
-        this.registerBtnState = !this.registerBtnState
-        this.loginBtnState = false
+        this.$store.commit("REGISTER_BTN");
       }
     }
 };

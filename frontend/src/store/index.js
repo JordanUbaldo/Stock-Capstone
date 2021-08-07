@@ -27,6 +27,8 @@ export default new Vuex.Store({
     allUsers: [],
     currentUserStocks: [],
     currentGameUsers: [],
+    registerFormState: false,
+    loginFormState: true,
   },
   mutations: {
     SET_AUTH_TOKEN(state, token) {
@@ -38,8 +40,8 @@ export default new Vuex.Store({
       state.user = user;
       localStorage.setItem('user',JSON.stringify(user));
     },
-    SET_ALL_USERS(state, allUsers) {
-      state.allUsers = allUsers;
+    SET_ALL_USERS(state, data) {
+      state.allUsers = data;
     },
     LOGOUT(state) {
       localStorage.removeItem('token');
@@ -48,9 +50,18 @@ export default new Vuex.Store({
       state.user = {};
       axios.defaults.headers.common = {};
     },
+    REGISTER_BTN(state) {
+      state.registerFormState = !state.registerFormState;
+      state.loginFormState = false;
+    },
+    LOGIN_BTN(state) {
+      state.loginFormState = !state.loginFormState;
+      state.registerFormState = false;
+    },
     SET_ACCEPTED_GAMES(state, data) {
       state.acceptedGames = data;
     },
+
     SET_INVITES(state, data) {
       state.invites = data;
     },

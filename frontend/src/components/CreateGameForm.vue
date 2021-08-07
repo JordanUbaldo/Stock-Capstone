@@ -56,8 +56,8 @@ export default {
                     alert("Game Created!");
                     
                     this.$router.push({ name: 'invite', params: { gameId : this.$store.state.currentGameId}})
-                    gamesService
                     
+                    gamesService
                     .getGames(this.$store.state.token, "Accepted")
                     .then(response => {
                     if(response.status === 200) {
