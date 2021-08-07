@@ -78,7 +78,6 @@ export default {
         },
         cancel() {
             this.$store.commit('CLEAR_CURRENT_STOCK_DETAILS');
-            document.getElementById('tradeForm').reset();
         }
     }
     
