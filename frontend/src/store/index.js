@@ -19,9 +19,7 @@ if(currentToken != null) {
 export default new Vuex.Store({
   state: {
     token: currentToken || '',
-    //Test user Data
-    user: currentUser || {},
-    //Test Game Data
+    user: currentUser || {},  
     acceptedGames: [],
     invites: [],
     currentGameId: 0,
@@ -29,7 +27,12 @@ export default new Vuex.Store({
     allUsers: [],
     currentUserStocks: [],
     currentGameUsers: [],
+<<<<<<< HEAD
     currentStockDetails: {}
+=======
+    registerFormState: false,
+    loginFormState: true,
+>>>>>>> Jordan
   },
   mutations: {
     SET_AUTH_TOKEN(state, token) {
@@ -41,8 +44,8 @@ export default new Vuex.Store({
       state.user = user;
       localStorage.setItem('user',JSON.stringify(user));
     },
-    SET_ALL_USERS(state, allUsers) {
-      state.allUsers = allUsers;
+    SET_ALL_USERS(state, data) {
+      state.allUsers = data;
     },
     LOGOUT(state) {
       localStorage.removeItem('token');
@@ -51,9 +54,18 @@ export default new Vuex.Store({
       state.user = {};
       axios.defaults.headers.common = {};
     },
+    REGISTER_BTN(state) {
+      state.registerFormState = !state.registerFormState;
+      state.loginFormState = false;
+    },
+    LOGIN_BTN(state) {
+      state.loginFormState = !state.loginFormState;
+      state.registerFormState = false;
+    },
     SET_ACCEPTED_GAMES(state, data) {
       state.acceptedGames = data;
     },
+
     SET_INVITES(state, data) {
       state.invites = data;
     },
@@ -75,6 +87,7 @@ export default new Vuex.Store({
     },
     ADD_USER_TO_GAME(state, data) {
       state.currentGameUsers.push(data);
+<<<<<<< HEAD
     },
     SET_CURRENT_STOCK_DETAILS(state, data) {
       state.currentStockDetails = data;
@@ -88,5 +101,8 @@ export default new Vuex.Store({
     // DECLINE_GAME(state,) {
 
     // }
+=======
+    }
+>>>>>>> Jordan
   }
 })

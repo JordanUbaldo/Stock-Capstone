@@ -11,7 +11,7 @@
 
 <script>
 import gameService from '@/services/GamesService';
-// import userService from '@/services/UserService';
+
 export default {
     data() {
         return {
@@ -36,17 +36,11 @@ export default {
             .then(response => {
                 if (response.status === 201){
                     alert("Invite Sent")
-                               // userService.getUsersForGame(this.$store.state.currentGameId, this.$store.state.token)
-            //         .then(response => {
-            //         if (response.status === 200) {
                      this.$store.commit("ADD_USER_TO_GAME", {status: "Pending", username: user, gameId: this.$store.currentGameId});
-            //         }
-            //         });
-                    //document.getElementById(invite.username).setAttribute("disabled", "");
                 }
             })
         }
-    }
+    },
 }
 </script>
 
