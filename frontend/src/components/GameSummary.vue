@@ -1,9 +1,9 @@
 <template>
   <div>
       <!-- Game Name -->
-      <p>{{ $store.state.currentGameName }}</p>
+      <p>Game: {{ $store.state.currentGameName }}</p>
       <!-- End Date -->
-      <p>End Date</p>
+      <p>End Date: {{ (new Date($store.state.currentGameEndDate)).toLocaleString() }}</p>
       <!-- Invite Button for Host -->
       <button type="button" @click='routeToInvite'>Invite</button>
   </div>

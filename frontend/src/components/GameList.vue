@@ -2,7 +2,7 @@
 <div>
     <h3>Game List</h3>
   <ul>
-     <li v-for="game in games" v-bind:key="game.gameId" @click="routeToGame(game.gameId, game.gameName)">{{ game.gameName }}<img class="hostImage" v-show="game.host == $store.state.user.username" src="../assets/Crown.png" alt="Host Image"></li>
+     <li v-for="game in games" v-bind:key="game.gameId" @click="routeToGame(game.gameId, game.gameName, game.endDate)">{{ game.gameName }}<img class="hostImage" v-show="game.host == $store.state.user.username" src="../assets/Crown.png" alt="Host Image"></li>
   </ul>
   </div>
 </template>
@@ -30,11 +30,12 @@ export default {
                 this.gameList = response;
             })
         },
-        async routeToGame(gameId, gameName){
+        async routeToGame(gameId, gameName, gameEndDate){
             if(this.$route.path != `/game/${gameId}`) {
 
                 this.$store.commit("SET_CURRENT_GAME_ID", gameId);
                 this.$store.commit("SET_CURRENT_GAME_NAME", gameName);
+                this.$store.commit('SET_CURRENT_GAME_END_DATE', gameEndDate);
                 this.$router.push({ name: 'game', params: { gameId : gameId}});
 
                 const rawStocksResponse = await stockService.getStocks(gameId, this.$store.state.token);

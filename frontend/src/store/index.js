@@ -24,6 +24,7 @@ export default new Vuex.Store({
     invites: [],
     currentGameId: 0,
     currentGameName: '',
+    currentGameEndDate: '',
     allUsers: [],
     currentUserStocks: [],
     currentGameUsers: [],
@@ -74,6 +75,9 @@ export default new Vuex.Store({
     SET_CURRENT_GAME_NAME(state, data) {
       localStorage.setItem('currentGameName', data);
       state.currentGameName = data;
+    },
+    SET_CURRENT_GAME_END_DATE(state, data) {
+      state.currentGameEndDate = data;
     },
     SET_CURRENT_USER_STOCKS(state, data) {
       state.currentUserStocks = data;
