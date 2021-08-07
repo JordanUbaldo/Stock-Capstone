@@ -1,6 +1,10 @@
 package com.techelevator.dao;
 
+import com.techelevator.exception.InsufficientSharesException;
+import com.techelevator.exception.NonExistentStockException;
 import com.techelevator.model.*;
+import com.techelevator.exception.InsufficientFundsException;
+
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -62,7 +66,7 @@ public class JdbcTradeDao implements TradeDao {
     }
 
     @Override
-    public void tradeStocks(TradeRequest trade, Principal principal) {
+    public void tradeStocks(TradeRequest trade, Principal principal) throws InsufficientFundsException, InsufficientSharesException, NonExistentStockException {
         String sqlForTrade = "INSERT INTO trades (game_id, username, type_id, stock_ticker, stock_name, amount, purchase_date, price_per_share, shares) " +
                 "VALUES (?,?,?,?,?,?,?,?,?);";
         String sqlForGetBalance = "SELECT * FROM balances WHERE game_id = ? AND username = ?;";
@@ -97,7 +101,7 @@ public class JdbcTradeDao implements TradeDao {
                         jdbcTemplate.update(sqlInsertStock, trade.getGameId(), username, trade.getStockTicker(), trade.getStockName(), trade.getNumberOfShares());
                     }
                 } else {
-                    throw new RuntimeException("Balance is not enough!");
+                    throw new InsufficientFundsException();
                 }
             }//Sell stocks and update balance amount
             else if (trade.getTradeType().equalsIgnoreCase("Sell")) {
@@ -110,10 +114,10 @@ public class JdbcTradeDao implements TradeDao {
                         jdbcTemplate.update(sqlForUpdateBalance, newBalance, trade.getGameId(), username);
                         jdbcTemplate.update(sqlForUpdateStockOfSell, trade.getNumberOfShares(), trade.getGameId(),username, trade.getStockTicker());
                     } else {
-                        throw new RuntimeException("There is not enough stock shares!");
+                        throw new InsufficientSharesException();
                     }
                 } else {
-                    throw new RuntimeException("Non-exist Stock!");
+                    throw new NonExistentStockException();
                 }
             }
         } catch (DataAccessException e) {
