@@ -32,7 +32,6 @@ public class JdbcTradeDao implements TradeDao {
     public List<StockResponse> getStocksByGameId(int gameId, Principal principal) {
         List<StockResponse> result = new ArrayList<>();
         String username = principal.getName();
-
         String sql = "SELECT stock_ticker, stock_name, shares FROM stocks WHERE game_id = ? AND username = ? ORDER BY stock_ticker";
         try {
             SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, gameId, username);
@@ -42,7 +41,6 @@ public class JdbcTradeDao implements TradeDao {
         } catch (DataAccessException e) {
             throw new RuntimeException(e);
         }
-
         return result;
     }
 
@@ -61,7 +59,6 @@ public class JdbcTradeDao implements TradeDao {
         } catch (DataAccessException e) {
             throw new RuntimeException(e);
         }
-
         return result;
     }
 
@@ -126,8 +123,47 @@ public class JdbcTradeDao implements TradeDao {
     }
 
     @Override
-    public User getWinUserByGameId(int gameId, Principal principal) {
-        return null;
+    public List<Stock> getListOfStocks(int gameId) {
+        List<Stock> result = new ArrayList<>();
+
+        String sql = "SELECT * FROM stocks WHERE game_id = ? ORDER BY stock_ticker";
+        try {
+            SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, gameId);
+            while (rowSet.next()) {
+                result.add(mapRowToStockCheck(rowSet));
+            }
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    @Override
+    public void changeBalance(int gameId, String username, BigDecimal amount) {
+        String sql = "UPDATE balances SET amount = amount + ? WHERE game_id = ? AND username = ?;";
+        String sqlForStock = "UPDATE stocks SET shares = 0 WHERE game_id = ? AND username = ?;";
+        try {
+            jdbcTemplate.update(sql, amount, gameId, username);
+            jdbcTemplate.update(sqlForStock, gameId, username);
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Balance findMaxAmountByGameId(int gameId) {
+        Balance result = new Balance();
+        String sql = "SELECT * FROM balances WHERE game_id = ? ORDER BY amount DESC LIMIT 1;";
+
+        try {
+            SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, gameId);
+            if (rowSet.next()) {
+                result = mapRowToBalance(rowSet);
+            }
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
     }
 
 

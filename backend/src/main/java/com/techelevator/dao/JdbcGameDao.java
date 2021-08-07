@@ -230,6 +230,17 @@ public class JdbcGameDao implements GameDao{
         return share;
     }
 
+    @Override
+    public void changeGameStatusByGameId(int gameId) {
+        String sql = "UPDATE games SET game_active = false WHERE game_id = ?;";
+        try {
+            jdbcTemplate.update(sql, gameId);
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     //helper method to create Player object from database response
     private Player mapRowToPlayer (SqlRowSet p) {
         Player player = new Player();

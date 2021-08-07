@@ -14,5 +14,6 @@ public interface GameDao {
     List<Balance> leaderboard(int gameId);
     boolean invitePlayers(String username, String status, int gameId);
     boolean findGameByName(String gameName);
+    void changeGameStatusByGameId(int gameId);
     List<Balance> getBalancesByGameId(int gameId);
 }
