@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import StockParent from "@/components/StockParent.vue"
+import StockParent from "@/components/Stocks/StockParent.vue"
 import Balance from "@/components/Balance"
 
 export default {

@@ -22,7 +22,7 @@
           <br>
           <br>
           <button type="submit">Submit Trade</button>
-          <button v-on:click="$emit('ev')">Cancel</button>
+          <button type="reset" v-on:click="cancel">Cancel</button>
       </form>
   </div>
 </template>
@@ -32,21 +32,26 @@ import stockService from '@/services/StockService';
 
 export default {
     name: "trade-form",
-    props: ['symbol', 'stockName', 'pricePerShare', 'currentGameId'],
+    props: ['currentGameId'],
     data() {
         return {
             trade: {
                 gameId: parseInt(this.currentGameId),
-                stockTicker: this.symbol,
-                stockName: this.stockName,
+                stockTicker: "",
+                stockName: "",
                 tradeType: "",
                 numberOfShares: 0,
-                purchasePrice: this.pricePerShare,
+                purchasePrice: 0,
                 amountOfMoney: 0
             },
             numShares: 0,
             totalCost: 0,
             show: true
+        }
+    },
+    computed: {
+        currentStock() {
+            return this.$store.state.currentStockDetails;
         }
     },
     methods: {
@@ -58,12 +63,22 @@ export default {
         },
         setTotalCost() {
             this.trade.numberOfShares = parseInt(this.numShares);
-            this.totalCost = this.numShares * this.pricePerShare;
+            this.totalCost = this.numShares * this.currentStock.latestPrice;
             this.trade.amountOfMoney = this.totalCost;
         },
-        postTrade() {
-            stockService.postTrade(this.trade, this.$store.state.token);
-            this.$store.commit('ADD_STOCK_TO_CURRENT_USER_STOCKS', this.trade);
+        async postTrade() {
+            this.trade.stockTicker = this.currentStock.symbol;
+            this.trade.stockName = this.currentStock.companyName;
+            this.trade.pricePerShare = this.currentStock.latestPrice;
+            await stockService.postTrade(this.trade, this.$store.state.token);
+            const stockList = await stockService.getStocks(this.trade.gameId, this.$store.state.token);
+            this.$store.commit('SET_CURRENT_USER_STOCKS', stockList.data);
+            
+            console.log(stockList);
+            this.$store.commit('CLEAR_CURRENT_STOCK_DETAILS');
+        },
+        cancel() {
+            this.$store.commit('CLEAR_CURRENT_STOCK_DETAILS');
         }
     }
     

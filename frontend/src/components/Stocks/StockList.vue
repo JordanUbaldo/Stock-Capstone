@@ -2,43 +2,42 @@
   <div id="container">
       <h2>Your Stocks:</h2>
       <ul>
-          <li v-for="stock in ownedStocks" v-bind:key="stock.stockTicker" class="stockSummary">
+          <li v-for="stock in ownedStocks" v-bind:key="stock.stockTicker" class="stockSummary"
+          v-on:click="getStockDetails(stock.stockTicker)">
               {{stock.stockTicker}}
               {{stock.stockName}}
               {{stock.numberOfShares}}
               {{stock.totalCost}}
           </li>
       </ul>
-      <stock-details />
   </div>
 </template>
 
 <script>
 import stockService from "@/services/StockService.js";
-import StockDetails from "@/components/StockDetails";
 
 export default {
     name: "stock-list",
     data() {
         return {
-            gameId: 1003,
-            //stocks: []
+            gameId: this.currentGameId,
+            currentStockTicker: ""
         } 
-    },
-    components: {
-        StockDetails
     },
     computed: {
         ownedStocks() {
             return this.$store.state.currentUserStocks;
+        },
+        currentGameId() {
+            return this.$store.state.currentGameId
         }
     },
-   /* methods: {
-        async updateStocks() {
-            const rawStocksResponse = await stockService.getStocks(this.gameId, this.$store.state.token);
-            this.stocks = rawStocksResponse.data;
+    methods: {
+        async getStockDetails(stockTicker) {
+            const stockInfo = (await stockService.getStockExternal(stockTicker)).data;
+            this.$store.commit("SET_CURRENT_STOCK_DETAILS", stockInfo);
         }
-    },*/
+    },
     async created() {
         const rawStocksResponse = await stockService.getStocks(this.gameId, this.$store.state.token);
         this.$store.commit('SET_CURRENT_USER_STOCKS', rawStocksResponse.data);

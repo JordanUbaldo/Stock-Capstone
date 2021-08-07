@@ -78,7 +78,10 @@ export default new Vuex.Store({
     },
     SET_CURRENT_STOCK_DETAILS(state, data) {
       state.currentStockDetails = data;
-    }
+    },
+    CLEAR_CURRENT_STOCK_DETAILS(state) {
+      state.currentStockDetails = {};
+    } 
     // ACCEPT_GAME(state,) {
 
     // },

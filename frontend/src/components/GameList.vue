@@ -33,9 +33,12 @@ export default {
             if(this.$route.path != `/game/${gameId}`) {
             this.$store.commit("SET_CURRENT_GAME_ID", gameId);
             this.$store.commit("SET_CURRENT_GAME_NAME", gameName);
+
             this.$router.push({ name: 'game', params: { gameId : gameId}});
             const rawStocksResponse = await stockService.getStocks(gameId, this.$store.state.token);
+            
             this.$store.commit('SET_CURRENT_USER_STOCKS', rawStocksResponse.data);
+            this.$store.commit('CLEAR_CURRENT_STOCK_DETAILS');
         }
     }
 }

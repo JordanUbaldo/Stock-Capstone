@@ -1,39 +1,35 @@
 <template>
   <div>
-    <h3>Stock</h3>
-    <form v-on:submit.prevent="getStockDetails">
-      <input type="text" v-model="stockTicker">
-      <button type="submit">Get Stock</button>
-    </form>
-    <article v-on:ev="console.log('test')">
+    <article v-show="$store.state.currentStockDetails !== {}">
       <h2>
-        {{stockSummary.symbol}}
-        {{stockSummary.companyName}}
+        {{ currentStockDetails.symbol }}
+        <br>
+        {{ currentStockDetails.companyName }}
       </h2>
-      <table v-show="stockSummary">
+      <table>
         <tr>
           <td>Latest Price</td>
-          <td>{{stockSummary.latestPrice}}</td>
+          <td>{{ currentStockDetails.latestPrice }}</td>
         </tr>
         <tr>
           <td>Latest Update</td>
-          <td>{{stockSummary.latestTime}}</td>
+          <td>{{ currentStockDetails.latestUpdate }}</td>
         </tr>
         <tr>
           <td>Previous Close</td>
-          <td>{{stockSummary.previousClose}}</td>
+          <td>{{ currentStockDetails.previousClose }}</td>
         </tr>
         <tr>
           <td>Change</td>
-          <td>{{stockSummary.change}}</td>
+          <td>{{ currentStockDetails.change }}</td>
         </tr>
         <tr>
           <td>52 Week High</td>
-          <td>{{stockSummary.week52High}}</td>
+          <td>{{ currentStockDetails.week52High }}</td>
         </tr>
         <tr>
           <td>52 Week Low</td>
-          <td>{{stockSummary.week52Low}}</td>
+          <td>{{ currentStockDetails.week52Low }}</td>
         </tr>
       </table>
     </article>
@@ -41,24 +37,19 @@
 </template>
 
 <script>
-import stockService from '@/services/StockService';
 
 export default {
-    name: 'stock',
+    name: 'stock-details',
     data() {
       return {
-        stockTicker: "",
-        stockSummary: "",
-        isSearchSuccessful: false,
-        showDetailsAndForm: true
       }
     },
-    methods: {
-        async getStockDetails() {
-            const stockInfo = (await stockService.getStockExternal(this.stockTicker)).data;
-            this.$store.commit("SET_CURRENT_STOCK_DETAILS", stockInfo);
-        }
+    computed: {
+      currentStockDetails() {
+        return this.$store.state.currentStockDetails;
+      }
     }
+
 }
 </script>
 

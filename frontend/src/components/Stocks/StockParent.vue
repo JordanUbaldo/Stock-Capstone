@@ -1,15 +1,17 @@
 <template>
   <div>
     <stock-list />
-    <trade-form />
-    <stock-details />
+    <stock-search-form />
+    <stock-details v-if="$store.state.currentStockDetails !== {}" />
+    <trade-form v-if="$store.state.currentStockDetails !== {}" v-bind:currentGameId="$store.state.currentGameId"/>
   </div>
 </template>
 
 <script>
-import StockList from '@/components/StockList'
-import TradeForm from '@/components/TradeForm'
-import StockDetails from '@/components/StockDetails'
+import StockList from '@/components/Stocks/StockList'
+import TradeForm from '@/components/Stocks/TradeForm'
+import StockSearchForm from './StockSearchForm.vue'
+import StockDetails from './StockDetails.vue'
 
 
 export default {
@@ -17,7 +19,8 @@ export default {
   components: {
     StockList,
     TradeForm,
-    StockDetails
+    StockDetails,
+    StockSearchForm
   }
 }
 </script>
