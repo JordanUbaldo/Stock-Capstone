@@ -165,9 +165,8 @@ public class JdbcGameDao implements GameDao{
     @Override
     public List<Balance> leaderboard(int gameId) {
         List<Balance> leaders = new ArrayList<>();
-        WebApiService price = new WebApiService();
 
-        List<Trade> trades = new ArrayList<>();
+        WebApiService price = new WebApiService();
         List<Share> shares = new ArrayList<>();
          List<Player> users = new ArrayList<>();
 
@@ -185,7 +184,6 @@ public class JdbcGameDao implements GameDao{
         }
 
         for(Player player : users) {
-            System.out.println("inside users loop!");
             Balance playersTotalBalance = new Balance();
             BigDecimal cashBalance = new BigDecimal("0");
             BigDecimal stockBalance = new BigDecimal("0");
@@ -194,9 +192,7 @@ public class JdbcGameDao implements GameDao{
             try {
                 SqlRowSet b = jdbcTemplate.queryForRowSet(sqlForCashBalance, gameId, player.getUsername());
                 if(b.next()){
-                    System.out.println("Inside if statement!");
                     Balance usersBalance = mapRowToBalance(b);
-                    System.out.println("No error here!");
                     cashBalance = usersBalance.getAmount();
                 }
             } catch(NullPointerException e) {
@@ -207,12 +203,10 @@ public class JdbcGameDao implements GameDao{
             try {
                 SqlRowSet results = jdbcTemplate.queryForRowSet(sqlForSharesOwnsAndNumber, gameId, player.getUsername());
                 while(results.next()) {
-                    System.out.println("inside while for shares!");
                     Share share = mapRowToShare(results);
                     shares.add(share);
                 }
                 for(Share share : shares) {
-                    System.out.println(share.getTickerName());
                     BigDecimal totalPrice = price.getPrice(share.getTickerName()).getPrice().multiply(share.getPrice());
                     stockBalance = stockBalance.add(totalPrice);
                 }
@@ -256,7 +250,7 @@ public class JdbcGameDao implements GameDao{
         game.setEndDate(g.getString("end_date"));
         return game;
     }
-
+    // helper method to create Balance object
     private Balance mapRowToBalance(SqlRowSet b) {
         Balance balance = new Balance();
         balance.setBalanceId(b.getInt("balance_id"));
