@@ -27,12 +27,9 @@ export default new Vuex.Store({
     allUsers: [],
     currentUserStocks: [],
     currentGameUsers: [],
-<<<<<<< HEAD
-    currentStockDetails: {}
-=======
+    currentStockDetails: {},
     registerFormState: false,
     loginFormState: true,
->>>>>>> Jordan
   },
   mutations: {
     SET_AUTH_TOKEN(state, token) {
@@ -87,7 +84,6 @@ export default new Vuex.Store({
     },
     ADD_USER_TO_GAME(state, data) {
       state.currentGameUsers.push(data);
-<<<<<<< HEAD
     },
     SET_CURRENT_STOCK_DETAILS(state, data) {
       state.currentStockDetails = data;
@@ -101,8 +97,5 @@ export default new Vuex.Store({
     // DECLINE_GAME(state,) {
 
     // }
-=======
-    }
->>>>>>> Jordan
   }
 })
