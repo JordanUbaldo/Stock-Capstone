@@ -1,6 +1,9 @@
 <template>
   <div>
-      ${{ new Intl.NumberFormat().format(currentUserBalance) }}
+    <div id="balanceDisplay">
+    <label for="bal">Your Balance: </label>
+    <p id="bal">${{ new Intl.NumberFormat().format(currentUserBalance) }}</p>
+    </div>
       Portfolio Value
   </div>
 </template>
@@ -33,5 +36,7 @@ export default {
 </script>
 
 <style>
-
+  #bal {
+    display: inline-block;
+  }
 </style>
