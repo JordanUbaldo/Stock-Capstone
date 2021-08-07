@@ -23,6 +23,7 @@
           <br>
           <button type="submit">Submit Trade</button>
           <button type="reset" v-on:click="cancel">Cancel</button>
+          <p>*Markets move fast; the price you see may not be the price the trade is executed at.</p>
       </form>
   </div>
 </template>
