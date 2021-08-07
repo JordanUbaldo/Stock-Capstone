@@ -11,4 +11,5 @@ public interface GameDao {
     List<Player> viewUsersInTheGame(int gameId);
     boolean invitePlayers(String username, int gameId);
     boolean findGameByName(String gameName);
+    void changeGameStatusByGameId(int gameId);
 }
