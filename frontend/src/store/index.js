@@ -65,8 +65,11 @@ export default new Vuex.Store({
     allUsers: currentAllUsers || [],
     currentUserStocks: userStocks || [],
     currentGameUsers: gameUsers || [],
+    currentStockDetails: {},
+    currentBalances: [],
     registerFormState: false,
     loginFormState: true,
+    showForm: false
   },
   mutations: {
     SET_AUTH_TOKEN(state, token) {
@@ -155,6 +158,21 @@ export default new Vuex.Store({
     },
     ADD_USER_TO_GAME(state, data) {
       state.currentGameUsers.push(data);
+    },
+    SET_CURRENT_STOCK_DETAILS(state, data) {
+      state.currentStockDetails = data;
+    },
+    CLEAR_CURRENT_STOCK_DETAILS(state) {
+      state.currentStockDetails = {};
+    },
+    SET_CURRENT_BALANCES(state, data) {
+      state.currentBalances = data;
+    },
+    SET_SHOW_FORM_TRUE(state) {
+      state.showForm = true;
+    },
+    SET_SHOW_FORM_FALSE(state) {
+      state.showForm = false;
     }
   }
 })
