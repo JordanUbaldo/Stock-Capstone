@@ -2,6 +2,7 @@ package com.techelevator.controller;
 
 import javax.validation.Valid;
 
+import com.techelevator.exception.UserAlreadyExistsException;
 import com.techelevator.model.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
