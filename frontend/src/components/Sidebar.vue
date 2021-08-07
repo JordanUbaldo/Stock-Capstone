@@ -11,6 +11,7 @@
         </div>
       </div>
       <div id="logged-in" v-else>
+        <h3>{{ $store.state.user.username }}</h3>
         <logout-btn />
         <create-game-btn />
         <game-list />
