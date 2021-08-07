@@ -47,7 +47,13 @@ export default {
     computed: {
       currentStockDetails() {
         return this.$store.state.currentStockDetails;
-      }
+      },
+
+    },
+    created() {
+      //consoleStockDetails() {
+        console.log(this.currentStockDetails);
+      //}
     }
 
 }

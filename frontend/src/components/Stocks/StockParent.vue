@@ -3,7 +3,7 @@
     <stock-list />
     <stock-search-form />
     <stock-details v-if="$store.state.currentStockDetails !== {}" />
-    <trade-form v-if="$store.state.currentStockDetails !== {}" v-bind:currentGameId="$store.state.currentGameId"/>
+    <trade-form v-if="$store.state.currentStockDetails !== {}" />
   </div>
 </template>
 

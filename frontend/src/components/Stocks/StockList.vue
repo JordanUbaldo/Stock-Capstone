@@ -20,7 +20,6 @@ export default {
     name: "stock-list",
     data() {
         return {
-            gameId: this.currentGameId,
             currentStockTicker: ""
         } 
     },
@@ -39,11 +38,10 @@ export default {
         }
     },
     async created() {
-        const rawStocksResponse = await stockService.getStocks(this.gameId, this.$store.state.token);
+        const rawStocksResponse = await stockService.getStocks(this.currentGameId, this.$store.state.token);
         this.$store.commit('SET_CURRENT_USER_STOCKS', rawStocksResponse.data);
         this.stocks = this.$store.state.currentUserStocks;
     }
-    
 }
 </script>
 

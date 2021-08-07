@@ -4,7 +4,7 @@
           <br>
           <div class="trade">
             <label for="tradeType">Buy/Sell: </label>
-            <select name="tradeType" id="tradeType" v-model="trade.tradeType">
+            <select name="tradeType" id="tradeType" v-model="tradeType">
                 <option value="Buy">Buy</option>
                 <option value="Sell">Sell</option>
             </select>
@@ -12,7 +12,7 @@
           <br>
           <div class="trade">
               <label for="numberOfShares">Number of Shares: </label>
-              <input type="text" id="numberOfShares" v-model="numShares" v-on:change="setTotalCost">
+              <input type="text" id="numberOfShares" v-model="numberOfShares" v-on:change="setTotalCost">
           </div>
           <br>
           <div class="trade">
@@ -32,19 +32,11 @@ import stockService from '@/services/StockService';
 
 export default {
     name: "trade-form",
-    props: ['currentGameId'],
+    props: ['gameId'],
     data() {
         return {
-            trade: {
-                gameId: parseInt(this.currentGameId),
-                stockTicker: "",
-                stockName: "",
-                tradeType: "",
-                numberOfShares: 0,
-                purchasePrice: 0,
-                amountOfMoney: 0
-            },
-            numShares: 0,
+            tradeType: "",
+            numberOfShares: 0,
             totalCost: 0,
             show: true
         }
@@ -52,29 +44,35 @@ export default {
     computed: {
         currentStock() {
             return this.$store.state.currentStockDetails;
+        },
+        currentGameId() {
+            return this.$store.state.currentGameId;
         }
     },
     methods: {
         setNumberOfShares() {
-            this.numShares = Math.floor(this.totalCost / this.pricePerShare);
-            this.trade.numberOfShares = parseInt(this.numShares);
-            this.totalCost = this.totalCost - (this.totalCost % this.pricePerShare);
-            this.trade.amountOfMoney = this.totalCost;
+            this.numberOfShares = Math.floor(this.totalCost / this.currentStock.latestPrice);
+            this.numberOfShares = parseInt(this.numberOfShares);
+            this.totalCost = this.totalCost - (this.totalCost % this.currentStock.latestPrice);
         },
         setTotalCost() {
-            this.trade.numberOfShares = parseInt(this.numShares);
-            this.totalCost = this.numShares * this.currentStock.latestPrice;
-            this.trade.amountOfMoney = this.totalCost;
+            this.totalCost = this.numberOfShares * this.currentStock.latestPrice;
         },
         async postTrade() {
-            this.trade.stockTicker = this.currentStock.symbol;
-            this.trade.stockName = this.currentStock.companyName;
-            this.trade.pricePerShare = this.currentStock.latestPrice;
-            await stockService.postTrade(this.trade, this.$store.state.token);
-            const stockList = await stockService.getStocks(this.trade.gameId, this.$store.state.token);
-            this.$store.commit('SET_CURRENT_USER_STOCKS', stockList.data);
+            const trade = {
+                gameId: this.currentGameId,
+                stockTicker: this.currentStock.symbol,
+                stockName: this.currentStock.companyName,
+                tradeType: this.tradeType,
+                numberOfShares: this.numberOfShares,
+                amountOfMoney: this.totalCost,
+                purchasePrice: this.currentStock.latestPrice
+            }
             
-            console.log(stockList);
+            await stockService.postTrade(trade, this.$store.state.token);
+
+            const stockList = await stockService.getStocks(this.currentGameId, this.$store.state.token);
+            this.$store.commit('SET_CURRENT_USER_STOCKS', stockList.data);
             this.$store.commit('CLEAR_CURRENT_STOCK_DETAILS');
         },
         cancel() {
