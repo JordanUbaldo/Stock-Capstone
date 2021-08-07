@@ -96,8 +96,10 @@ public class JdbcGameDao implements GameDao{
         // default status for invited players - "Pending"
         if (status.equals("Pending")) {
             sql = "INSERT INTO user_status (game_id, username, user_status) VALUES (?, ?, ?);";
+            String sqlToBalance = "INSERT INTO balances (game_id, username) VALUES (?, ?);";
             try {
                 jdbcTemplate.update(sql, gameId, username, status);
+                jdbcTemplate.update(sqlToBalance, gameId, username);
                 // if successful - turning result boolean to true
                 result = true;
             } catch (DataAccessException e) {
@@ -167,7 +169,6 @@ public class JdbcGameDao implements GameDao{
         List<Balance> leaders = new ArrayList<>();
 
         WebApiService price = new WebApiService();
-        List<Share> shares = new ArrayList<>();
          List<Player> users = new ArrayList<>();
 
         String sqlForUsersInGame = "SELECT username, game_id, user_status " +
@@ -184,6 +185,7 @@ public class JdbcGameDao implements GameDao{
         }
 
         for(Player player : users) {
+            List<Share> shares = new ArrayList<>();
             Balance playersTotalBalance = new Balance();
             BigDecimal cashBalance = new BigDecimal("0");
             BigDecimal stockBalance = new BigDecimal("0");
@@ -207,11 +209,11 @@ public class JdbcGameDao implements GameDao{
                     shares.add(share);
                 }
                 for(Share share : shares) {
-                    BigDecimal totalPrice = price.getPrice(share.getTickerName()).getPrice().multiply(share.get);
+                    BigDecimal totalPrice = price.getPrice(share.getTickerName()).getPrice().multiply(new BigDecimal(share.getNumber()));
                     stockBalance = stockBalance.add(totalPrice);
                 }
-//            } catch (NullPointerException e) {
-//                System.out.println("Returned null!" + e.getMessage());
+           } catch (NullPointerException e) {
+               System.out.println("Returned null!" + e.getMessage());
             } catch (RestClientException j) {
                 System.out.println("Access to api error! " + j.getMessage() );
             }
