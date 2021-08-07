@@ -2,10 +2,7 @@ package com.techelevator.controller;
 
 import com.techelevator.dao.GameDao;
 import com.techelevator.dao.UserDao;
-import com.techelevator.model.Balance;
-import com.techelevator.model.Game;
-import com.techelevator.model.Player;
-import com.techelevator.model.Trade;
+import com.techelevator.model.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -59,8 +56,15 @@ public class GameController {
     public List<Balance> getBalancesByGameId(@Valid @PathVariable int gameId) { return gameDao.getBalancesByGameId(gameId); }
 
     @RequestMapping(path = "/games/{gameId}/leaderboard", method = RequestMethod.GET)
-    public List<Trade> leaderboard(@Valid @PathVariable int gameId) {
+    public List<Balance> leaderboard(@Valid @PathVariable int gameId) {
+
         return gameDao.leaderboard(gameId);
     }
+
+//    @RequestMapping(path = "/games/{ticker}/price", method = RequestMethod.GET)
+//    public Share getPrice(@Valid @PathVariable String ticker) {
+//        WebApiService price = new WebApiService();
+//        return price.getPrice(ticker);
+//    }
 
 }
