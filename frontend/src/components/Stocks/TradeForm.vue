@@ -29,6 +29,7 @@
 
 <script>
 import stockService from '@/services/StockService';
+import userService from '@/services/UserService';
 
 export default {
     name: "trade-form",
@@ -77,6 +78,10 @@ export default {
 
             const stockList = await stockService.getStocks(this.currentGameId, this.$store.state.token);
             this.$store.commit('SET_CURRENT_USER_STOCKS', stockList.data);
+
+            const rawBalanceResponse = await userService.getBalancesForGame(this.currentGameId, this.$store.state.token);
+            this.$store.commit('SET_CURRENT_BALANCES', rawBalanceResponse.data);
+            
             this.$store.commit('CLEAR_CURRENT_STOCK_DETAILS');
             document.getElementById('tradeForm').reset();
             this.$store.commit('SET_SHOW_FORM_FALSE');

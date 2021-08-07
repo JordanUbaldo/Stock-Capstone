@@ -10,6 +10,7 @@
 <script>
 import gamesService from "@/services/GamesService.js";
 import stockService from "@/services/StockService";
+import userService from '../services/UserService';
 
 export default {
     name: "game-list",
@@ -35,9 +36,13 @@ export default {
                 this.$store.commit("SET_CURRENT_GAME_ID", gameId);
                 this.$store.commit("SET_CURRENT_GAME_NAME", gameName);
                 this.$router.push({ name: 'game', params: { gameId : gameId}});
+
                 const rawStocksResponse = await stockService.getStocks(gameId, this.$store.state.token);
-                
                 this.$store.commit('SET_CURRENT_USER_STOCKS', rawStocksResponse.data);
+
+                const rawBalanceResponse = await userService.getBalancesForGame(gameId, this.$store.state.token);
+                this.$store.commit('SET_CURRENT_BALANCES', rawBalanceResponse.data);
+                
                 this.$store.commit('CLEAR_CURRENT_STOCK_DETAILS');
             }
         }

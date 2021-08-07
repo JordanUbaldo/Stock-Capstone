@@ -28,6 +28,7 @@ export default new Vuex.Store({
     currentUserStocks: [],
     currentGameUsers: [],
     currentStockDetails: {},
+    currentBalances: [],
     registerFormState: false,
     loginFormState: true,
     showForm: false
@@ -91,6 +92,9 @@ export default new Vuex.Store({
     },
     CLEAR_CURRENT_STOCK_DETAILS(state) {
       state.currentStockDetails = {};
+    },
+    SET_CURRENT_BALANCES(state, data) {
+      state.currentBalances = data;
     },
     SET_SHOW_FORM_TRUE(state) {
       state.showForm = true;
