@@ -45,6 +45,7 @@ export default {
                 this.$store.commit('SET_CURRENT_BALANCES', rawBalanceResponse.data);
                 
                 this.$store.commit('CLEAR_CURRENT_STOCK_DETAILS');
+                this.$store.commit('SET_SHOW_FORM_FALSE');
             }
         }
     }

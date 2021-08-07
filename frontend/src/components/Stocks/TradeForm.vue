@@ -5,7 +5,7 @@
           <div class="trade">
             <label for="tradeType">Buy/Sell: </label>
             <select name="tradeType" id="tradeType" v-model="tradeType">
-                <option value="Buy">Buy</option>
+                <option value="Buy" >Buy</option>
                 <option value="Sell">Sell</option>
             </select>
           </div>
@@ -43,7 +43,7 @@ export default {
     props: ['gameId'],
     data() {
         return {
-            tradeType: "",
+            tradeType: "Buy",
             numberOfShares: 0,
             priceOfStocks: 0,
             show: true,
@@ -73,8 +73,8 @@ export default {
                 stockTicker: this.currentStock.symbol,
                 stockName: this.currentStock.companyName,
                 tradeType: this.tradeType,
-                numberOfShares: this.numberOfShares,
-                amountOfMoney: this.totalCost,
+                numberOfShares: parseInt(this.numberOfShares),
+                amountOfMoney: this.priceOfStocks,
                 purchasePrice: this.currentStock.latestPrice
             }
             // Handle different response codes
