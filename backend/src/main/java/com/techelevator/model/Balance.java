@@ -4,27 +4,23 @@ import java.math.BigDecimal;
 
 public class Balance {
 
-    private int balanceId;
+    private long balanceId;
     private int gameId;
-    private String userName;
+    private String username;
     private BigDecimal amount = new BigDecimal(100000);
 
-    public Balance() {
-
-    }
-
-
+    public Balance() { }
     //Constructor for putting into DB after received from FE
-    public Balance(int gameId, String userName) {
+    public Balance(int gameId, String username) {
         this.gameId = gameId;
-        this.userName = userName;
+        this.username = username;
     }
 
     //Constructor for pulling information from DB
-    public Balance(int balanceId, int gameId, String userName, BigDecimal amount) {
+    public Balance(long balanceId, int gameId, String username, BigDecimal amount) {
         this.balanceId = balanceId;
         this.gameId = gameId;
-        this.userName = userName;
+        this.username = username;
         this.amount = amount;
     }
 
@@ -47,12 +43,12 @@ public class Balance {
         this.gameId = gameId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public BigDecimal getAmount() {

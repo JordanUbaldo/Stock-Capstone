@@ -39,5 +39,11 @@ VALUES (1001, 1003, 'testuser1', 1, 'APPL', 'Apple', 99858.44, '2021-08-04', 146
        (1004, 1004, 'testuser3', 1, 'TSLA', 'Tesla', 99984.09, '2021-08-04', 719.31, 139),
        (1005, 1005, 'testuser3', 1, 'MSFT', 'Microsoft', 99851.50, '2021-08-04', 285.29, 350),
        (1006, 1006, 'testuser4', 1, 'GOOG', 'Google', 97808.04, '2021-08-04', 2716.89, 36);
-
---psql -U postgres -d $DATABASE -f "$BASEDIR/user.sql"
+       
+INSERT INTO stocks (stock_id, game_id, username, stock_ticker, stock_name, shares)
+VALUES (1001, 1003, 'testuser1', 'APPL', 'Apple', 682),
+       (1002, 1003, 'testuser2', 'AMZN', 'Amazon', 29),
+       (1003, 1004, 'testuser1', 'APPL', 'Apple', 682),
+       (1004, 1004, 'testuser3', 'TSLA', 'Tesla', 139),
+       (1005, 1005, 'testuser3', 'MSFT', 'Microsoft', 350),
+       (1006, 1006, 'testuser4', 'GOOG', 'Google', 36);
