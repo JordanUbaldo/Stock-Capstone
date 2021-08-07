@@ -156,7 +156,7 @@ public class JdbcTradeDao implements TradeDao {
         Balance result = new Balance();
         result.setBalanceId(rowSet.getInt("balance_id"));
         result.setGameId(rowSet.getInt("game_id"));
-        result.setUserName(rowSet.getString("username"));
+        result.setUsername(rowSet.getString("username"));
         result.setAmount(rowSet.getBigDecimal("amount"));
         return result;
     }

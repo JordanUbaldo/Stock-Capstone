@@ -68,8 +68,12 @@ export default {
                 amountOfMoney: this.totalCost,
                 purchasePrice: this.currentStock.latestPrice
             }
-            
-            await stockService.postTrade(trade, this.$store.state.token);
+            // Handle different response codes
+            try {
+                await stockService.postTrade(trade, this.$store.state.token);
+            } catch (error) {
+                alert(`Error: ${error.response.data.status}\n${error.response.data.message}`);
+            }
 
             const stockList = await stockService.getStocks(this.currentGameId, this.$store.state.token);
             this.$store.commit('SET_CURRENT_USER_STOCKS', stockList.data);
