@@ -1,8 +1,14 @@
 <template>
   <div>
       <div id="logged-out" v-if="!$store.state.token">
+        <button v-show="!$store.state.loginFormState" @click="loginBtn" >Login</button>
+        <button v-show="!$store.state.registerFormState" @click="registerBtn" >Register</button>
+        <div v-show="$store.state.loginFormState">
         <login />
+        </div>
+        <div v-show="$store.state.registerFormState">
         <register />
+        </div>
       </div>
       <div id="logged-in" v-else>
         <logout-btn />
@@ -34,6 +40,20 @@ export default {
         Register,
         CreateGameBtn,
         LogoutBtn
+    },
+    methods: {
+      loginBtn(){
+        if(this.$route.path != '/'){
+        this.$router.push("/");
+        }
+        this.$store.commit("LOGIN_BTN");
+      },
+      registerBtn(){
+        if(this.$route.path != '/'){
+        this.$router.push("/");
+        }
+        this.$store.commit("REGISTER_BTN");
+      }
     }
 };
 </script>

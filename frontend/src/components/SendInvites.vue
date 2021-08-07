@@ -1,41 +1,46 @@
-<!-- NOTE COMPLETED NEED TO FIGURE OUT HOW TO RETRIEVE DATA-->
 <template>
     <div>
-        <!--{{users}}-->
         <ul>
-            <!-- <li v-for="user in users" v-bind:key="user.username">
-            {{user.username}} -->
-            <button>Invite</button>
-            <!-- </li> -->
+            <li v-for="user in users" v-bind:key="user.username">
+            {{user.username}}
+            <button @click="invitePlayer(user.username)">Invite</button>
+            </li>
         </ul>
     </div>
 </template>
 
 <script>
-//import userService from "@/services/UserService.js";
+import gameService from '@/services/GamesService';
 
 export default {
     data() {
         return {
-            invite: {
-
-            }
+            currentElement: ""
         };
 
     },
     computed: {
-/*        users() {
+        users() {
+            let allUsers = this.$store.state.allUsers;
+            let currentGameUsers = this.$store.state.currentGameUsers;
 
-            let usersInGame = await userService.getUsersForGame(this.$store.state.currentGameId);
-            const uninvited = this.$store.state.allUsers.filter(async user => {
-                console.log(this.$store.state.currentGameId);
-                return !usersInGame.includes(user);
+            return allUsers.filter(user => {
+                return !currentGameUsers.map(u => u.username).includes(user.username);
             })
-            return uninvited;
         }
-*/
-    }
-
+    },
+    methods: {
+        invitePlayer(user){
+            const invite= { status: "Pending", username: user}
+            gameService.gameInvite(this.$store.state.currentGameId, invite, this.$store.state.token)
+            .then(response => {
+                if (response.status === 201){
+                    alert("Invite Sent")
+                     this.$store.commit("ADD_USER_TO_GAME", {status: "Pending", username: user, gameId: this.$store.currentGameId});
+                }
+            })
+        }
+    },
 }
 </script>
 

@@ -26,13 +26,13 @@ public class JdbcGameDaoTests extends FinalCapstoneDaoTests{
         sut = new JdbcGameDao(jdbcTemplate);
     }
 
-    @Test
-    public void find_all_games_by_username() {
-        List<Game> expected = new ArrayList<>();
-        expected.add(GAME_1);
-        expected.add(GAME_2);
-        Assert.assertEquals(expected.size(), sut.viewGames("final_capstone_appuser").size());
-    }
+//    @Test
+//    public void find_all_games_by_username() {
+//        List<Game> expected = new ArrayList<>();
+//        expected.add(GAME_1);
+//        expected.add(GAME_2);
+//        Assert.assertEquals(expected.size(), sut.viewGames("final_capstone_appuser").size());
+//    }
 
     @Test
     public void find_all_users_by_gameId() {

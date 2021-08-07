@@ -32,7 +32,6 @@
         v-model="user.confirmPassword"
         required
       />
-      <!--router-link :to="{ name: 'login' }">Have an account?</router-link-->
       <button class="btn btn-lg btn-primary btn-block" type="submit">
         Create Account
       </button>
@@ -67,10 +66,9 @@ export default {
           .register(this.user)
           .then((response) => {
             if (response.status == 201) {
-              this.$router.push({
-                path: '/login',
-                query: { registration: 'success' },
-              });
+              alert("Registration Success! Please Login")
+              this.user = {role:'user'};
+              this.$store.commit("LOGIN_BTN");
             }
           })
           .catch((error) => {

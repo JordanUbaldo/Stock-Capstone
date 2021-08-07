@@ -11,7 +11,7 @@ const httpInternal = axios.create({
 
 export default {
 
-    getStock(ticker) {
+    getStockExternal(ticker) {
         return httpExternal.get(`/${ticker}${key}`);
     },
     postTrade(trade, token) {

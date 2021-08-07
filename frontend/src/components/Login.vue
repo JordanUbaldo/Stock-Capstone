@@ -31,7 +31,6 @@
         v-model="user.password"
         required
       />
-      <router-link :to="{ name: 'register' }">Need an account?</router-link>
       <button type="submit">Sign in</button>
     </form>
   </div>
@@ -40,7 +39,7 @@
 <script>
 import authService from "../services/AuthService";
 import gamesService from "../services/GamesService";
-import userService from "@/services/UserService.js";
+import userService from "../services/UserService";
 
 export default {
   name: "login",
@@ -55,7 +54,10 @@ export default {
     };
   },
   methods: {
-    async login() {
+    login() {
+      if(this.$route.path != '/'){
+      this.$router.push("/");
+      }
       authService
         .login(this.user)
         .then(response => {
@@ -63,11 +65,27 @@ export default {
             this.$store.commit("SET_AUTH_TOKEN", response.data.token);
             this.$store.commit("SET_USER", response.data.user);
 
+        userService
+          .getUsers(this.$store.state.token)
+          .then(response => {
+            if(response.status === 200) {
+              this.$store.commit("SET_ALL_USERS", response.data);
+            }
+          })
+
         gamesService
-            .getGames(this.$store.state.token)
+            .getGames(this.$store.state.token, "Accepted")
             .then(response => {
                 if(response.status === 200) {
-                    this.$store.commit("SET_GAMES", response.data);
+                    this.$store.commit("SET_ACCEPTED_GAMES", response.data);
+                }
+            })
+
+        gamesService
+            .getGames(this.$store.state.token, "Pending")
+            .then(response => {
+                if(response.status === 200) {
+                    this.$store.commit("SET_INVITES", response.data);
                 }
             })
           }
@@ -80,14 +98,6 @@ export default {
           }
         });
 
-        if (this.$store.state.allUsers.length === 0) {
-          let allUsers = (await userService.getUsers(this.$store.state.token)).data.map(element => {
-              return element.username;
-          });
-            
-          this.$store.commit('SET_ALL_USERS', allUsers);
-          console.log(this.$store.state.allUsers);
-        }
     }
   }
 };

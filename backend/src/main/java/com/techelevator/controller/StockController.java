@@ -2,6 +2,9 @@ package com.techelevator.controller;
 
 import com.techelevator.dao.GameDao;
 import com.techelevator.dao.TradeDao;
+import com.techelevator.exception.InsufficientFundsException;
+import com.techelevator.exception.InsufficientSharesException;
+import com.techelevator.exception.NonExistentStockException;
 import com.techelevator.model.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -38,7 +41,7 @@ public class StockController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/games/trades", method = RequestMethod.POST)
-    public void tradeStocks(@RequestBody TradeRequest trade, Principal principal){
+    public void tradeStocks(@RequestBody TradeRequest trade, Principal principal) throws InsufficientFundsException, InsufficientSharesException, NonExistentStockException {
         tradeDao.tradeStocks(trade, principal);
     }
 
