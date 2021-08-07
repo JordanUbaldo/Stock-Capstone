@@ -35,6 +35,7 @@ export default {
         async getStockDetails(stockTicker) {
             const stockInfo = (await stockService.getStockExternal(stockTicker)).data;
             this.$store.commit("SET_CURRENT_STOCK_DETAILS", stockInfo);
+            this.$store.commit("SET_SHOW_FORM_TRUE");
         }
     },
     async created() {

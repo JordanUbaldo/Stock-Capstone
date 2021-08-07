@@ -2,8 +2,8 @@
   <div>
     <stock-list />
     <stock-search-form />
-    <stock-details v-if="$store.state.currentStockDetails !== {}" />
-    <trade-form v-if="$store.state.currentStockDetails !== {}" />
+    <stock-details v-if="$store.state.showForm" />
+    <trade-form v-if="$store.state.showForm" />
   </div>
 </template>
 

@@ -75,9 +75,11 @@ export default {
             this.$store.commit('SET_CURRENT_USER_STOCKS', stockList.data);
             this.$store.commit('CLEAR_CURRENT_STOCK_DETAILS');
             document.getElementById('tradeForm').reset();
+            this.$store.commit('SET_SHOW_FORM_FALSE');
         },
         cancel() {
             this.$store.commit('CLEAR_CURRENT_STOCK_DETAILS');
+            this.$store.commit('SET_SHOW_FORM_FALSE');
         }
     }
     
