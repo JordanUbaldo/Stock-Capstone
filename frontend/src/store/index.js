@@ -30,6 +30,7 @@ export default new Vuex.Store({
     currentStockDetails: {},
     registerFormState: false,
     loginFormState: true,
+    showForm: false
   },
   mutations: {
     SET_AUTH_TOKEN(state, token) {
@@ -90,7 +91,13 @@ export default new Vuex.Store({
     },
     CLEAR_CURRENT_STOCK_DETAILS(state) {
       state.currentStockDetails = {};
-    } 
+    },
+    SET_SHOW_FORM_TRUE(state) {
+      state.showForm = true;
+    },
+    SET_SHOW_FORM_FALSE(state) {
+      state.showForm = false;
+    }
     // ACCEPT_GAME(state,) {
 
     // },
