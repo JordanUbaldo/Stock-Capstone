@@ -83,14 +83,12 @@ export default new Vuex.Store({
     },
     SET_ALL_USERS(state, data) {
       state.allUsers = data;
-      console.log(data)
       let storage = [];
       data.forEach(element => {
         let e = JSON.stringify(element);
         storage.push(e);
       });
       localStorage.setItem('allUsers',JSON.stringify(storage))
-      console.log(localStorage.allUsers)
     },
     LOGOUT(state) {
       localStorage.removeItem('token');
