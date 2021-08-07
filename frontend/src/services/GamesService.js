@@ -7,9 +7,11 @@ const http = axios.create({
 export default {
 
     getGames(token) {
+        console.log(token);
         return http.get('/games',{headers: {'Authorization': `Bearer ${token}`}});
     },
     createGame(game,token){
+        console.log(token);
         return http.post('/games',
         game,{headers: {'Authorization': `Bearer ${token}`}});
     },

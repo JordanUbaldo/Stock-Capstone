@@ -34,7 +34,7 @@ export default {
     },
     methods: {
         viewGames() {
-            gamesService.getGames().then(response => {
+            gamesService.getGames(this.$store.state.token).then(response => {
                 this.gameList = response;
             })
         }
