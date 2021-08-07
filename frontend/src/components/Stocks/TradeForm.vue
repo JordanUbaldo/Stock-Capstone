@@ -24,6 +24,7 @@
           <button type="submit">Submit Trade</button>
           <button type="reset" v-on:click="cancel">Cancel</button>
           <p>*Markets move fast; the price you see may not be the price the trade is executed at.</p>
+          <p>All trades include a $19.95 commission.</p>
       </form>
   </div>
 </template>
