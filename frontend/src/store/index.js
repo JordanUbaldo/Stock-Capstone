@@ -47,6 +47,14 @@ JSON.parse(localStorage.getItem('currentGameUsers')).forEach(user => {
 });
 }
 
+let balances = []
+if (localStorage.getItem('currentBalances') != null) {
+JSON.parse(localStorage.getItem('currentBalances')).forEach(balance => {
+  currentInvites.push(JSON.parse(balance))
+});
+}
+
+const stockDetails = JSON.parse(localStorage.getItem('currentStockDetails'))
 const gameName = localStorage.getItem('gameName');
 const gameId = localStorage.getItem('gameId');
 
@@ -65,8 +73,8 @@ export default new Vuex.Store({
     allUsers: currentAllUsers || [],
     currentUserStocks: userStocks || [],
     currentGameUsers: gameUsers || [],
-    currentStockDetails: {},
-    currentBalances: [],
+    currentStockDetails: stockDetails || {},
+    currentBalances: balances || [],
     registerFormState: false,
     loginFormState: true,
     showForm: false
@@ -159,12 +167,19 @@ export default new Vuex.Store({
     },
     SET_CURRENT_STOCK_DETAILS(state, data) {
       state.currentStockDetails = data;
+      localStorage.setItem('currentStockDetails',JSON.stringify(data));
     },
     CLEAR_CURRENT_STOCK_DETAILS(state) {
       state.currentStockDetails = {};
     },
     SET_CURRENT_BALANCES(state, data) {
       state.currentBalances = data;
+      let storage = [];
+      data.forEach(element => {
+        let e = JSON.stringify(element);
+        storage.push(e);
+      });
+      localStorage.setItem('currentBalances',JSON.stringify(storage))
     },
     SET_SHOW_FORM_TRUE(state) {
       state.showForm = true;

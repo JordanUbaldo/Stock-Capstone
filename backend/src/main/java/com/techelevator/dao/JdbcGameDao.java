@@ -207,11 +207,11 @@ public class JdbcGameDao implements GameDao{
                     shares.add(share);
                 }
                 for(Share share : shares) {
-                    BigDecimal totalPrice = price.getPrice(share.getTickerName()).getPrice().multiply(share.getPrice());
+                    BigDecimal totalPrice = price.getPrice(share.getTickerName()).getPrice().multiply(share.get);
                     stockBalance = stockBalance.add(totalPrice);
                 }
-            } catch (NullPointerException e) {
-                System.out.println("Returned null!" + e.getMessage());
+//            } catch (NullPointerException e) {
+//                System.out.println("Returned null!" + e.getMessage());
             } catch (RestClientException j) {
                 System.out.println("Access to api error! " + j.getMessage() );
             }
