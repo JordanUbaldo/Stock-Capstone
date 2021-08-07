@@ -1,6 +1,6 @@
 <template>
   <div id="content">
-      <form v-on:submit.prevent="postTrade">
+      <form v-on:submit.prevent="postTrade" id="tradeForm">
           <br>
           <div class="trade">
             <label for="tradeType">Buy/Sell: </label>
@@ -74,9 +74,11 @@ export default {
             const stockList = await stockService.getStocks(this.currentGameId, this.$store.state.token);
             this.$store.commit('SET_CURRENT_USER_STOCKS', stockList.data);
             this.$store.commit('CLEAR_CURRENT_STOCK_DETAILS');
+            document.getElementById('tradeForm').reset();
         },
         cancel() {
             this.$store.commit('CLEAR_CURRENT_STOCK_DETAILS');
+            document.getElementById('tradeForm').reset();
         }
     }
     
