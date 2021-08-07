@@ -20,8 +20,13 @@ public class WebApiService {
             result = restTemplate.getForObject(BASE_URL, String.class, ticker);
             if(result.contains(",")) {
                 String[] object = result.split(",");
-                String priceFromObject = object[17].split(":")[1];
-                BigDecimal latestPrice = new BigDecimal(priceFromObject);
+                String priceFromObject;
+                BigDecimal latestPrice = new BigDecimal("0");
+                for(String item: object) {
+                    if(item.contains("latestPrice")){
+                        latestPrice = new BigDecimal(item.split(":")[1]);
+                    }
+                }
                 share.setTickerName(ticker);
                 share.setPrice(latestPrice);
             }
