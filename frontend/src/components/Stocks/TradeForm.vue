@@ -16,8 +16,13 @@
           </div>
           <br>
           <div class="trade">
-              <label for="totalCost">Total Cost: </label>
+              <label for="totalCost">Cost of Stocks: </label>
               <input type="text" id="totalCost" v-model="totalCost" v-on:change="setNumberOfShares">
+          </div>
+          <div class="trade" v-show="this.totalCost !== 0">
+              <p>
+                  Total Cost: {{ this.commission + this.totalCost }}
+              </p>
           </div>
           <br>
           <br>
@@ -41,7 +46,8 @@ export default {
             tradeType: "",
             numberOfShares: 0,
             totalCost: 0,
-            show: true
+            show: true,
+            commission: 19.95
         }
     },
     computed: {

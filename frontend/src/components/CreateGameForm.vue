@@ -60,9 +60,9 @@ export default {
                     gamesService
                     .getGames(this.$store.state.token, "Accepted")
                     .then(response => {
-                    if(response.status === 200) {
-                    this.$store.commit("SET_ACCEPTED_GAMES", response.data);
-                    }
+                        if(response.status === 200) {
+                            this.$store.commit("SET_ACCEPTED_GAMES", response.data);
+                        }
                     })
                 } else if(response.data === 0) {
                     alert("Failed to Create Game");
