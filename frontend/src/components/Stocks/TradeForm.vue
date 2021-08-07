@@ -16,12 +16,12 @@
           </div>
           <br>
           <div class="trade">
-              <label for="totalCost">Cost of Stocks: </label>
-              <input type="text" id="totalCost" v-model="totalCost" v-on:change="setNumberOfShares">
+              <label for="priceOfStocks">Cost of Stocks: </label>
+              <input type="text" id="priceOfStocks" v-model="priceOfStocks" v-on:change="setNumberOfShares">
           </div>
-          <div class="trade" v-show="this.totalCost !== 0">
+          <div class="trade" v-show="priceOfStocks !== 0">
               <p>
-                  Total Cost: {{ this.commission + this.totalCost }}
+                  Total Cost: {{ commission + priceOfStocks }}
               </p>
           </div>
           <br>
@@ -45,7 +45,7 @@ export default {
         return {
             tradeType: "",
             numberOfShares: 0,
-            totalCost: 0,
+            priceOfStocks: 0,
             show: true,
             commission: 19.95
         }
@@ -60,12 +60,12 @@ export default {
     },
     methods: {
         setNumberOfShares() {
-            this.numberOfShares = Math.floor(this.totalCost / this.currentStock.latestPrice);
+            this.numberOfShares = Math.floor(this.priceOfStocks / this.currentStock.latestPrice);
             this.numberOfShares = parseInt(this.numberOfShares);
-            this.totalCost = this.totalCost - (this.totalCost % this.currentStock.latestPrice);
+            this.priceOfStocks = this.priceOfStocks - (this.priceOfStocks % this.currentStock.latestPrice);
         },
         setTotalCost() {
-            this.totalCost = this.numberOfShares * this.currentStock.latestPrice;
+            this.priceOfStocks = this.numberOfShares * this.currentStock.latestPrice;
         },
         async postTrade() {
             const trade = {
