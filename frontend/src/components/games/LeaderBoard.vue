@@ -1,7 +1,17 @@
 <template>
   <div>
     <h2>Leaderboard</h2>
-    <p>{{ leaderboard }}</p>
+    <div>
+      <p>You:</p>
+      <p>{{  userIndex+1 }}  {{ userDisplay.username }}  ${{ userDisplay.amount }}</p>
+      <p></p>
+      <p></p>
+    </div>
+    <p>---------------------------</p>
+    <div v-bind:key="user.username" v-for="user in fullLeaderboard">
+    <p>{{ fullLeaderboard.indexOf(user)+1 }}  {{ user.username }}  ${{ user.amount }}</p>
+    <p></p>
+    </div>
   </div> 
 </template>
 
@@ -11,16 +21,22 @@ export default {
     name: "leader-board",
     data() {
       return {
-        leaderboard: {}
+        fullLeaderboard: [],
+        leaderboardTop10: [],
+        userIndex: 0,
+        userDisplay: {}
       }
     },
     async created() {
       let response = await gamesService.getLeaderboard(this.$store.state.currentGameId, this.$store.state.token);
-      this.leaderboard = response.data;
+      this.fullLeaderboard = response.data.sort((a,b) => b.amount - a.amount)
+      this.userIndex = this.fullLeaderboard.findIndex(user => user.username === this.$store.state.user.username);
+      this.userDisplay = this.fullLeaderboard[this.userIndex];
     }
 }
 </script>
 
 <style>
+
 
 </style>
