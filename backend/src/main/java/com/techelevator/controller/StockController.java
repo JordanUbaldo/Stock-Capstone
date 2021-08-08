@@ -46,7 +46,7 @@ public class StockController {
     }
 
     @RequestMapping(value = "/games/{gameId}/end", method = RequestMethod.GET)
-    public String getWinUserByGameId(@PathVariable int gameId, Principal principal){
+    public String getWinUserByGameId(@PathVariable int gameId){
 
         List<Stock> stockList =  tradeDao.getListOfStocks(gameId);
         for (int i = 0; i < stockList.size(); i++) {
@@ -61,8 +61,8 @@ public class StockController {
 
     private BigDecimal getLatestPrice(String stockTicker) {
         RestTemplate restTemplate = new RestTemplate();
-        LinkedHashMap stockMap = (LinkedHashMap) restTemplate.getForObject("https://sandbox.iexapis.com/stable/stock/"+stockTicker+"/quote?token=Tpk_f2f602e084b44aa5a811ffd1445bc357", Object.class);
-        BigDecimal price = new BigDecimal(stockMap.get("latestPrice").toString());
+        IexStockResponse iexStock = restTemplate.getForObject("https://sandbox.iexapis.com/stable/stock/"+stockTicker+"/quote?token=Tpk_f2f602e084b44aa5a811ffd1445bc357", IexStockResponse.class);
+        BigDecimal price = new BigDecimal(iexStock.getLatestPrice());
         return price;
     }
 
