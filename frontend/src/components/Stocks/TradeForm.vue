@@ -5,7 +5,7 @@
           <div class="trade">
             <label for="tradeType">Buy/Sell: </label>
             <select name="tradeType" id="tradeType" v-model="tradeType">
-                <option value="Buy">Buy</option>
+                <option value="Buy" >Buy</option>
                 <option value="Sell">Sell</option>
             </select>
           </div>
@@ -16,29 +16,38 @@
           </div>
           <br>
           <div class="trade">
-              <label for="totalCost">Total Cost: </label>
-              <input type="text" id="totalCost" v-model="totalCost" v-on:change="setNumberOfShares">
+              <label for="priceOfStocks">Cost of Stocks: </label>
+              <input type="text" id="priceOfStocks" v-model="priceOfStocks" v-on:change="setNumberOfShares">
+          </div>
+          <div class="trade" v-show="priceOfStocks !== 0">
+              <p>
+                  Total Cost: {{ commission + priceOfStocks }}
+              </p>
           </div>
           <br>
           <br>
           <button type="submit">Submit Trade</button>
           <button type="reset" v-on:click="cancel">Cancel</button>
+          <p>*Markets move fast; the price you see may not be the price the trade is executed at.</p>
+          <p>All trades include a $19.95 commission.</p>
       </form>
   </div>
 </template>
 
 <script>
 import stockService from '@/services/StockService';
+import userService from '@/services/UserService';
 
 export default {
     name: "trade-form",
     props: ['gameId'],
     data() {
         return {
-            tradeType: "",
+            tradeType: "Buy",
             numberOfShares: 0,
-            totalCost: 0,
-            show: true
+            priceOfStocks: 0,
+            show: true,
+            commission: 19.95
         }
     },
     computed: {
@@ -51,12 +60,12 @@ export default {
     },
     methods: {
         setNumberOfShares() {
-            this.numberOfShares = Math.floor(this.totalCost / this.currentStock.latestPrice);
+            this.numberOfShares = Math.floor(this.priceOfStocks / this.currentStock.latestPrice);
             this.numberOfShares = parseInt(this.numberOfShares);
-            this.totalCost = this.totalCost - (this.totalCost % this.currentStock.latestPrice);
+            this.priceOfStocks = this.priceOfStocks - (this.priceOfStocks % this.currentStock.latestPrice);
         },
         setTotalCost() {
-            this.totalCost = this.numberOfShares * this.currentStock.latestPrice;
+            this.priceOfStocks = this.numberOfShares * this.currentStock.latestPrice;
         },
         async postTrade() {
             const trade = {
@@ -64,8 +73,8 @@ export default {
                 stockTicker: this.currentStock.symbol,
                 stockName: this.currentStock.companyName,
                 tradeType: this.tradeType,
-                numberOfShares: this.numberOfShares,
-                amountOfMoney: this.totalCost,
+                numberOfShares: parseInt(this.numberOfShares),
+                amountOfMoney: this.priceOfStocks,
                 purchasePrice: this.currentStock.latestPrice
             }
             // Handle different response codes
@@ -77,6 +86,10 @@ export default {
 
             const stockList = await stockService.getStocks(this.currentGameId, this.$store.state.token);
             this.$store.commit('SET_CURRENT_USER_STOCKS', stockList.data);
+
+            const rawBalanceResponse = await userService.getBalancesForGame(this.currentGameId, this.$store.state.token);
+            this.$store.commit('SET_CURRENT_BALANCES', rawBalanceResponse.data);
+            
             this.$store.commit('CLEAR_CURRENT_STOCK_DETAILS');
             document.getElementById('tradeForm').reset();
             this.$store.commit('SET_SHOW_FORM_FALSE');

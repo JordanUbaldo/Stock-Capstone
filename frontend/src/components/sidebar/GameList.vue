@@ -2,7 +2,7 @@
 <div>
     <h3>Game List</h3>
   <ul>
-     <li v-for="game in games" v-bind:key="game.gameId" @click="routeToGame(game.gameId, game.gameName, game.endDate)">{{ game.gameName }}<img class="hostImage" v-show="game.host == $store.state.user.username" src="../assets/Crown.png" alt="Host Image"></li>
+     <li v-for="game in games" v-bind:key="game.gameId" @click="routeToGame(game.gameId, game.gameName, game.endDate)">{{ game.gameName }}<img class="hostImage" v-show="game.host == $store.state.user.username" src="@/assets/Crown.png" alt="Host Image"></li>
   </ul>
   </div>
 </template>
@@ -10,7 +10,7 @@
 <script>
 import gamesService from "@/services/GamesService.js";
 import stockService from "@/services/StockService";
-import userService from '../services/UserService';
+import userService from '@/services/UserService';
 
 export default {
     name: "game-list",

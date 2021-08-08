@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import gamesService from '../services/GamesService'
+import gamesService from '@/services/GamesService'
 export default {
     name: "leader-board",
     data() {

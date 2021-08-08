@@ -12,6 +12,44 @@ Vue.use(Vuex)
 const currentToken = localStorage.getItem('token')
 const currentUser = JSON.parse(localStorage.getItem('user'));
 
+let currentAcceptedGames = []
+if (localStorage.getItem('acceptedGames') != null) {
+JSON.parse(localStorage.getItem('acceptedGames')).forEach(game => {
+  currentAcceptedGames.push(JSON.parse(game))
+});
+}
+
+let currentAllUsers = []
+if (localStorage.getItem('allUsers') != null) {
+JSON.parse(localStorage.getItem('allUsers')).forEach(user => {
+  currentAllUsers.push(JSON.parse(user))
+});
+}
+
+let currentInvites = []
+if (localStorage.getItem('invites') != null) {
+JSON.parse(localStorage.getItem('invites')).forEach(invite => {
+  currentInvites.push(JSON.parse(invite))
+});
+}
+
+let userStocks = []
+if (localStorage.getItem('currentUserStocks') != null) {
+JSON.parse(localStorage.getItem('currentUserStocks')).forEach(stock => {
+  currentInvites.push(JSON.parse(stock))
+});
+}
+
+let gameUsers = []
+if (localStorage.getItem('currentGameUsers') != null) {
+JSON.parse(localStorage.getItem('currentGameUsers')).forEach(user => {
+  currentInvites.push(JSON.parse(user))
+});
+}
+
+const gameName = localStorage.getItem('gameName');
+const gameId = localStorage.getItem('gameId');
+
 if(currentToken != null) {
   axios.defaults.headers.common['Authorization'] = `Bearer ${currentToken}`;
 }
@@ -19,15 +57,17 @@ if(currentToken != null) {
 export default new Vuex.Store({
   state: {
     token: currentToken || '',
-    user: currentUser || {},  
-    acceptedGames: [],
-    invites: [],
-    currentGameId: 0,
-    currentGameName: '',
-    allUsers: [],
-    currentUserStocks: [],
-    currentGameUsers: [],
+    user: currentUser || {},
+    currentGameEndDate: '',
     currentStockDetails: {},
+    currentBalances: [],
+    acceptedGames: currentAcceptedGames || [],
+    invites: currentInvites || [],
+    currentGameId: gameId || 0,
+    currentGameName: gameName || '',
+    allUsers: currentAllUsers || [],
+    currentUserStocks: userStocks || [],
+    currentGameUsers: gameUsers || [],
     registerFormState: false,
     loginFormState: true,
     showForm: false
@@ -44,6 +84,14 @@ export default new Vuex.Store({
     },
     SET_ALL_USERS(state, data) {
       state.allUsers = data;
+      console.log(data)
+      let storage = [];
+      data.forEach(element => {
+        let e = JSON.stringify(element);
+        storage.push(e);
+      });
+      localStorage.setItem('allUsers',JSON.stringify(storage))
+      console.log(localStorage.allUsers)
     },
     LOGOUT(state) {
       localStorage.removeItem('token');
@@ -51,6 +99,7 @@ export default new Vuex.Store({
       state.token = '';
       state.user = {};
       axios.defaults.headers.common = {};
+      localStorage.clear
     },
     REGISTER_BTN(state) {
       state.registerFormState = !state.registerFormState;
@@ -62,26 +111,54 @@ export default new Vuex.Store({
     },
     SET_ACCEPTED_GAMES(state, data) {
       state.acceptedGames = data;
+      let storage = [];
+      data.forEach(element => {
+        let e = JSON.stringify(element);
+        storage.push(e);
+      });
+      localStorage.setItem('acceptedGames',JSON.stringify(storage))
     },
 
     SET_INVITES(state, data) {
       state.invites = data;
+      let storage = [];
+      data.forEach(element => {
+        let e = JSON.stringify(element);
+        storage.push(e);
+      });
+      localStorage.setItem('invites',JSON.stringify(storage))
     },
     SET_CURRENT_GAME_ID(state, data) {
       state.currentGameId = data;
+      localStorage.setItem('gameId', data);
     },
     SET_CURRENT_GAME_NAME(state, data) {
-      localStorage.setItem('currentGameName', data);
       state.currentGameName = data;
+      localStorage.setItem('gameName', data);
+    },
+    SET_CURRENT_GAME_END_DATE(state, data) {
+      state.currentGameEndDate = data;
     },
     SET_CURRENT_USER_STOCKS(state, data) {
       state.currentUserStocks = data;
+      let storage = [];
+      data.forEach(element => {
+        let e = JSON.stringify(element);
+        storage.push(e);
+      });
+      localStorage.setItem('currentUserStocks',JSON.stringify(storage))
     },
     ADD_STOCK_TO_CURRENT_USER_STOCKS(state, data) {
       state.currentUserStocks.push(data);
     },
     SET_CURRENT_GAME_USERS(state, data) {
       state.currentGameUsers = data;
+      let storage = [];
+      data.forEach(element => {
+        let e = JSON.stringify(element);
+        storage.push(e);
+      });
+      localStorage.setItem('currentGameUsers',JSON.stringify(storage))
     },
     ADD_USER_TO_GAME(state, data) {
       state.currentGameUsers.push(data);
@@ -91,6 +168,9 @@ export default new Vuex.Store({
     },
     CLEAR_CURRENT_STOCK_DETAILS(state) {
       state.currentStockDetails = {};
+    },
+    SET_CURRENT_BALANCES(state, data) {
+      state.currentBalances = data;
     },
     SET_SHOW_FORM_TRUE(state) {
       state.showForm = true;

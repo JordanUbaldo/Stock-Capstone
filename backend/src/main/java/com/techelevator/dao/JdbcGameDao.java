@@ -1,14 +1,14 @@
 package com.techelevator.dao;
 
-import com.techelevator.model.Balance;
-import com.techelevator.model.Game;
-import com.techelevator.model.Player;
-import com.techelevator.model.Trade;
+import com.techelevator.model.*;
+import com.techelevator.services.WebApiService;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientException;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +39,6 @@ public class JdbcGameDao implements GameDao{
                 newGameId = jdbcTemplate.queryForObject(games, Integer.class, game.getGameName(), game.getHost(), LocalDate.parse(game.getEndDate()));
                 jdbcTemplate.update(userStatus, newGameId, game.getHost(), status);
                 jdbcTemplate.update(balances, newGameId, game.getHost());
-            } catch (NullPointerException j) {
-                System.out.println("Null data caught! " + j.getMessage());
             } catch (DataAccessException e) {
                 System.out.println("Error accessing data " + e.getMessage());
             }
@@ -66,9 +64,10 @@ public class JdbcGameDao implements GameDao{
                 // adding each game object to the list
                 games.add(game);
             }
-        } catch (NullPointerException e) {
-            System.out.println("Error occurred! " + e.getMessage());
+        } catch (DataAccessException e) {
+            System.out.println(e);
         }
+
         return games;
     }
 
@@ -82,9 +81,10 @@ public class JdbcGameDao implements GameDao{
                 Player player = mapRowToPlayer(results);
                 users.add(player);
             }
-        } catch (NullPointerException e) {
-            System.out.println("Error occurred! " + e.getMessage());
+        } catch (DataAccessException e) {
+            System.out.println(e);
         }
+
         return users;
     }
 
@@ -139,9 +139,10 @@ public class JdbcGameDao implements GameDao{
                 // if there is a game with that name - turning our boolean to false meaning this name is not available
                 result = false;
             }
-        } catch (NullPointerException e) {
-            System.out.println("Error occurred! " + e.getMessage());
+        } catch (DataAccessException e) {
+            System.out.println(e);
         }
+
         return result;
     }
     @Override
@@ -154,8 +155,6 @@ public class JdbcGameDao implements GameDao{
                 Balance balance = mapRowToBalance(results);
                 balances.add(balance);
             }
-        } catch (NullPointerException e) {
-            System.out.println("Error occurred! " + e.getMessage());
         } catch (DataAccessException j) {
             System.out.println("Data Access error! " + j.getMessage());
         }
@@ -163,24 +162,69 @@ public class JdbcGameDao implements GameDao{
     }
 
     @Override
-    public List<Trade> leaderboard(int gameId) {
-        List<Trade> leaders = new ArrayList<>();
+    public List<Balance> leaderboard(int gameId) {
+        List<Balance> leaders = new ArrayList<>();
 
-        String sql = "SELECT DISTINCT s.username, s.game_id, s.stock_ticker, s.stock_name, s.shares, b.amount " +
-                "FROM stocks s " +
-                "JOIN balances b ON s.game_id = b.game_id AND s.username = b.username " +
-                "WHERE s.game_id = ? " +
-                "ORDER BY amount DESC " +
-                "LIMIT 10;";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, gameId);
-        while(results.next()) {
-            // helper method converts database response into Game object
-            Trade trade = mapRowToLeaders(results);
-            // adding each game object to the list
-            leaders.add(trade);
+        WebApiService price = new WebApiService();
+        List<Share> shares = new ArrayList<>();
+        List<Player> users = new ArrayList<>();
+
+        String sqlForUsersInGame = "SELECT username, game_id, user_status " +
+                "FROM user_status " +
+                "WHERE game_id = ? AND user_status = 'Accepted';";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sqlForUsersInGame, gameId);
+            while (results.next()) {
+                Player player = mapRowToPlayer(results);
+                users.add(player);
+            }
+        } catch (DataAccessException e) {
+            System.out.println(e);
         }
 
+        for(Player player : users) {
+            Balance playersTotalBalance = new Balance();
+            BigDecimal cashBalance = new BigDecimal("0");
+            BigDecimal stockBalance = new BigDecimal("0");
+
+            String sqlForCashBalance = "SELECT balance_id, game_id, username, amount FROM balances WHERE game_id = ? AND username = ?;";
+            try {
+                SqlRowSet b = jdbcTemplate.queryForRowSet(sqlForCashBalance, gameId, player.getUsername());
+                if(b.next()){
+                    Balance usersBalance = mapRowToBalance(b);
+                    cashBalance = usersBalance.getAmount();
+                }
+            }  catch (DataAccessException e) {
+                System.out.println(e);
+            }
+
+            String sqlForSharesOwnsAndNumber = "SELECT stock_ticker, shares FROM trades WHERE game_id = ? AND username = ?;";
+            try {
+                SqlRowSet results = jdbcTemplate.queryForRowSet(sqlForSharesOwnsAndNumber, gameId, player.getUsername());
+                while(results.next()) {
+                    Share share = mapRowToShare(results);
+                    shares.add(share);
+                }
+                for(Share share : shares) {
+                    BigDecimal totalPrice = price.getPrice(share.getTickerName()).getPrice().multiply(new BigDecimal(share.getNumber()));
+                    stockBalance = stockBalance.add(totalPrice);
+                }
+            } catch (RestClientException j) {
+                System.out.println("Access to api error! " + j.getMessage() );
+            }
+            playersTotalBalance.setUsername(player.getUsername());
+            playersTotalBalance.setAmount(cashBalance.add(stockBalance));
+            leaders.add(playersTotalBalance);
+        }
         return leaders;
+    }
+
+    // helper method to create Share object
+    private Share mapRowToShare (SqlRowSet s) {
+        Share share = new Share();
+        share.setTickerName(s.getString("stock_ticker"));
+        share.setNumber(s.getInt("shares"));
+        return share;
     }
 
     @Override
@@ -214,18 +258,7 @@ public class JdbcGameDao implements GameDao{
         game.setEndDate(g.getString("end_date"));
         return game;
     }
-
-    private Trade mapRowToLeaders (SqlRowSet l) {
-        Trade trade = new Trade();
-        //s.username, s.game_id, s.stock_ticker, s.stock_name, s.shares, b.amount
-        trade.setUserId(l.getString("username"));
-        trade.setGameId(l.getInt("game_id"));
-        trade.setStockTicker(l.getString("stock_ticker"));
-        trade.setSharesNumber(l.getInt("shares"));
-        trade.setAmount(l.getBigDecimal("amount"));
-        return trade;
-    }
-
+    // helper method to create Balance object
     private Balance mapRowToBalance(SqlRowSet b) {
         Balance balance = new Balance();
         balance.setBalanceId(b.getInt("balance_id"));
