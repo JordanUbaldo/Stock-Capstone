@@ -10,6 +10,7 @@
 <script>
 import stockService from "@/services/StockService";
 import userService from '@/services/UserService';
+import gamesService from "@/services/GamesService";
 
 export default {
     name: "game-list",
@@ -33,6 +34,12 @@ export default {
                 this.$store.commit("SET_CURRENT_GAME_NAME", gameName);
                 this.$store.commit('SET_CURRENT_GAME_END_DATE', gameEndDate);
                 this.$router.push({ name: 'game', params: { gameId : gameId}});
+
+                //
+                const response = await gamesService.getLeaderboard(this.$store.state.currentGameId, this.$store.state.token);
+                const leaderboard= response.data.sort((a,b) => b.amount - a.amount)
+                this.$store.commit('SET_CURRENT_LEADERBOARD', leaderboard);
+                //
 
                 const rawStocksResponse = await stockService.getStocks(gameId, this.$store.state.token);
                 this.$store.commit('SET_CURRENT_USER_STOCKS', rawStocksResponse.data);

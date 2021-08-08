@@ -75,6 +75,8 @@ export default new Vuex.Store({
     currentGameUsers: [], //gameUsers ||
     currentStockDetails: {}, //stockDetails ||
     currentBalances: [], //balances ||
+    currentLeaderboard: [],
+    userPortfolioBalance: 0,
     currentGameEndDate: '',
     registerFormState: false,
     loginFormState: true,
@@ -184,6 +186,12 @@ export default new Vuex.Store({
       //   storage.push(e);
       // });
       // localStorage.setItem('currentBalances',JSON.stringify(storage))
+    },
+    SET_CURRENT_LEADERBOARD(state, data) {
+      state.currentLeaderboard = data;
+    },
+    SET_USER_PORTFOLIO_BALANCE(state, data) {
+      state.userPortfolioBalance = data;
     },
     SET_SHOW_FORM_TRUE(state) {
       state.showForm = true;

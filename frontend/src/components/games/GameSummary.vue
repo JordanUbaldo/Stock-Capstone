@@ -5,7 +5,7 @@
       <!-- End Date -->
       <p>End Date: {{ (new Date($store.state.currentGameEndDate)).toLocaleString() }}</p>
       <!-- Invite Button for Host -->
-      <button v-if="userIsHost" type="button" @click='routeToInvite'>Invite</button>
+      <button v-if="displayInvite" type="button" @click='routeToInvite'>Invite</button>
   </div>
 </template>
 
@@ -16,9 +16,9 @@ export default {
     name: "game-summary",
 
     computed: {
-      userIsHost(){
+      displayInvite(){
           const currentGame= this.$store.state.acceptedGames.find(element => element.gameId === this.$store.state.currentGameId);
-          if(currentGame.host === this.$store.state.user.username) {
+          if(currentGame.host === this.$store.state.user.username && !this.$route.name.match('game-over')) {
             return true;
           } else {
             return false;

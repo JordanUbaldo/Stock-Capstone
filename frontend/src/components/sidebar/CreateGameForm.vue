@@ -33,6 +33,10 @@ export default {
     },
     methods: {
         createGame() {
+            const marketCloseTime = "T16:00:00";
+            const end = new Date(this.game.endDate + marketCloseTime);
+            const endDateHasPassed = Date.now() - end.getTime() >= 0;
+            if(!endDateHasPassed) {
             gamesService.createGame(this.game,this.$store.state.token).then(async response => {
                 if (response.status === 201) {
                     if (response.data > 0) {
@@ -69,8 +73,11 @@ export default {
                 }
                 }
             })
+        } else {
+            alert("End date must be after today!");
         }
     }
+}
 }
 </script>
 

@@ -15,7 +15,7 @@ import StockDetails from '@/components/stocks/StockDetails.vue'
 
 export default {
   name: 'stock-parent',
-  components: {
+  components: { 
     StockList,
     TradeForm,
     StockDetails,

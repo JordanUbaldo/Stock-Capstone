@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import gamesService from "@/services/GamesService";
 export default {
   name: "finished-games",
   computed: {
@@ -19,10 +20,17 @@ export default {
   },
   methods: {
     async routeToFinishedGameView(gameId, gameName, gameEndDate){
+        if(this.$route.path != `/game/${gameId}/game-over`) {
         this.$store.commit("SET_CURRENT_GAME_ID", gameId);
         this.$store.commit("SET_CURRENT_GAME_NAME", gameName);
         this.$store.commit('SET_CURRENT_GAME_END_DATE', gameEndDate);
+
+        const response = await gamesService.getLeaderboard(this.$store.state.currentGameId, this.$store.state.token);
+        const leaderboard= response.data.sort((a,b) => b.amount - a.amount)
+        this.$store.commit('SET_CURRENT_LEADERBOARD', leaderboard);
+
         this.$router.push({ name: 'game-over', params: { gameId : gameId}});
+        }
     },
     isGameOver(endDate) {
         const marketCloseTime = "T16:00:00";

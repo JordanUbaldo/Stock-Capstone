@@ -4,7 +4,7 @@
     <label for="bal">Your Balance: </label>
     <p id="bal">${{ new Intl.NumberFormat().format(currentUserBalance) }}</p>
     </div>
-      Portfolio Value
+      Portfolio Value ${{ new Intl.NumberFormat().format($store.state.userPortfolioBalance) }}
   </div>
 </template>
 
