@@ -212,7 +212,6 @@ public class JdbcGameDao implements GameDao{
                 System.out.println("External API is broke! " + e.getMessage());
             }
         }
-        System.out.println("Returned? 215");
         //looping through list of users to get their cash balance and stock balance
         for(Player player : users) {
             List<Share> shares = new ArrayList<>();
