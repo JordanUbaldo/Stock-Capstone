@@ -20,7 +20,6 @@ public class WebApiService {
             result = restTemplate.getForObject(BASE_URL, String.class, ticker);
             if(result.contains(",")) {
                 String[] object = result.split(",");
-                String priceFromObject;
                 BigDecimal latestPrice = new BigDecimal("0");
                 for(String item: object) {
                     if(item.contains("latestPrice")){

@@ -41,8 +41,6 @@ public class JdbcGameDao implements GameDao{
                 newGameId = jdbcTemplate.queryForObject(games, Integer.class, game.getGameName(), game.getHost(), LocalDate.parse(game.getEndDate()));
                 jdbcTemplate.update(userStatus, newGameId, game.getHost(), status);
                 jdbcTemplate.update(balances, newGameId, game.getHost());
-            } catch (NullPointerException j) {
-                System.out.println("Null data caught! " + j.getMessage());
             } catch (DataAccessException e) {
                 System.out.println("Error accessing data " + e.getMessage());
             }
@@ -68,9 +66,10 @@ public class JdbcGameDao implements GameDao{
                 // adding each game object to the list
                 games.add(game);
             }
-        } catch (NullPointerException e) {
-            System.out.println("Error occurred! " + e.getMessage());
+        } catch (DataAccessException e) {
+            System.out.println(e);
         }
+
         return games;
     }
 
@@ -84,9 +83,10 @@ public class JdbcGameDao implements GameDao{
                 Player player = mapRowToPlayer(results);
                 users.add(player);
             }
-        } catch (NullPointerException e) {
-            System.out.println("Error occurred! " + e.getMessage());
+        } catch (DataAccessException e) {
+            System.out.println(e);
         }
+
         return users;
     }
 
@@ -143,9 +143,10 @@ public class JdbcGameDao implements GameDao{
                 // if there is a game with that name - turning our boolean to false meaning this name is not available
                 result = false;
             }
-        } catch (NullPointerException e) {
-            System.out.println("Error occurred! " + e.getMessage());
+        } catch (DataAccessException e) {
+            System.out.println(e);
         }
+
         return result;
     }
     @Override
@@ -158,8 +159,6 @@ public class JdbcGameDao implements GameDao{
                 Balance balance = mapRowToBalance(results);
                 balances.add(balance);
             }
-        } catch (NullPointerException e) {
-            System.out.println("Error occurred! " + e.getMessage());
         } catch (DataAccessException j) {
             System.out.println("Data Access error! " + j.getMessage());
         }
@@ -182,8 +181,8 @@ public class JdbcGameDao implements GameDao{
                 Player player = mapRowToPlayer(results);
                 users.add(player);
             }
-        } catch (NullPointerException e) {
-            System.out.println("Error occurred! " + e.getMessage());
+        } catch (DataAccessException e) {
+            System.out.println(e);
         }
 
         // getting the list of all stocks in the game
@@ -229,8 +228,8 @@ public class JdbcGameDao implements GameDao{
                     Balance usersBalance = mapRowToBalance(b);
                     cashBalance = usersBalance.getAmount();
                 }
-            } catch(NullPointerException e) {
-                System.out.println("Error!" + e.getMessage());
+            }  catch (DataAccessException e) {
+                System.out.println(e);
             }
 
             // getting tickers and number of shares player owns
@@ -244,11 +243,9 @@ public class JdbcGameDao implements GameDao{
                 }
                 //looping through each stock and adding the amount to stock balance
                 for(Share share : shares) {
-                    BigDecimal totalPrice = sharePrices.get(share.getTickerName()).multiply(new BigDecimal(share.getNumber()));
+                    BigDecimal totalPrice = price.getPrice(share.getTickerName()).getPrice().multiply(new BigDecimal(share.getNumber()));
                     stockBalance = stockBalance.add(totalPrice);
                 }
-           } catch (NullPointerException e) {
-               System.out.println("Returned null!" + e.getMessage());
             } catch (RestClientException j) {
                 System.out.println("Access to api error! " + j.getMessage() );
             }
@@ -267,6 +264,17 @@ public class JdbcGameDao implements GameDao{
         share.setNumber(s.getInt("shares"));
         return share;
     }
+
+    @Override
+    public void changeGameStatusByGameId(int gameId) {
+        String sql = "UPDATE games SET game_active = false WHERE game_id = ?;";
+        try {
+            jdbcTemplate.update(sql, gameId);
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     //helper method to create Player object from database response
     private Player mapRowToPlayer (SqlRowSet p) {

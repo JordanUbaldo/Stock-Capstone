@@ -75,6 +75,7 @@ export default new Vuex.Store({
     currentGameUsers: [], //gameUsers ||
     currentStockDetails: {}, //stockDetails ||
     currentBalances: [], //balances ||
+    currentGameEndDate: '',
     registerFormState: false,
     loginFormState: true,
     showForm: false
@@ -140,6 +141,9 @@ export default new Vuex.Store({
     SET_CURRENT_GAME_NAME(state, data) {
       state.currentGameName = data;
       // localStorage.setItem('gameName', data);
+    },
+    SET_CURRENT_GAME_END_DATE(state, data) {
+      state.currentGameEndDate = data;
     },
     SET_CURRENT_USER_STOCKS(state, data) {
       state.currentUserStocks = data;
