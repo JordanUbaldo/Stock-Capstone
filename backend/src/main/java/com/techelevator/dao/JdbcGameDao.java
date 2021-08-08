@@ -206,7 +206,7 @@ public class JdbcGameDao implements GameDao{
                     shares.add(share);
                 }
                 for(Share share : shares) {
-                    BigDecimal totalPrice = price.getPrice(share.getTickerName()).getPrice().multiply(new BigDecimal(share.getNumber()));
+                    BigDecimal totalPrice = price.getPrice(share.getTickerName(), false).getPrice().multiply(new BigDecimal(share.getNumber()));
                     stockBalance = stockBalance.add(totalPrice);
                 }
             } catch (RestClientException j) {

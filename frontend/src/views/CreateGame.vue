@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import CreateGameForm from '@/components/CreateGameForm';
+import CreateGameForm from '@/components/sidebar/CreateGameForm';
 
 export default {
     components: {

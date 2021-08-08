@@ -2,10 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../views/Home.vue'
 import Game from '../views/Game.vue'
-import Logout from '../components/Logout.vue'
-import Register from '../components/Register.vue'
+import Logout from '../components/sidebar/Logout.vue'
+import Register from '../components/sidebar/Register.vue'
 import store from '../store/index'
-import Test from '@/views/Test.vue'
 import CreateGame from '../views/CreateGame.vue'
 import Invite from '../views/Invite.vue'
 
@@ -44,11 +43,6 @@ const router = new Router({
       meta: {
         requiresAuth: false
       }
-    },
-    {
-      path: "/test",
-      name: "test",
-      component: Test
     },
     {
       path: "/game/:gameId",

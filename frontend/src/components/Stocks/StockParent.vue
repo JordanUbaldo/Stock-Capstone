@@ -8,11 +8,10 @@
 </template>
 
 <script>
-import StockList from '@/components/Stocks/StockList'
-import TradeForm from '@/components/Stocks/TradeForm'
-import StockSearchForm from './StockSearchForm.vue'
-import StockDetails from './StockDetails.vue'
-
+import StockList from '@/components/stocks/StockList'
+import TradeForm from '@/components/stocks/TradeForm'
+import StockSearchForm from '@/components/stocks/StockSearchForm.vue'
+import StockDetails from '@/components/stocks/StockDetails.vue'
 
 export default {
   name: 'stock-parent',

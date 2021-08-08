@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import SendInvites from '@/components/SendInvites';
+import SendInvites from '@/components/games/SendInvites';
 
 export default {
     components: {

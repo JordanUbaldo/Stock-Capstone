@@ -85,8 +85,6 @@ public class JdbcTradeDao implements TradeDao {
 
             //To check if has enough money to buy stocks
             if (trade.getTradeType().equalsIgnoreCase("Buy")) {
-                System.out.println(balance);
-                System.out.println(trade.getAmountOfMoney());
                 if (balance.getAmount().subtract(new BigDecimal("19.95")).compareTo(trade.getAmountOfMoney()) >= 0) {
                     BigDecimal newBalance = balance.getAmount().subtract(new BigDecimal("19.95")).subtract(trade.getAmountOfMoney());
                     jdbcTemplate.update(sqlForTrade, trade.getGameId(), username, typeId, trade.getStockTicker(), trade.getStockName(), trade.getAmountOfMoney(), LocalDate.now(), trade.getPurchasePrice(), trade.getNumberOfShares());
