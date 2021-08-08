@@ -16,6 +16,7 @@
         <create-game-btn />
         <game-list />
         <invite-list />
+        <finished-games />
       </div>
   </div>
 </template>
@@ -27,6 +28,7 @@ import Login from '@/components/sidebar/Login.vue';
 import Register from '@/components/sidebar/Register.vue';
 import CreateGameBtn from '@/components/sidebar/CreateGameBtn.vue';
 import LogoutBtn from '@/components/sidebar/LogoutBtn.vue';
+import FinishedGames from '@/components/sidebar/FinishedGames.vue';
 
 export default {
     name: "TheSidebar",
@@ -40,7 +42,8 @@ export default {
         Login,
         Register,
         CreateGameBtn,
-        LogoutBtn
+        LogoutBtn,
+        FinishedGames
     },
     methods: {
       loginBtn(){

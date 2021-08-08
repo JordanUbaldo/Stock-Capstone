@@ -22,7 +22,9 @@ export default {
     },
     computed: {
         invited() {
-            return this.$store.state.invites
+            return this.$store.state.invites.filter(invitedGame => {
+                return !this.isGameOver(invitedGame.endDate);
+            })
         }
     },
     methods: {
@@ -33,51 +35,57 @@ export default {
             .then(response => {
                 if (response.status === 201){
                     console.log("Accepted")
-                        gameService
-            .getGames(this.$store.state.token, "Accepted")
-            .then(response => {
-                if(response.status === 200) {
-                    this.$store.commit("SET_ACCEPTED_GAMES", response.data);
-                }
-            })
+                    gameService
+                        .getGames(this.$store.state.token, "Accepted")
+                        .then(response => {
+                            if(response.status === 200) {
+                                this.$store.commit("SET_ACCEPTED_GAMES", response.data);
+                            }
+                        })
 
-        gameService
-            .getGames(this.$store.state.token, "Pending")
-            .then(response => {
-                if(response.status === 200) {
-                    this.$store.commit("SET_INVITES", response.data);
-                }
-            })
+                    gameService
+                        .getGames(this.$store.state.token, "Pending")
+                        .then(response => {
+                            if(response.status === 200) {
+                                this.$store.commit("SET_INVITES", response.data);
+                            }
+                        })
                 }
             })
         },
         decline(gameId){
-            const invite= { status: "Declined", username: this.$store.state.user.username}
-            console.log(invite)
+            const invite= { status: "Declined", username: this.$store.state.user.username};
+            console.log(invite);
             gameService.gameInvite(gameId,invite,this.$store.state.token)
-            .then(response => {
-                if (response.status === 201){
-                    console.log("Declined")
-                            gameService
-            .getGames(this.$store.state.token, "Accepted")
-            .then(response => {
-                if(response.status === 200) {
-                    this.$store.commit("SET_ACCEPTED_GAMES", response.data);
-                }
-            })
+                .then(response => {
+                    if (response.status === 201){
+                        console.log("Declined");
+                        gameService
+                            .getGames(this.$store.state.token, "Accepted")
+                            .then(response => {
+                                if(response.status === 200) {
+                                    this.$store.commit("SET_ACCEPTED_GAMES", response.data);
+                                }
+                            })
 
-        gameService
-            .getGames(this.$store.state.token, "Pending")
-            .then(response => {
-                if(response.status === 200) {
-                    this.$store.commit("SET_INVITES", response.data);
-                }
-            })
-                }
-            })
-        }  
+                        gameService
+                            .getGames(this.$store.state.token, "Pending")
+                            .then(response => {
+                                if(response.status === 200) {
+                                    this.$store.commit("SET_INVITES", response.data);
+                                }
+                            })
+                    }
+                })
+        },
+        isGameOver(endDate) {
+            const marketCloseTime = "T16:00:00";
+            const end = new Date(endDate + marketCloseTime);
+
+            return Date.now() - end.getTime() >= 0;
         }
-    }
+    } 
+}
 </script>
 
 <style>

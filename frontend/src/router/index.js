@@ -7,6 +7,7 @@ import Register from '../components/sidebar/Register.vue'
 import store from '../store/index'
 import CreateGame from '../views/CreateGame.vue'
 import Invite from '../views/Invite.vue'
+import GameOver from '@/views/GameOver.vue'
 
 Vue.use(Router)
 
@@ -48,6 +49,11 @@ const router = new Router({
       path: "/game/:gameId",
       name: "game",
       component: Game
+    },
+    {
+      path: "/game/:gameId/game-over",
+      name: "game-over",
+      component: GameOver
     },
     {
       path: "/create",

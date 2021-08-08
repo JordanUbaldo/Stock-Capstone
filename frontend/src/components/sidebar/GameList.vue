@@ -20,8 +20,10 @@ export default {
     },
     computed: {
         games() {
-            return this.$store.state.acceptedGames
-        }
+            return this.$store.state.acceptedGames.filter(game => {
+                return !this.isGameOver(game.endDate);
+            })
+        },
     },
     methods: {
         async routeToGame(gameId, gameName, gameEndDate){
@@ -41,6 +43,12 @@ export default {
                 this.$store.commit('CLEAR_CURRENT_STOCK_DETAILS');
                 this.$store.commit('SET_SHOW_FORM_FALSE');
             }
+        },
+        isGameOver(endDate) {
+            const marketCloseTime = "T16:00:00";
+            const end = new Date(endDate + marketCloseTime);
+
+            return Date.now() - end.getTime()> 0;
         }
     }
 }

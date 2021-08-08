@@ -204,7 +204,7 @@ public class JdbcGameDao implements GameDao{
         for(Share share : allStocksInGame) {
             try {
                 System.out.println("Line 207 printing share price of which I am calling to external API " + share.getTickerName());
-                BigDecimal sharePrice = price.getPrice(share.getTickerName()).getPrice();
+                BigDecimal sharePrice = price.getPrice(share.getTickerName(), false).getPrice();
                 System.out.println("Line 209 printing sharePrice " + sharePrice);
                 sharePrices.put(share.getTickerName(), sharePrice);
             } catch (RestClientException e) {
