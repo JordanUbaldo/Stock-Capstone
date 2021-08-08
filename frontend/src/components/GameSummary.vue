@@ -5,7 +5,7 @@
       <!-- End Date -->
       <p>End Date</p>
       <!-- Invite Button for Host -->
-      <button type="button" @click='routeToInvite'>Invite</button>
+      <button v-if="userIsHost" type="button" @click='routeToInvite'>Invite</button>
   </div>
 </template>
 
@@ -15,6 +15,16 @@ import userService from '@/services/UserService.js';
 export default {
     name: "game-summary",
 
+    computed: {
+      userIsHost(){
+          const currentGame= this.$store.state.acceptedGames.find(element => element.gameId === this.$store.state.currentGameId);
+          if(currentGame.host === this.$store.state.user.username) {
+            return true;
+          } else {
+            return false;
+          }
+      }
+    },
     methods: {
       routeToInvite() {
         userService.getUsersForGame(this.$store.state.currentGameId, this.$store.state.token)
