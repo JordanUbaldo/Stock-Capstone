@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import gamesService from "@/services/GamesService.js";
 import stockService from "@/services/StockService";
 import userService from '../services/UserService';
 
@@ -25,11 +24,6 @@ export default {
         }
     },
     methods: {
-        viewGames() {
-            gamesService.getGames(this.$store.state.token, "Active").then(response => {
-                this.gameList = response;
-            })
-        },
         async routeToGame(gameId, gameName, gameEndDate){
             if(this.$route.path != `/game/${gameId}`) {
 
