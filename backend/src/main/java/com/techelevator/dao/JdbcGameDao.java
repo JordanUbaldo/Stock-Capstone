@@ -186,7 +186,8 @@ public class JdbcGameDao implements GameDao{
         }
 
         // getting the list of all stocks in the game
-        String sqlForTickersInGame = "SELECT stock_ticker, shares FROM trades WHERE game_id = ?;";
+//        String sqlForTickersInGame = "SELECT stock_ticker, shares FROM trades WHERE game_id = ?;";
+        String sqlForTickersInGame = "SELECT stock_ticker, shares FROM stocks WHERE game_id = ? AND shares > 0" ;
         List<Share> allStocksInGame = new ArrayList<>();
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sqlForTickersInGame, gameId);
@@ -232,7 +233,8 @@ public class JdbcGameDao implements GameDao{
             }
 
             // getting tickers and number of shares player owns
-            String sqlForSharesOwnsAndNumber = "SELECT stock_ticker, shares FROM trades WHERE game_id = ? AND username = ?;";
+//            String sqlForSharesOwnsAndNumber = "SELECT stock_ticker, shares FROM trades WHERE game_id = ? AND username = ?;";
+            String sqlForSharesOwnsAndNumber = "SELECT stock_ticker, shares FROM stocks WHERE game_id = ? AND shares > 0 AND username = ?" ;
             try {
                 SqlRowSet results = jdbcTemplate.queryForRowSet(sqlForSharesOwnsAndNumber, gameId, player.getUsername());
                 while(results.next()) {

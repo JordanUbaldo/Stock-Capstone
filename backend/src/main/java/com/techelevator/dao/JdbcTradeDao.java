@@ -32,7 +32,7 @@ public class JdbcTradeDao implements TradeDao {
     public List<StockResponse> getStocksByGameId(int gameId, Principal principal) {
         List<StockResponse> result = new ArrayList<>();
         String username = principal.getName();
-        String sql = "SELECT stock_ticker, stock_name, shares FROM stocks WHERE game_id = ? AND username = ? ORDER BY stock_ticker";
+        String sql = "SELECT stock_ticker, stock_name, shares FROM stocks WHERE game_id = ? AND username = ? AND shares > 0 ORDER BY stock_ticker";
         try {
             SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, gameId, username);
             while (rowSet.next()) {

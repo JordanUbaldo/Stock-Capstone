@@ -75,6 +75,7 @@ export default new Vuex.Store({
     currentGameUsers: [], //gameUsers ||
     currentStockDetails: {}, //stockDetails ||
     currentBalances: [], //balances ||
+    currentGameEndDate: '',
     registerFormState: false,
     loginFormState: true,
     showForm: false
