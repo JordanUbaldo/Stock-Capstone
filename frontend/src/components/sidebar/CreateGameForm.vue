@@ -2,8 +2,8 @@
     <div>
         <form class="create-game" v-on:submit.prevent>
             <div class ="field">
-                <label for="Name">Name</label>
-                <input class="form-control" v-model="game.gameName" type="text">
+                <label for="Name" autofocus>Name</label>
+                <input class="form-control" v-model="game.gameName" type="text" ref="gameName">
             </div>
             <div class ="field">
                 <label for="endDate">End Date</label>
@@ -37,47 +37,52 @@ export default {
             const end = new Date(this.game.endDate + marketCloseTime);
             const endDateHasPassed = Date.now() - end.getTime() >= 0;
             if(!endDateHasPassed) {
-            gamesService.createGame(this.game,this.$store.state.token).then(async response => {
-                if (response.status === 201) {
-                    if (response.data > 0) {
-                        this.$store.commit("SET_CURRENT_GAME_ID", response.data);
+                gamesService.createGame(this.game,this.$store.state.token).then(async response => {
+                    if (response.status === 201) {
+                        if (response.data > 0) {
+                            this.$store.commit("SET_CURRENT_GAME_ID", response.data);
 
-                        userService.getUsersForGame(this.$store.state.currentGameId, this.$store.state.token)
-                        .then(response => {
-                            if (response.status === 200) {
-                                this.$store.commit("SET_CURRENT_GAME_USERS", response.data)
-                            }
-                        });
+                            userService.getUsersForGame(this.$store.state.currentGameId, this.$store.state.token)
+                                .then(response => {
+                                    if (response.status === 200) {
+                                        this.$store.commit("SET_CURRENT_GAME_USERS", response.data)
+                                    }
+                                });
 
-                    if (this.$store.state.allUsers.length === 0) {
-                        let allUsers = (await userService.getUsers()).data.map(element => {
-                            return element.username;
-                        });
+                            if (this.$store.state.allUsers.length === 0) {
+                                let allUsers = (await userService.getUsers()).data.map(element => {
+                                    return element.username;
+                                });
                         
-                        this.$store.commit('SET_ALL_USERS', allUsers);
-                    }
-                    this.gameCreated = true;
-                    alert("Game Created!");
+                                this.$store.commit('SET_ALL_USERS', allUsers);
+                            }
+                            
+                            this.gameCreated = true;
+                            alert("Game Created!");
                     
-                    this.$router.push({ name: 'invite', params: { gameId : this.$store.state.currentGameId}})
+                            this.$router.push({ name: 'invite', params: { gameId : this.$store.state.currentGameId}});
                     
-                    gamesService
-                    .getGames(this.$store.state.token, "Accepted")
-                    .then(response => {
-                        if(response.status === 200) {
-                            this.$store.commit("SET_ACCEPTED_GAMES", response.data);
+                            gamesService
+                                .getGames(this.$store.state.token, "Accepted")
+                                .then(response => {
+                                    if(response.status === 200) {
+                                        this.$store.commit("SET_ACCEPTED_GAMES", response.data);
+                                    }
+                                })
+                        } else if(response.data === 0) {
+                            alert("Failed to Create Game");
                         }
-                    })
-                } else if(response.data === 0) {
-                    alert("Failed to Create Game");
-                }
-                }
-            })
-        } else {
-            alert("End date must be after today!");
-        }
+                    }
+                })
+            } else {
+                alert("End date must be after today!");
+            }
+        },
+
+    },
+    mounted() {
+        this.$refs.gameName.focus();
     }
-}
 }
 </script>
 

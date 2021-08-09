@@ -12,16 +12,16 @@
           <br>
           <div class="trade">
               <label for="numberOfShares">Number of Shares: </label>
-              <input class="form-control" type="text" id="numberOfShares" v-model="numberOfShares" v-on:change="setTotalCost" onfocus="this.value=''" autofocus>
+              <input class="form-control" type="text" id="numberOfShares" v-model="numberOfShares" v-on:change="setTotalCost" onfocus="this.value=''" ref="numShares">
           </div>
           <br>
           <div class="trade">
               <label for="priceOfStocks">Cost of Stocks: </label>
-              <input class="form-control" type="text" id="priceOfStocks" v-model="priceOfStocks" v-on:change="setNumberOfShares" onfocus="this.value=''">
+              <input class="form-control" type="text" id="priceOfStocks" v-model="priceOfStocks" v-on:change="setNumberOfShares" >
           </div>
           <div class="trade" v-show="priceOfStocks !== 0">
               <p>
-                  Total Cost: {{ totalCost }}
+                  Total Cost: {{ this.currencyFormatter.format(totalCost) }}
               </p>
           </div>
           <br>
@@ -69,23 +69,11 @@ export default {
             this.numberOfShares = Math.floor(this.priceOfStocks / this.currentStock.latestPrice);
             this.numberOfShares = parseInt(this.numberOfShares);
             this.priceOfStocks = this.priceOfStocks - (this.priceOfStocks % this.currentStock.latestPrice);
-            this.totalCost = this.currencyFormatter.format(this.priceOfStocks + this.commission);
-            this.priceOfStocks = this.currencyFormatter.format(this.priceOfStocks);
+            this.totalCost = this.priceOfStocks + this.commission;
         },
         setTotalCost() {
             this.priceOfStocks = this.numberOfShares * this.currentStock.latestPrice;
-
-            this.totalCost = this.currencyFormatter.format(this.priceOfStocks + this.commission);
-            this.priceOfStocks = this.currencyFormatter.format(this.priceOfStocks);
-        },
-        formatCurrency(numberToFormat) {
-            const currencyFormatter = new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                unit: 'USD',
-                maximumFractionDigits: 2
-            })
-
-            currencyFormatter.format(numberToFormat);
+            this.totalCost = this.priceOfStocks + this.commission;
         },
         async postTrade() {
             const trade = {
@@ -118,6 +106,9 @@ export default {
             this.$store.commit('CLEAR_CURRENT_STOCK_DETAILS');
             this.$store.commit('SET_SHOW_FORM_FALSE');
         }
+    },
+    mounted() {
+        this.$refs.numShares.focus();
     }
     
 }
