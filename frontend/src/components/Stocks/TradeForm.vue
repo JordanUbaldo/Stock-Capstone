@@ -12,12 +12,12 @@
           <br>
           <div class="trade">
               <label for="numberOfShares">Number of Shares: </label>
-              <input class="form-control" type="text" id="numberOfShares" v-model="numberOfShares" v-on:change="setTotalCost">
+              <input class="form-control" type="text" id="numberOfShares" v-model="numberOfShares" v-on:change="setTotalCost" onfocus="this.value=''" autofocus>
           </div>
           <br>
           <div class="trade">
               <label for="priceOfStocks">Cost of Stocks: </label>
-              <input class="form-control" type="text" id="priceOfStocks" v-model="priceOfStocks" v-on:change="setNumberOfShares">
+              <input class="form-control" type="text" id="priceOfStocks" v-model="priceOfStocks" v-on:change="setNumberOfShares" onfocus="this.value=''">
           </div>
           <div class="trade" v-show="priceOfStocks !== 0">
               <p>
