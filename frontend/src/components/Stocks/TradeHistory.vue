@@ -10,11 +10,11 @@
               <td>Number of Shares</td>
           </tr>
           <tr v-for="trade in trades" v-bind:key="trade.tradeId" id="data">
-              <td>{{ trade.tradeDate }}</td>`
+              <td>{{ trade.tradeDate }}</td>
               <td>{{ trade.stockTicker }}</td>
-              <td>{{ trade.tradeName }}</td>
+              <td>{{ trade.stockName }}</td>
               <td>{{ trade.tradeType }}</td>
-              <td>{{ trade.pricePerShare }}</td>
+              <td>{{ trade.purchasePrice }}</td>
               <td>{{ trade.numberOfShares }}</td>`
           </tr>
       </table>
@@ -36,14 +36,17 @@ export default {
         currentGameId() {
             return this.$store.state.currentGameId;
         }
-        
+
     },
     async created() {
-        this.trades = await stockService.getTrades(this.currentGameId, this.$store.state.token);
+         let tradeData = (await stockService.getTrades(this.currentGameId, this.$store.state.token)).data;
+         this.trades = tradeData.sort()
     }
 }
 </script>
 
 <style>
-
+    td {
+        border: 1px solid black;
+    }
 </style>

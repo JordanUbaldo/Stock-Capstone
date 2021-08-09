@@ -49,9 +49,9 @@ public class JdbcTradeDao implements TradeDao {
     public List<TradeResponse> getTradesByGameId(int gameId, Principal principal) {
         List<TradeResponse> result = new ArrayList<>();
         String username = principal.getName();
-        String sql = "SELECT game_id, shares, price_per_share, stock_name, stock_ticker, purchase_date, typ.type FROM trades AS tra " +
+        String sql = "SELECT trade_id, game_id, shares, price_per_share, stock_name, stock_ticker, purchase_date, typ.type FROM trades AS tra " +
                 "JOIN trade_type AS typ ON tra.type_id = typ.type_id " +
-                "WHERE game_id = ? and username = ? ORDER BY stock_ticker;";
+                "WHERE game_id = ? and username = ? ORDER BY purchase_date;";
         try {
             SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, gameId, username);
             while (rowSet.next()) {
@@ -190,6 +190,7 @@ public class JdbcTradeDao implements TradeDao {
 
     private TradeResponse mapRowToTrade(SqlRowSet rowSet) {
         TradeResponse result = new TradeResponse();
+        result.setTradeId(rowSet.getInt("trade_id"));
         result.setGameId(rowSet.getInt("game_id"));
         result.setNumberOfShares(rowSet.getInt("shares"));
         result.setPurchasePrice(rowSet.getBigDecimal("price_per_share"));
