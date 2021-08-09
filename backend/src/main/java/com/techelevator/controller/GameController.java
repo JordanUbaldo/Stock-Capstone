@@ -37,7 +37,9 @@ public class GameController {
     }
 
     @RequestMapping(path = "/games/{gameId}/users", method = RequestMethod.GET)
-    public List<Player> viewPlayers(@Valid @PathVariable int gameId) { return gameDao.viewUsersInTheGame(gameId); }
+    public List<Player> viewPlayers(@Valid @PathVariable int gameId, Principal principal) {
+        return gameDao.viewUsersInTheGame(gameId, principal.getName());
+    }
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/games", method = RequestMethod.POST)
@@ -48,17 +50,19 @@ public class GameController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/games/{gameId}/invite", method = RequestMethod.POST)
-    public boolean invitePlayers(@Valid @PathVariable int gameId, @RequestBody Player player) {
-        return gameDao.invitePlayers(player.getUsername(), player.getStatus(), gameId);
+    public boolean invitePlayers(@Valid @PathVariable int gameId, @RequestBody Player player, Principal principal) {
+        return gameDao.invitePlayers(player.getUsername(), player.getStatus(), gameId, principal.getName());
     }
 
     @RequestMapping(path = "/games/{gameId}/balance", method = RequestMethod.GET)
-    public List<Balance> getBalancesByGameId(@Valid @PathVariable int gameId) { return gameDao.getBalancesByGameId(gameId); }
+    public List<Balance> getBalancesByGameId(@Valid @PathVariable int gameId, Principal principal) {
+        return gameDao.getBalancesByGameId(gameId, principal.getName());
+    }
 
     @RequestMapping(path = "/games/{gameId}/leaderboard", method = RequestMethod.GET)
-    public List<Balance> leaderboard(@Valid @PathVariable int gameId) {
+    public List<Balance> leaderboard(@Valid @PathVariable int gameId, Principal principal) {
 
-        return gameDao.leaderboard(gameId);
+        return gameDao.leaderboard(gameId, principal.getName());
     }
 
 //    @RequestMapping(path = "/games/{ticker}/price", method = RequestMethod.GET)

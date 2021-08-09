@@ -74,11 +74,11 @@ public class JdbcGameDao implements GameDao{
     }
 
     @Override
-    public List<Player> viewUsersInTheGame(int gameId) {
+    public List<Player> viewUsersInTheGame(int gameId, String username) {
         List<Player> users = new ArrayList<>();
-        String sql = "SELECT game_id, username, user_status FROM user_status WHERE game_id = ?";
+        String sql = "SELECT game_id, username, user_status FROM user_status WHERE game_id = ? AND username = ?;";
         try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, gameId);
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, gameId, username);
             while (results.next()) {
                 Player player = mapRowToPlayer(results);
                 users.add(player);
@@ -91,12 +91,12 @@ public class JdbcGameDao implements GameDao{
     }
 
     @Override
-    public boolean invitePlayers(String username, String status, int gameId) {
+    public boolean invitePlayers(String username, String status, int gameId, String currentUser) {
         // returning false if method fails
         boolean result = false;
         String sql;
         // default status for invited players - "Pending"
-        if (status.equals("Pending")) {
+        if (status.equals("Pending") && findGameByGameId(gameId).getHost().equals(currentUser)) {
             sql = "INSERT INTO user_status (game_id, username, user_status) VALUES (?, ?, ?);";
             String sqlToBalance = "INSERT INTO balances (game_id, username) VALUES (?, ?);";
             try {
@@ -107,7 +107,7 @@ public class JdbcGameDao implements GameDao{
             } catch (DataAccessException e) {
                 System.out.println("Error accessing data " + e.getMessage());
             }
-        } else if (status.equals("Accepted")) {
+        } else if (status.equals("Accepted") && username.equals(currentUser)) {
             sql = "UPDATE user_status SET user_status = 'Accepted' WHERE username = ? AND game_id = ?;";
             try {
                 jdbcTemplate.update(sql, username, gameId);
@@ -116,7 +116,7 @@ public class JdbcGameDao implements GameDao{
             } catch (DataAccessException e) {
                 System.out.println("Error accessing data " + e.getMessage());
             }
-        } else {
+        } else if (status.equals("Declined") && username.equals(currentUser)) {
             sql = "UPDATE user_status SET user_status = 'Declined' WHERE username = ? AND game_id = ?;";
             try {
                 jdbcTemplate.update(sql, username, gameId);
@@ -149,12 +149,28 @@ public class JdbcGameDao implements GameDao{
 
         return result;
     }
+
     @Override
-    public List<Balance> getBalancesByGameId(int gameId) {
-        List<Balance> balances = new ArrayList<>();
-        String sql = "SELECT balance_id, game_id, username, amount FROM balances WHERE game_id = ?;";
+    public Game findGameByGameId(int gameId) {
+        Game game = new Game();
+        String sql = "SELECT game_id, game_name, game_active, host, start_game, end_date FROM games WHERE game_id = ?;";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, gameId);
+            if(results.next()) {
+                game = mapRowToGame(results);
+            }
+        } catch (DataAccessException e) {
+            System.out.println("Data Access error! " + e.getMessage());
+        }
+        return game;
+    }
+
+    @Override
+    public List<Balance> getBalancesByGameId(int gameId, String username) {
+        List<Balance> balances = new ArrayList<>();
+        String sql = "SELECT balance_id, game_id, username, amount FROM balances WHERE game_id = ? AND username = ?;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, gameId, username);
             while(results.next()) {
                 Balance balance = mapRowToBalance(results);
                 balances.add(balance);
@@ -166,8 +182,9 @@ public class JdbcGameDao implements GameDao{
     }
 
     @Override
-    public List<Balance> leaderboard(int gameId) {
+    public List<Balance> leaderboard(int gameId, String username) {
         List<Balance> leaders = new ArrayList<>();
+        boolean userInTheGame = false;
 
         WebApiService price = new WebApiService();
          List<Player> users = new ArrayList<>();
@@ -180,79 +197,83 @@ public class JdbcGameDao implements GameDao{
             while (results.next()) {
                 Player player = mapRowToPlayer(results);
                 users.add(player);
+                if(player.getUsername().equals(username)) {
+                    userInTheGame = true;
+                }
             }
         } catch (DataAccessException e) {
             System.out.println(e);
         }
 
-        // getting the list of all stocks in the game
+        if(userInTheGame) {
+            // getting the list of all stocks in the game
 //        String sqlForTickersInGame = "SELECT stock_ticker, shares FROM trades WHERE game_id = ?;";
-        String sqlForTickersInGame = "SELECT stock_ticker, shares FROM stocks WHERE game_id = ? AND shares > 0" ;
-        List<Share> allStocksInGame = new ArrayList<>();
-        try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sqlForTickersInGame, gameId);
-            while (results.next()) {
-                Share share = mapRowToShare(results);
-                System.out.println("Line 196 Printing share added to shares list " + share.getTickerName());
-                allStocksInGame.add(share);
-            }
-        } catch (DataAccessException e) {
-            System.out.println("Data access error! " + e.getMessage());
-        }
-
-        // Now I need to create map to fill with tickers and the prices
-        Map<String, BigDecimal> sharePrices = new HashMap<>();
-        for(Share share : allStocksInGame) {
+            String sqlForTickersInGame = "SELECT stock_ticker, shares FROM stocks WHERE game_id = ? AND shares > 0";
+            List<Share> allStocksInGame = new ArrayList<>();
             try {
-                System.out.println("Line 207 printing share price of which I am calling to external API " + share.getTickerName());
-                BigDecimal sharePrice = price.getPrice(share.getTickerName(), false).getPrice();
-                System.out.println("Line 209 printing sharePrice " + sharePrice);
-                sharePrices.put(share.getTickerName(), sharePrice);
-            } catch (RestClientException e) {
-                System.out.println("External API is broke! " + e.getMessage());
-            }
-        }
-        System.out.println("Returned? 215");
-        //looping through list of users to get their cash balance and stock balance
-        for(Player player : users) {
-            List<Share> shares = new ArrayList<>();
-            Balance playersTotalBalance = new Balance();
-            BigDecimal cashBalance = new BigDecimal("0");
-            BigDecimal stockBalance = new BigDecimal("0");
-
-            //getting cash balance
-            String sqlForCashBalance = "SELECT balance_id, game_id, username, amount FROM balances WHERE game_id = ? AND username = ?;";
-            try {
-                SqlRowSet b = jdbcTemplate.queryForRowSet(sqlForCashBalance, gameId, player.getUsername());
-                if(b.next()){
-                    Balance usersBalance = mapRowToBalance(b);
-                    cashBalance = usersBalance.getAmount();
-                }
-            }  catch (DataAccessException e) {
-                System.out.println(e);
-            }
-
-            // getting tickers and number of shares player owns
-//            String sqlForSharesOwnsAndNumber = "SELECT stock_ticker, shares FROM trades WHERE game_id = ? AND username = ?;";
-            String sqlForSharesOwnsAndNumber = "SELECT stock_ticker, shares FROM stocks WHERE game_id = ? AND shares > 0 AND username = ?" ;
-            try {
-                SqlRowSet results = jdbcTemplate.queryForRowSet(sqlForSharesOwnsAndNumber, gameId, player.getUsername());
-                while(results.next()) {
+                SqlRowSet results = jdbcTemplate.queryForRowSet(sqlForTickersInGame, gameId);
+                while (results.next()) {
                     Share share = mapRowToShare(results);
-                    shares.add(share);
+                    System.out.println("Line 196 Printing share added to shares list " + share.getTickerName());
+                    allStocksInGame.add(share);
                 }
-                //looping through each stock and adding the amount to stock balance
-                for(Share share : shares) {
-                    BigDecimal totalPrice = price.getPrice(share.getTickerName(), false).getPrice().multiply(new BigDecimal(share.getNumber()));
-                    stockBalance = stockBalance.add(totalPrice);
-                }
-            } catch (RestClientException j) {
-                System.out.println("Access to api error! " + j.getMessage() );
+            } catch (DataAccessException e) {
+                System.out.println("Data access error! " + e.getMessage());
             }
-            playersTotalBalance.setUsername(player.getUsername());
-            // adding total amount to balance object (adding stock balance to cash balance)
-            playersTotalBalance.setAmount(cashBalance.add(stockBalance));
-            leaders.add(playersTotalBalance);
+
+            // Now I need to create map to fill with tickers and the prices
+            Map<String, BigDecimal> sharePrices = new HashMap<>();
+            for (Share share : allStocksInGame) {
+                try {
+                    System.out.println("Line 207 printing share price of which I am calling to external API " + share.getTickerName());
+                    BigDecimal sharePrice = price.getPrice(share.getTickerName(), false).getPrice();
+                    System.out.println("Line 209 printing sharePrice " + sharePrice);
+                    sharePrices.put(share.getTickerName(), sharePrice);
+                } catch (RestClientException e) {
+                    System.out.println("External API is broke! " + e.getMessage());
+                }
+            }
+            //looping through list of users to get their cash balance and stock balance
+            for (Player player : users) {
+                List<Share> shares = new ArrayList<>();
+                Balance playersTotalBalance = new Balance();
+                BigDecimal cashBalance = new BigDecimal("0");
+                BigDecimal stockBalance = new BigDecimal("0");
+
+                //getting cash balance
+                String sqlForCashBalance = "SELECT balance_id, game_id, username, amount FROM balances WHERE game_id = ? AND username = ?;";
+                try {
+                    SqlRowSet b = jdbcTemplate.queryForRowSet(sqlForCashBalance, gameId, player.getUsername());
+                    if (b.next()) {
+                        Balance usersBalance = mapRowToBalance(b);
+                        cashBalance = usersBalance.getAmount();
+                    }
+                } catch (DataAccessException e) {
+                    System.out.println(e);
+                }
+
+                // getting tickers and number of shares player owns
+//            String sqlForSharesOwnsAndNumber = "SELECT stock_ticker, shares FROM trades WHERE game_id = ? AND username = ?;";
+                String sqlForSharesOwnsAndNumber = "SELECT stock_ticker, shares FROM stocks WHERE game_id = ? AND shares > 0 AND username = ?";
+                try {
+                    SqlRowSet results = jdbcTemplate.queryForRowSet(sqlForSharesOwnsAndNumber, gameId, player.getUsername());
+                    while (results.next()) {
+                        Share share = mapRowToShare(results);
+                        shares.add(share);
+                    }
+                    //looping through each stock and adding the amount to stock balance
+                    for (Share share : shares) {
+                        BigDecimal totalPrice = price.getPrice(share.getTickerName(), false).getPrice().multiply(new BigDecimal(share.getNumber()));
+                        stockBalance = stockBalance.add(totalPrice);
+                    }
+                } catch (RestClientException j) {
+                    System.out.println("Access to api error! " + j.getMessage());
+                }
+                playersTotalBalance.setUsername(player.getUsername());
+                // adding total amount to balance object (adding stock balance to cash balance)
+                playersTotalBalance.setAmount(cashBalance.add(stockBalance));
+                leaders.add(playersTotalBalance);
+            }
         }
         return leaders;
     }

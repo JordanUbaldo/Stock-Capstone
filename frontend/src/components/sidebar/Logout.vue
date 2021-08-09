@@ -1,5 +1,9 @@
 <template>
-  <h1>Logout</h1>
+<div>
+  <div class="main-div">
+    <h1>Logout</h1>
+  </div>
+</div>
 </template>
 
 <script>

@@ -19,6 +19,9 @@ export default ({
   body {
     font-size: 16px;
     font-family: Avenir, Helvetica, Arial, sans-serif;
+    background-image: url("../src/assets/green:blue.jpg");
+    background-repeat:no-repeat;
+    background-size: cover;
     background-color: #04460e;
     white-space: nowrap;
   }
@@ -30,7 +33,7 @@ export default ({
     grid-template-areas:
       "sidebar content";
     text-align: center;
-    color: #04460e;
+    color: #2e645f;
     margin-top: 60px;
   }
 
@@ -53,23 +56,26 @@ export default ({
   }
 
   #sidebar {
-    background-color: #eeeeee;
     margin: 10px;
     padding: 8px;
     border-radius: 10px;
     white-space: normal;
+
+    background-color:rgba(255, 255, 255, 0.562);
+    box-shadow:none;
   }
 
   #router_view {
-    background-color: #eeeeee;
     margin: 10px;
     padding: 8px;
     border-radius: 10px;
     white-space: normal;
+    background-color:rgba(255, 255, 255, 0.507);
+    box-shadow:none;
   }
 
   .main-div {
-    background-color:#30642e;
+    background-color:#2e645f;
     margin: 10px;
     padding: 8px;
     border-radius: 10px;
@@ -91,14 +97,14 @@ export default ({
   }
 
   .btn {
-    margin: 20px;
+    margin: 20px 5px 20px 5px;
     padding: 10px 0px 10px 0px;
     width: 150px;
     background-color: #eeeeee;
     border-radius: 5px;
     border: 1px solid #c4c4c4;
     font-size: 16px;
-    color: #30642e;
+    color:#2e645f;
   }
 
   .btn:hover {
@@ -107,10 +113,10 @@ export default ({
   }
 
   .sb-btn {
-    margin: 10px;
+    margin: 5px;
     padding: 10px 0px 10px 0px;
     width: 150px;
-    background-color: #04460e;
+    background-color: #2e645faf;;
     border-radius: 5px;
     border: 1px solid #033a0c;
     font-size: 16px;
@@ -126,49 +132,49 @@ export default ({
     display: inline-block;
     text-align: center;
     width: 70%;
-    margin: 10px 0px 10px 0px;
+    margin: 5px;
     padding: 10px 0px 10px 0px;
     width: 150px;
-    background-color: #04460e;
+    background-color: #2e645f;;
     border-radius: 5px;
     border: 1px solid #033a0c;
     font-size: 16px;
     color: #eeeeee;
-}
+  }
 
-.game-list a {
-    color: #eeeeee;
-    text-decoration: none;
-}
+  .game-list a {
+      color: #eeeeee;
+      text-decoration: none;
+  }
 
-.game-list:hover {
-    background-color: #022507;
-    cursor: pointer;
-}
+  .game-list:hover {
+      background-color: #022507;
+      cursor: pointer;
+  }
 
-.hostImage {
-    padding-left: 10px;
-    width: auto;
-    height: 14px;
-}
+  .hostImage {
+      padding-left: 10px;
+      width: auto;
+      height: 14px;
+  }
 
-table {
-    margin: auto;
-    border:none;
-    border-collapse: collapse;
-}
+  table {
+      margin: auto;
+      border:none;
+      border-collapse: collapse;
+  }
 
-table td {
-    padding: 5px 10px 5px 10px;
-    border-left: 2px solid #eeeeee;
-    border-right: 2px solid #eeeeee;
-}
+  table td {
+      padding: 5px 10px 5px 10px;
+      border-left: 2px solid #eeeeee;
+      border-right: 2px solid #eeeeee;
+  }
 
-table td:first-child {
-    border-left: none;
-}
+  table td:first-child {
+      border-left: none;
+  }
 
-table td:last-child {
-    border-right: none;
-}
+  table td:last-child {
+      border-right: none;
+  }
 </style>
