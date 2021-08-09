@@ -14,7 +14,7 @@
               <td>{{ trade.stockTicker }}</td>
               <td>{{ trade.stockName }}</td>
               <td>{{ trade.tradeType }}</td>
-              <td>{{ trade.purchasePrice }}</td>
+              <td>{{ currencyFormatter.format(trade.purchasePrice) }}</td>
               <td>{{ trade.numberOfShares }}</td>
           </tr>
       </table>
@@ -29,7 +29,12 @@ export default {
     data() {
         return {
             tradeId: 0,
-            trades: []
+            trades: [],
+            currencyFormatter: new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                maximumFractionDigits: 2
+          })
         }
     },
     computed: {

@@ -12,16 +12,16 @@
           <br>
           <div class="trade">
               <label for="numberOfShares">Number of Shares: </label>
-              <input class="form-control" type="text" id="numberOfShares" v-model="numberOfShares" v-on:change="setTotalCost">
+              <input class="form-control" type="text" id="numberOfShares" v-model="numberOfShares" v-on:change="setTotalCost" onfocus="this.value=''" ref="numShares">
           </div>
           <br>
           <div class="trade">
               <label for="priceOfStocks">Cost of Stocks: </label>
-              <input class="form-control" type="text" id="priceOfStocks" v-model="priceOfStocks" v-on:change="setNumberOfShares">
+              <input class="form-control" type="text" id="priceOfStocks" v-model="priceOfStocks" v-on:change="setNumberOfShares" >
           </div>
           <div class="trade" v-show="priceOfStocks !== 0">
               <p>
-                  Total Cost: {{ commission + priceOfStocks }}
+                  Total Cost: {{ this.currencyFormatter.format(totalCost) }}
               </p>
           </div>
           <br>
@@ -47,8 +47,14 @@ export default {
             tradeType: "Buy",
             numberOfShares: 0,
             priceOfStocks: 0,
+            totalCost: 0,
             show: true,
-            commission: 19.95
+            commission: 19.95,
+            currencyFormatter: new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                maximumFractionDigits: 2
+            })
         }
     },
     computed: {
@@ -64,9 +70,11 @@ export default {
             this.numberOfShares = Math.floor(this.priceOfStocks / this.currentStock.latestPrice);
             this.numberOfShares = parseInt(this.numberOfShares);
             this.priceOfStocks = this.priceOfStocks - (this.priceOfStocks % this.currentStock.latestPrice);
+            this.totalCost = this.priceOfStocks + this.commission;
         },
         setTotalCost() {
             this.priceOfStocks = this.numberOfShares * this.currentStock.latestPrice;
+            this.totalCost = this.priceOfStocks + this.commission;
         },
         async postTrade() {
             const trade = {
@@ -106,6 +114,9 @@ export default {
             this.$store.commit('CLEAR_CURRENT_STOCK_DETAILS');
             this.$store.commit('SET_SHOW_FORM_FALSE');
         }
+    },
+    mounted() {
+        this.$refs.numShares.focus();
     }
     
 }
