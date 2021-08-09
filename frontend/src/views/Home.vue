@@ -1,9 +1,9 @@
 <template>
-  <div>
-  <div class="home">
-    <h1>Filler Game Name</h1>
-    <img src= "../assets/DiamondHands.png" alt="Home Image">
-  </div>
+  <div id="home_view">
+    <div class="home">
+      <h1>Diamond Hands</h1>
+      <img id="home-image" src= "../assets/DiamondHands.png" alt="Home Image">
+    </div>
   </div>
 </template>
 
@@ -12,3 +12,21 @@ export default {
   name: "home"
 };
 </script>
+
+<style>
+#home-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+#home_view {
+  height: 100vh;
+  background-color: #eeeeee;
+  margin: 10px;
+  padding: 8px;
+  border-radius: 10px;
+  white-space: normal;
+}
+</style>

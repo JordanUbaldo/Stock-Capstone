@@ -55,12 +55,10 @@ export default {
 
 <style>
     .stockSummary {
-        border: 1px solid gold;
         list-style: none;
     }
 
     table {
-        border: 1px solid gold;
-        /* border-collapse: collapse; */
+        margin: auto;
     }
 </style>

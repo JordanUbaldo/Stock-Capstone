@@ -1,11 +1,11 @@
 <template>
   <div>
       <!-- Game Name -->
-      <p>Game: {{ $store.state.currentGameName }}</p>
+      <h1>Game: {{ $store.state.currentGameName }}</h1>
       <!-- End Date -->
-      <p>End Date: {{ (new Date($store.state.currentGameEndDate)).toLocaleString() }}</p>
+      <h2>End Date: {{ (new Date($store.state.currentGameEndDate)).toLocaleString() }}</h2>
       <!-- Invite Button for Host -->
-      <button v-if="displayInvite" type="button" @click='routeToInvite'>Invite</button>
+      <button class="btn" v-if="displayInvite" type="button" @click='routeToInvite'>Invite</button>
   </div>
 </template>
 

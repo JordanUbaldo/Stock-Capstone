@@ -1,8 +1,8 @@
 <template>
 <div>
-    <h3>Game List</h3>
+    <h2>Game List</h2>
   <ul>
-     <li v-for="game in games" v-bind:key="game.gameId" @click="routeToGame(game.gameId, game.gameName, game.endDate)">{{ game.gameName }}<img class="hostImage" v-show="game.host == $store.state.user.username" src="@/assets/Crown.png" alt="Host Image"></li>
+     <li class="game-list" v-for="game in games" v-bind:key="game.gameId" @click="routeToGame(game.gameId, game.gameName, game.endDate)">{{ game.gameName }}<img class="hostImage" v-show="game.host == $store.state.user.username" src="@/assets/Crown.png" alt="Host Image"></li>
   </ul>
   </div>
 </template>
@@ -62,9 +62,10 @@ export default {
 </script>
 
 <style>
-
-.hostImage {
-    width: 20px;
-    height: auto;
+ul, li {
+    list-style-type: none;
+    list-style-position:inside;
+    margin:0;
+    padding:0;
 }
 </style>

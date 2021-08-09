@@ -16,12 +16,33 @@ export default ({
 </script>
 
 <style>
+  body {
+    font-size: 16px;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    background-color: #04460e;
+    white-space: nowrap;
+  }
+
   #app {
+    min-height: 100vh;
     display: grid;
     grid-template-columns: 250px 1fr;
     grid-template-areas:
-      "sidebar content"
+      "sidebar content";
+    text-align: center;
+    color: #04460e;
+    margin-top: 60px;
   }
+
+  @media only screen and (max-width: 600px) {
+    #app {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "sidebar"
+            "content";
+    }
+    }
 
   sidebar {
     grid-area: sidebar;
@@ -32,12 +53,122 @@ export default ({
   }
 
   #sidebar {
-    height: 100vh;
-    border: 1px solid red;
+    background-color: #eeeeee;
+    margin: 10px;
+    padding: 8px;
+    border-radius: 10px;
+    white-space: normal;
   }
 
   #router_view {
-    height: 100vh;
-    border: 1px solid black;
+    background-color: #eeeeee;
+    margin: 10px;
+    padding: 8px;
+    border-radius: 10px;
+    white-space: normal;
   }
+
+  .main-div {
+    background-color:#30642e;
+    margin: 10px;
+    padding: 8px;
+    border-radius: 10px;
+    white-space: normal;
+    color: white;
+  }
+
+  .form-control {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    border: 1px solid #C2C2C2;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    padding: 10px;
+    margin: 5px;
+    outline: none;
+  }
+
+  .btn {
+    margin: 20px;
+    padding: 10px 0px 10px 0px;
+    width: 150px;
+    background-color: #eeeeee;
+    border-radius: 5px;
+    border: 1px solid #c4c4c4;
+    font-size: 16px;
+    color: #30642e;
+  }
+
+  .btn:hover {
+    background-color: #cccccc;
+    cursor: pointer;
+  }
+
+  .sb-btn {
+    margin: 10px;
+    padding: 10px 0px 10px 0px;
+    width: 150px;
+    background-color: #04460e;
+    border-radius: 5px;
+    border: 1px solid #033a0c;
+    font-size: 16px;
+    color: #eeeeee;
+  }
+
+  .sb-btn:hover {
+    background-color: #022507;
+    cursor: pointer;
+  }
+
+  .game-list {
+    display: inline-block;
+    text-align: center;
+    width: 70%;
+    margin: 10px 0px 10px 0px;
+    padding: 10px 0px 10px 0px;
+    width: 150px;
+    background-color: #04460e;
+    border-radius: 5px;
+    border: 1px solid #033a0c;
+    font-size: 16px;
+    color: #eeeeee;
+}
+
+.game-list a {
+    color: #eeeeee;
+    text-decoration: none;
+}
+
+.game-list:hover {
+    background-color: #022507;
+    cursor: pointer;
+}
+
+.hostImage {
+    padding-left: 10px;
+    width: auto;
+    height: 14px;
+}
+
+table {
+    margin: auto;
+    border:none;
+    border-collapse: collapse;
+}
+
+table td {
+    padding: 5px 10px 5px 10px;
+    border-left: 2px solid #eeeeee;
+    border-right: 2px solid #eeeeee;
+}
+
+table td:first-child {
+    border-left: none;
+}
+
+table td:last-child {
+    border-right: none;
+}
 </style>

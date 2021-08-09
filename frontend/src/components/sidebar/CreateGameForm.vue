@@ -1,15 +1,15 @@
 <template>
     <div>
-        <form v-on:submit.prevent>
+        <form class="create-game" v-on:submit.prevent>
             <div class ="field">
                 <label for="Name">Name</label>
-                <input v-model="game.gameName" type="text">
+                <input class="form-control" v-model="game.gameName" type="text">
             </div>
             <div class ="field">
                 <label for="endDate">End Date</label>
-                <input v-model="game.endDate" type="date">
+                <input class="form-control" v-model="game.endDate" type="date">
             </div>
-            <button type="submit" v-on:click="createGame">Create Game</button>
+            <button class="btn" type="submit" v-on:click="createGame">Create</button>
         </form>
     </div>
 </template>
@@ -82,5 +82,21 @@ export default {
 </script>
 
 <style>
+.create-game {
+  width: 100%;
+  margin: 0 auto;
+}
 
+.create-game label, input {
+  display: inline-block;
+}
+
+.create-game label {
+  width: 15%;
+  text-align: right;
+}
+
+.create-game label+input {
+  width: 40%;
+}
 </style>

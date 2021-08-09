@@ -46,7 +46,5 @@ export default {
 </script>
 
 <style>
-    td {
-        border: 1px solid black;
-    }
+
 </style>

@@ -1,7 +1,7 @@
 <template>
     <form v-on:submit.prevent="getStockDetails" id="searchForm">
-      <input type="text" v-model="stockTicker" placeholder="Ticker Symbol">
-      <button type="submit">Get Stock</button>
+      <input class="form-control" type="text" v-model="stockTicker" placeholder="Ticker Symbol">
+      <button class="btn" type="submit">Get Stock</button>
     </form>
 </template>
 

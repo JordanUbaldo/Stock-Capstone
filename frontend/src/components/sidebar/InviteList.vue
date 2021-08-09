@@ -1,11 +1,11 @@
 <template>
   <div>
-      <h3>Invites</h3>
+      <h2>Invites</h2>
       <ul>
-          <li v-for="invite in invited" v-bind:key="invite.gameId">
+          <li class="invite-list" v-for="invite in invited" v-bind:key="invite.gameId">
             {{invite.gameName}}
-            <button @click="accept(invite.gameId)">Accept</button>
-            <button @click="decline(invite.gameId)">Decline</button>
+            <button class="sb-btn" @click="accept(invite.gameId)">Accept</button>
+            <button class="sb-btn" @click="decline(invite.gameId)">Decline</button>
           </li>
       </ul>
   </div>

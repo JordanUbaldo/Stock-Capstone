@@ -7,7 +7,7 @@
     <stock-details v-if="$store.state.showForm" />
     <br>
     <trade-form v-if="$store.state.showForm" />
-    <button v-on:click="flipViewTradeHistory">{{ buttonMessage }}</button>
+    <button class="btn" v-on:click="flipViewTradeHistory">{{ buttonMessage }}</button>
     <trade-history v-if="viewTradeHistory" />
   </div>
 </template>

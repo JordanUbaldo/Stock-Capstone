@@ -1,6 +1,6 @@
 <template>
   <div>
-      <button v-on:click="logout">Logout</button>
+      <button class="sb-btn" v-on:click="logout">Logout</button>
   </div>
 </template>
 
