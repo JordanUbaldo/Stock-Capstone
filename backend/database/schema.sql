@@ -1,5 +1,6 @@
 BEGIN TRANSACTION;
 
+DROP TABLE IF EXISTS stocks;
 DROP TABLE IF EXISTS trades;
 DROP TABLE IF EXISTS trade_type;
 DROP TABLE IF EXISTS balances;
@@ -7,6 +8,7 @@ DROP TABLE IF EXISTS user_status;
 DROP TABLE IF EXISTS games;
 DROP TABLE IF EXISTS users;
 
+DROP SEQUENCE IF EXISTS seq_stock_id;
 DROP SEQUENCE IF EXISTS seq_trade_id;
 DROP SEQUENCE IF EXISTS seq_type_id;
 DROP SEQUENCE IF EXISTS seq_balance_id;
@@ -18,7 +20,7 @@ CREATE SEQUENCE seq_user_id
   NO MAXVALUE
   NO MINVALUE
   CACHE 1;
-  
+
 CREATE SEQUENCE seq_game_id
   INCREMENT BY 1
   NO MAXVALUE
@@ -30,19 +32,25 @@ CREATE SEQUENCE seq_balance_id
   NO MAXVALUE
   NO MINVALUE
   CACHE 1;
-  
+
 CREATE SEQUENCE seq_type_id
   INCREMENT BY 1
   NO MAXVALUE
   NO MINVALUE
   CACHE 1;
-  
+
 CREATE SEQUENCE seq_trade_id
   INCREMENT BY 1
   NO MAXVALUE
   NO MINVALUE
   CACHE 1;
   
+CREATE SEQUENCE seq_stock_id
+  INCREMENT BY 1
+  NO MAXVALUE
+  NO MINVALUE
+  CACHE 1;
+
 CREATE TABLE users (
 	user_id int DEFAULT nextval('seq_user_id'::regclass) NOT NULL,
 	username varchar(50) NOT NULL UNIQUE,
@@ -54,7 +62,7 @@ CREATE TABLE users (
 CREATE TABLE games (
 	game_id int DEFAULT nextval('seq_game_id'::regclass) NOT NULL,
 	game_name varchar(50) NOT NULL,
-	game_status varchar(50) DEFAULT 'Active' NOT NULL,
+	game_active boolean DEFAULT TRUE NOT NULL,
 	host varchar(50) NOT NULL,
 	start_date date DEFAULT CURRENT_DATE NOT NULL,
 	end_date date NOT NULL,
@@ -73,7 +81,7 @@ CREATE TABLE balances (
 	balance_id int DEFAULT nextval('seq_balance_id'::regclass) NOT NULL,
 	game_id int NOT NULL,
 	username varchar(50) NOT NULL,
-	amount decimal(13, 2) NOT NULL,
+	amount decimal(13, 2) DEFAULT 100000.00 NOT NULL,
 	CONSTRAINT PK_balances PRIMARY KEY (balance_id),
 	CONSTRAINT FK_game_id FOREIGN KEY (game_id) REFERENCES games (game_id),
 	CONSTRAINT FK_username FOREIGN KEY (username) REFERENCES users (username)
@@ -90,7 +98,7 @@ CREATE TABLE trades (
 	game_id int NOT NULL,
 	username varchar(50) NOT NULL,
 	type_id int NOT NULL,
-	stock_ticker int NOT NULL,
+	stock_ticker varchar(10) NOT NULL,
 	stock_name varchar(50) NOT NULL,
 	amount decimal(13, 2) NOT NULL,
 	purchase_date date DEFAULT CURRENT_DATE NOT NULL,
@@ -103,8 +111,17 @@ CREATE TABLE trades (
 	CONSTRAINT CK_trade_amount_gt_0 CHECK ((amount>0))
 );
 
-INSERT INTO users (username,password_hash,role) VALUES ('user','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_USER');
-INSERT INTO users (username,password_hash,role) VALUES ('admin','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_ADMIN');
+CREATE TABLE stocks (
+	stock_id int DEFAULT nextval('seq_stock_id'::regclass) NOT NULL,
+	game_id int NOT NULL,
+	username varchar(50) NOT NULL,
+	stock_ticker varchar(10) NOT NULL,
+	stock_name varchar(50) NOT NULL,
+	shares int NOT NULL,
+	CONSTRAINT PK_stocks PRIMARY KEY (stock_id),
+	CONSTRAINT FK_game_id FOREIGN KEY (game_id) REFERENCES games (game_id),
+	CONSTRAINT FK_username FOREIGN KEY (username) REFERENCES users (username)
+);
 
 INSERT INTO trade_type (type) VALUES ('Buy');
 INSERT INTO trade_type (type) VALUES ('Sell');
