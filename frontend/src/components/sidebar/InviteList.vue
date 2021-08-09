@@ -96,7 +96,7 @@ export default {
     justify-content: center;
     margin: 5px 30px 5px 30px;
     padding: 10px 0px 10px 0px;
-    background-color: #04460e;
+    background-color: #2e645f;
     border-radius: 5px;
     border: 1px solid #033a0c;
     font-size: 16px;

@@ -19,6 +19,9 @@ export default ({
   body {
     font-size: 16px;
     font-family: Avenir, Helvetica, Arial, sans-serif;
+    background-image: url("../src/assets/green:blue.jpg");
+    background-repeat:no-repeat;
+    background-size: cover;
     background-color: #04460e;
     white-space: nowrap;
   }
@@ -30,7 +33,7 @@ export default ({
     grid-template-areas:
       "sidebar content";
     text-align: center;
-    color: #04460e;
+    color: #2e645f;
     margin-top: 60px;
   }
 
@@ -53,23 +56,26 @@ export default ({
   }
 
   #sidebar {
-    background-color: #eeeeee;
     margin: 10px;
     padding: 8px;
     border-radius: 10px;
     white-space: normal;
+
+    background-color:rgba(255, 255, 255, 0.562);
+    box-shadow:none;
   }
 
   #router_view {
-    background-color: #eeeeee;
     margin: 10px;
     padding: 8px;
     border-radius: 10px;
     white-space: normal;
+    background-color:rgba(255, 255, 255, 0.507);
+    box-shadow:none;
   }
 
   .main-div {
-    background-color:#30642e;
+    background-color:#2e645f;
     margin: 10px;
     padding: 8px;
     border-radius: 10px;
@@ -98,7 +104,7 @@ export default ({
     border-radius: 5px;
     border: 1px solid #c4c4c4;
     font-size: 16px;
-    color: #30642e;
+    color:#2e645f;
   }
 
   .btn:hover {
@@ -110,7 +116,7 @@ export default ({
     margin: 5px;
     padding: 10px 0px 10px 0px;
     width: 150px;
-    background-color: #04460e;
+    background-color: #2e645faf;;
     border-radius: 5px;
     border: 1px solid #033a0c;
     font-size: 16px;
@@ -129,7 +135,7 @@ export default ({
     margin: 5px;
     padding: 10px 0px 10px 0px;
     width: 150px;
-    background-color: #04460e;
+    background-color: #2e645f;;
     border-radius: 5px;
     border: 1px solid #033a0c;
     font-size: 16px;
