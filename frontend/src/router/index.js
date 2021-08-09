@@ -2,12 +2,12 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../views/Home.vue'
 import Game from '../views/Game.vue'
-import Logout from '../components/Logout.vue'
-import Register from '../components/Register.vue'
+import Logout from '../components/sidebar/Logout.vue'
+import Register from '../components/sidebar/Register.vue'
 import store from '../store/index'
-import Test from '@/views/Test.vue'
 import CreateGame from '../views/CreateGame.vue'
-import Stock from '../components/Stock.vue'
+import Invite from '../views/Invite.vue'
+import GameOver from '@/views/GameOver.vue'
 
 Vue.use(Router)
 
@@ -28,9 +28,6 @@ const router = new Router({
       path: '/',
       name: 'home',
       component: Home,
-      // meta: {
-      //   requiresAuth: true
-      // }
     },
     {
       path: "/logout",
@@ -49,15 +46,14 @@ const router = new Router({
       }
     },
     {
-      path: "/test",
-      name: "test",
-      component: Test
-    },
-    {
-      path: "/game",
-      //path: "/game/:id",
+      path: "/game/:gameId",
       name: "game",
       component: Game
+    },
+    {
+      path: "/game/:gameId/game-over",
+      name: "game-over",
+      component: GameOver
     },
     {
       path: "/create",
@@ -65,9 +61,9 @@ const router = new Router({
       component: CreateGame
     },
     {
-      path: "/stock",
-      name: "stock",
-      component: Stock
+    path: "/game/:gameId/invite/",
+    name: "invite",
+    component: Invite
     }
   ]
 })

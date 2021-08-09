@@ -37,9 +37,9 @@
 </template>
 
 <script>
-import authService from "../services/AuthService";
-import gamesService from "../services/GamesService";
-import userService from "../services/UserService";
+import authService from "@/services/AuthService";
+import gamesService from "@/services/GamesService";
+import userService from "@/services/UserService";
 
 export default {
   name: "login",
@@ -55,7 +55,9 @@ export default {
   },
   methods: {
     login() {
+      if(this.$route.path != '/'){
       this.$router.push("/");
+      }
       authService
         .login(this.user)
         .then(response => {
@@ -86,7 +88,6 @@ export default {
                     this.$store.commit("SET_INVITES", response.data);
                 }
             })
-
           }
         })
         .catch(error => {
@@ -96,6 +97,7 @@ export default {
             this.invalidCredentials = true;
           }
         });
+
     }
   }
 };

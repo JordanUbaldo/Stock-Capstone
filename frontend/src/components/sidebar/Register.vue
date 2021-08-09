@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import authService from '../services/AuthService';
+import authService from '@/services/AuthService';
 
 export default {
   name: 'register',
@@ -66,10 +66,9 @@ export default {
           .register(this.user)
           .then((response) => {
             if (response.status == 201) {
-              // this.$router.push({
-              //   path: '/login',
-              //   query: { registration: 'success' },
-              // });
+              alert("Registration Success! Please Login")
+              this.user = {role:'user'};
+              this.$store.commit("LOGIN_BTN");
             }
           })
           .catch((error) => {

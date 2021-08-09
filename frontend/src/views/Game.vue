@@ -13,9 +13,9 @@
 </template>
 
 <script>
-import GameDetails from "@/components/GameDetails"
-import GameSummary from "@/components/GameSummary"
-import LeaderBoard from "@/components/LeaderBoard"
+import GameDetails from "@/components/games/GameDetails"
+import GameSummary from "@/components/games/GameSummary"
+import LeaderBoard from "@/components/games/LeaderBoard"
 import gamesService from "@/services/GamesService"
 
 export default {
@@ -31,6 +31,9 @@ export default {
         GameDetails,
         GameSummary,
         LeaderBoard
+    },
+    created() {
+        
     }
 }
 </script>

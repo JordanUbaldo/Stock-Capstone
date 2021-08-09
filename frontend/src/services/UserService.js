@@ -11,5 +11,8 @@ export default {
     },
     getUsersForGame(gameId,token) {
         return http.get(`/games/${gameId}/users`,{headers: {'Authorization': `Bearer ${token}`}});
+    },
+    getBalancesForGame(gameId, token) {
+        return http.get(`/games/${gameId}/balance`,{headers: {'Authorization': `Bearer ${token}`}});
     }
 }

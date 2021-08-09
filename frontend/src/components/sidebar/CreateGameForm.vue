@@ -11,19 +11,14 @@
             </div>
             <button type="submit" v-on:click="createGame">Create Game</button>
         </form>
-        <div v-show="gameCreated">
-            <send-invites />
-        </div>
     </div>
 </template>
 
 <script>
 import gamesService from "@/services/GamesService.js";
 import userService from '@/services/UserService.js';
-import SendInvites from '@/components/SendInvites.vue';
 
 export default {
-  components: { SendInvites },
     name: "create-game",
     data() {
         return {
@@ -59,6 +54,16 @@ export default {
                     }
                     this.gameCreated = true;
                     alert("Game Created!");
+                    
+                    this.$router.push({ name: 'invite', params: { gameId : this.$store.state.currentGameId}})
+                    
+                    gamesService
+                    .getGames(this.$store.state.token, "Accepted")
+                    .then(response => {
+                        if(response.status === 200) {
+                            this.$store.commit("SET_ACCEPTED_GAMES", response.data);
+                        }
+                    })
                 } else if(response.data === 0) {
                     alert("Failed to Create Game");
                 }

@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 public class Balance {
 
-    private long balanceId;
+    private int balanceId;
     private int gameId;
     private String username;
     private BigDecimal amount = new BigDecimal(100000);
@@ -17,7 +17,7 @@ public class Balance {
     }
 
     //Constructor for pulling information from DB
-    public Balance(long balanceId, int gameId, String username, BigDecimal amount) {
+    public Balance(int balanceId, int gameId, String username, BigDecimal amount) {
         this.balanceId = balanceId;
         this.gameId = gameId;
         this.username = username;
@@ -27,17 +27,15 @@ public class Balance {
     //Space for methods
 
 
-
-
-    public long getBalanceId() {
+    public int getBalanceId() {
         return balanceId;
     }
 
-    public void setBalanceId(long balanceId) {
+    public void setBalanceId(int balanceId) {
         this.balanceId = balanceId;
     }
 
-    public long getGameId() {
+    public int getGameId() {
         return gameId;
     }
 
