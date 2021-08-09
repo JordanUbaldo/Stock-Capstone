@@ -36,6 +36,7 @@ export default {
         currentGameId() {
             return this.$store.state.currentGameId;
         }
+        
     },
     async created() {
         this.trades = await stockService.getTrades(this.currentGameId, this.$store.state.token);
