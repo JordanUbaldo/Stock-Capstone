@@ -3,7 +3,7 @@
       <!-- Game Name -->
       <h1>Game: {{ $store.state.currentGameName }}</h1>
       <!-- End Date -->
-      <h2>End Date: {{ (new Date($store.state.currentGameEndDate)).toLocaleString() }}</h2>
+      <h2>Game End: {{ (new Date($store.state.currentGameEndDate)).toDateString() }} 4:00PM EST</h2>
       <!-- Invite Button for Host -->
       <button class="btn" v-if="displayInvite" type="button" @click='routeToInvite'>Invite</button>
   </div>

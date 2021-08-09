@@ -1,6 +1,6 @@
 <template>
   <div>
-      <h2>Invites</h2>
+      <h2 v-show="!invited.length < 1">Invites</h2>
       <ul>
           <li class="invite-list" v-for="invite in invited" v-bind:key="invite.gameId">
             {{invite.gameName}}

@@ -15,7 +15,7 @@
               <td>{{ trade.stockName }}</td>
               <td>{{ trade.tradeType }}</td>
               <td>{{ trade.purchasePrice }}</td>
-              <td>{{ trade.numberOfShares }}</td>`
+              <td>{{ trade.numberOfShares }}</td>
           </tr>
       </table>
   </div>
