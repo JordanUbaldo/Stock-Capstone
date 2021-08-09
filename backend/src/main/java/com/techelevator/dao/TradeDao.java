@@ -12,8 +12,7 @@ import java.util.List;
 public interface TradeDao {
     List<StockResponse> getStocksByGameId(int gameId, Principal principal);
     List<TradeResponse> getTradesByGameId(int gameId, Principal principal);
-    List<Stock> getListOfStocks(int gameId);
-    void changeBalance(int gameId, String username, BigDecimal amount);
+    List<TradeRequest> getListOfStocks();
     Balance findMaxAmountByGameId(int gameId);
-    void tradeStocks(TradeRequest trade, Principal principal) throws InsufficientFundsException, InsufficientSharesException, NonExistentStockException;
+    void tradeStocks(TradeRequest trade, String name) throws InsufficientFundsException, InsufficientSharesException, NonExistentStockException;
 }

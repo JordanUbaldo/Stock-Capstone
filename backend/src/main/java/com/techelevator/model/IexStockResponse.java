@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class IexStockResponse {
     private String symbol;
     private String companyName;
-    private String latestPrice;
+    private String previousClose;
 
     public String getSymbol() {
         return symbol;
@@ -24,11 +24,11 @@ public class IexStockResponse {
         this.companyName = companyName;
     }
 
-    public String getLatestPrice() {
-        return latestPrice;
+    public String getPreviousClose() {
+        return previousClose;
     }
 
-    public void setLatestPrice(String latestPrice) {
-        this.latestPrice = latestPrice;
+    public void setPreviousClose(String previousClose) {
+        this.previousClose = previousClose;
     }
 }

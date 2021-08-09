@@ -6,13 +6,10 @@ import com.techelevator.exception.InsufficientFundsException;
 import com.techelevator.exception.InsufficientSharesException;
 import com.techelevator.exception.NonExistentStockException;
 import com.techelevator.model.*;
-import com.techelevator.services.SchedulerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
-import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
 
@@ -22,11 +19,9 @@ import java.util.List;
 public class StockController {
 
     private TradeDao tradeDao;
-    private GameDao gameDao;
 
-    public StockController(TradeDao tradeDao, GameDao gameDao) {
+    public StockController(TradeDao tradeDao) {
         this.tradeDao = tradeDao;
-        this.gameDao = gameDao;
     }
 
     @RequestMapping(value = "/games/{gameId}/stocks", method = RequestMethod.GET)
@@ -42,29 +37,8 @@ public class StockController {
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/games/trades", method = RequestMethod.POST)
     public void tradeStocks(@RequestBody TradeRequest trade, Principal principal) throws InsufficientFundsException, InsufficientSharesException, NonExistentStockException {
-        tradeDao.tradeStocks(trade, principal);
+        String username = principal.getName();
+        tradeDao.tradeStocks(trade, username);
     }
-
-    @RequestMapping(value = "/games/{gameId}/end", method = RequestMethod.GET)
-    public String getWinUserByGameId(@PathVariable int gameId){
-
-        List<Stock> stockList =  tradeDao.getListOfStocks(gameId);
-        for (int i = 0; i < stockList.size(); i++) {
-            BigDecimal currentPrice = getLatestPrice(stockList.get(i).getStockTicker());
-            BigDecimal totalPrice = currentPrice.multiply(new BigDecimal(stockList.get(i).getShares())).subtract(new BigDecimal("19.95"));
-            tradeDao.changeBalance(gameId, stockList.get(i).getUsername(),totalPrice);
-        }
-        Balance maxBalance = tradeDao.findMaxAmountByGameId(gameId);
-        gameDao.changeGameStatusByGameId(gameId);
-        return maxBalance.getUsername();
-    }
-
-    private BigDecimal getLatestPrice(String stockTicker) {
-        RestTemplate restTemplate = new RestTemplate();
-        IexStockResponse iexStock = restTemplate.getForObject("https://sandbox.iexapis.com/stable/stock/"+stockTicker+"/quote?token=Tpk_f2f602e084b44aa5a811ffd1445bc357", IexStockResponse.class);
-        BigDecimal price = new BigDecimal(iexStock.getLatestPrice());
-        return price;
-    }
-
 
 }

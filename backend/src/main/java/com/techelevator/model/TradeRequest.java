@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 public class TradeRequest {
     private int gameId;
+    private String username;
     private String stockTicker;
     private String stockName;
     private String tradeType;
@@ -31,6 +32,14 @@ public class TradeRequest {
 
     public void setGameId(int gameId) {
         this.gameId = gameId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getStockTicker() {
