@@ -3,9 +3,7 @@
     <stock-list />
     <br>
     <stock-search-form />
-    <br>
     <stock-details v-if="$store.state.showForm" />
-    <br>
     <trade-form v-if="$store.state.showForm" />
     <button class="btn" v-on:click="flipViewTradeHistory">{{ buttonMessage }}</button>
     <trade-history v-if="viewTradeHistory" />

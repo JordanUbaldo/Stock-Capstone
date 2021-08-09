@@ -4,15 +4,15 @@
     <div v-if="$route.name.match('game-over')">
       <winner-display v-bind:winner="winner" />
     </div>
-      <h2>Leaderboard</h2>
+      <h2>Leaderboard:</h2>
       <p>You:</p>
-      <p>{{  userIndex+1 }}  {{ fullLeaderboard[userIndex].username }}  ${{ new Intl.NumberFormat().format(fullLeaderboard[userIndex].amount) }}</p>
+      <p class="highlight">{{  userIndex+1 }}  {{ fullLeaderboard[userIndex].username }}  ${{ new Intl.NumberFormat().format(fullLeaderboard[userIndex].amount) }}</p>
       <p></p>
       <p></p>
     </div>
     <p>---------------------------</p>
     <div v-bind:key="user.username" v-for="user in fullLeaderboard">
-    <p>{{ fullLeaderboard.indexOf(user)+1 }}  {{ user.username }}  ${{ new Intl.NumberFormat().format(user.amount) }}</p>
+    <p v-bind:class="(user.username===$store.state.user.username)?'highlight':''">{{ fullLeaderboard.indexOf(user)+1 }}  {{ user.username }}  ${{ new Intl.NumberFormat().format(user.amount) }}</p>
     <p></p>
     </div>
   </div> 
@@ -43,6 +43,7 @@ export default {
 </script>
 
 <style>
-
-
+.highlight {
+  color: gold;
+}
 </style>

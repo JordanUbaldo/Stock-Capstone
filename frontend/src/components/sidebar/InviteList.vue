@@ -2,10 +2,11 @@
   <div>
       <h2>Invites</h2>
       <ul>
-          <li class="invite-list" v-for="invite in invited" v-bind:key="invite.gameId">
+          <li id="inv-list" v-for="invite in invited" v-bind:key="invite.gameId">
             {{invite.gameName}}
-            <button class="sb-btn" @click="accept(invite.gameId)">Accept</button>
-            <button class="sb-btn" @click="decline(invite.gameId)">Decline</button>
+            <hr>
+            <button id="inv-accept" @click="accept(invite.gameId)">Accept</button>
+            <button id="inv-decline" @click="decline(invite.gameId)">Decline</button>
           </li>
       </ul>
   </div>
@@ -89,5 +90,40 @@ export default {
 </script>
 
 <style>
+#inv-list {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+    margin: 5px 30px 5px 30px;
+    padding: 10px 0px 10px 0px;
+    background-color: #04460e;
+    border-radius: 5px;
+    border: 1px solid #033a0c;
+    font-size: 16px;
+    color: #eeeeee;
+}
 
+#inv-list hr {
+    flex-basis: 100%;
+    height: 0;
+    margin: 0;
+    border: 0;
+}
+
+#inv-accept, #inv-decline {
+    justify-content: center;
+    margin: 3px;
+    padding: 5px 0px 5px 0px;
+    width: 60px;
+    background-color: #eeeeee;
+    border-radius: 5px;
+    border: 1px solid #c4c4c4;
+    font-size: 16px;
+    color: #30642e;
+}
+
+#inv-accept:hover, #inv-decline:hover {
+    background-color: #cccccc;
+    cursor: pointer;
+}
 </style>
