@@ -33,13 +33,10 @@ export default {
                 this.$store.commit("SET_CURRENT_GAME_ID", gameId);
                 this.$store.commit("SET_CURRENT_GAME_NAME", gameName);
                 this.$store.commit('SET_CURRENT_GAME_END_DATE', gameEndDate);
-                this.$router.push({ name: 'game', params: { gameId : gameId}});
 
-                //
                 const response = await gamesService.getLeaderboard(this.$store.state.currentGameId, this.$store.state.token);
                 const leaderboard= response.data.sort((a,b) => b.amount - a.amount)
                 this.$store.commit('SET_CURRENT_LEADERBOARD', leaderboard);
-                //
 
                 const rawStocksResponse = await stockService.getStocks(gameId, this.$store.state.token);
                 this.$store.commit('SET_CURRENT_USER_STOCKS', rawStocksResponse.data);
@@ -49,6 +46,7 @@ export default {
                 
                 this.$store.commit('CLEAR_CURRENT_STOCK_DETAILS');
                 this.$store.commit('SET_SHOW_FORM_FALSE');
+                this.$router.push({ name: 'game', params: { gameId : gameId}});
             }
         },
         isGameOver(endDate) {

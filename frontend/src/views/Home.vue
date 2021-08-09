@@ -2,7 +2,7 @@
   <div id="home_view">
     <div class="home">
       <h1>Diamond Hands</h1>
-      <img id="home-image" src= "../assets/DiamondHands.png" alt="Home Image">
+      <img id="home-image" src= "../assets/stocks-wall-street.gif" alt="Home Image">
     </div>
   </div>
 </template>
