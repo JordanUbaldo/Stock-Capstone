@@ -32,7 +32,7 @@ public class SchedulerService {
     }
 
     // Checks database every weekday at 4:00 pm US Eastern Standard Time, when the markets close.
-    @Scheduled(cron = "0 21 22 * * MON-FRI", zone = "US/Eastern")
+    @Scheduled(cron = "0 0 16 * * MON-FRI", zone = "US/Eastern")
     public void tester() throws InsufficientFundsException, InsufficientSharesException, NonExistentStockException {
         System.out.println("Hello");
         List<TradeRequest> stockList =  jdbcTradeDao.getListOfStocks();
