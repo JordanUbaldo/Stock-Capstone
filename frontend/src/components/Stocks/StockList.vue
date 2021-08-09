@@ -1,15 +1,18 @@
 <template>
   <div id="container">
       <h2>Your Stocks:</h2>
-      <ul>
-          <li v-for="stock in ownedStocks" v-bind:key="stock.stockTicker" class="stockSummary"
-          v-on:click="getStockDetails(stock.stockTicker)">
-              {{stock.stockTicker}}
-              {{stock.stockName}}
-              {{stock.numberOfShares}}
-              {{stock.totalCost}}
-          </li>
-      </ul>
+      <table>
+          <tr id="tableHead">
+              <td>Ticker Symbol</td>
+              <td>Stock Name</td>
+              <td>Number of Shares</td>
+          </tr>
+          <tr v-for="stock in ownedStocks" v-bind:key="stock.stockTicker" v-on:click="getStockDetails(stock.stockTicker)" class="stockSummary">
+              <td>{{ stock.stockTicker }}</td>
+              <td>{{ stock.stockName }}</td>
+              <td>{{ stock.numberOfShares }}</td>
+          </tr>
+      </table>
   </div>
 </template>
 
@@ -52,7 +55,10 @@ export default {
 
 <style>
     .stockSummary {
-        border: 1px solid gold;
         list-style: none;
+    }
+
+    table {
+        margin: auto;
     }
 </style>

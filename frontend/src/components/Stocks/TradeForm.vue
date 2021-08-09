@@ -1,10 +1,10 @@
 <template>
   <div id="content">
-      <form v-on:submit.prevent="postTrade" id="tradeForm">
+      <form class="create-trade" v-on:submit.prevent="postTrade" id="tradeForm">
           <br>
           <div class="trade">
             <label for="tradeType">Buy/Sell: </label>
-            <select name="tradeType" id="tradeType" v-model="tradeType">
+            <select class="form-control" name="tradeType" id="tradeType" v-model="tradeType">
                 <option value="Buy" >Buy</option>
                 <option value="Sell">Sell</option>
             </select>
@@ -12,12 +12,12 @@
           <br>
           <div class="trade">
               <label for="numberOfShares">Number of Shares: </label>
-              <input type="text" id="numberOfShares" v-model="numberOfShares" v-on:change="setTotalCost">
+              <input class="form-control" type="text" id="numberOfShares" v-model="numberOfShares" v-on:change="setTotalCost">
           </div>
           <br>
           <div class="trade">
               <label for="priceOfStocks">Cost of Stocks: </label>
-              <input type="text" id="priceOfStocks" v-model="priceOfStocks" v-on:change="setNumberOfShares">
+              <input class="form-control" type="text" id="priceOfStocks" v-model="priceOfStocks" v-on:change="setNumberOfShares">
           </div>
           <div class="trade" v-show="priceOfStocks !== 0">
               <p>
@@ -26,8 +26,8 @@
           </div>
           <br>
           <br>
-          <button type="submit">Submit Trade</button>
-          <button type="reset" v-on:click="cancel">Cancel</button>
+          <button class="btn" type="submit">Submit Trade</button>
+          <button class="btn" type="reset" v-on:click="cancel">Cancel</button>
           <p>*Markets move fast; the price you see may not be the price the trade is executed at.</p>
           <p>All trades include a $19.95 commission.</p>
       </form>
@@ -104,8 +104,29 @@ export default {
 </script>
 
 <style>
-    .trade {
-        display: block;
-    }
+.create-trade {
+    width: 100%;
+    margin: 0 auto;
+}
 
+.create-trade label, input {
+    display: inline-block;
+}
+
+.create-trade label {
+    width: 25%;
+    text-align: right;
+}
+
+.create-trade label+input {
+    width: 20%;
+}
+
+#tradeType{
+    width: 20%;
+}
+
+.trade {
+    display: block;
+}
 </style>

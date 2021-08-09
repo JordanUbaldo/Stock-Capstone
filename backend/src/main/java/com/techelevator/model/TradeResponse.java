@@ -3,6 +3,7 @@ package com.techelevator.model;
 import java.math.BigDecimal;
 
 public class TradeResponse {
+    private int tradeId;
     private int gameId;
     private String stockTicker;
     private String stockName;
@@ -10,6 +11,12 @@ public class TradeResponse {
     private BigDecimal purchasePrice;
     private int numberOfShares;
     private String tradeType;
+
+    public void setTradeId(int tradeId) { this.tradeId = tradeId; }
+
+    public int getTradeId() {
+        return tradeId;
+    }
 
     public int getGameId() {
         return gameId;

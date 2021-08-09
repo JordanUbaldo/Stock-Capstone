@@ -3,7 +3,7 @@
         <ul>
             <li v-for="user in users" v-bind:key="user.username">
             {{user.username}}
-            <button @click="invitePlayer(user.username)">Invite</button>
+            <button class="btn" @click="invitePlayer(user.username)">Invite</button>
             </li>
         </ul>
     </div>

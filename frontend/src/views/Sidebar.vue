@@ -1,8 +1,8 @@
 <template>
   <div>
       <div id="logged-out" v-if="!$store.state.token">
-        <button v-show="!$store.state.loginFormState" @click="loginBtn" >Login</button>
-        <button v-show="!$store.state.registerFormState" @click="registerBtn" >Register</button>
+        <button class="sb-btn" v-show="!$store.state.loginFormState" @click="loginBtn" >Login</button>
+        <button class="sb-btn" v-show="!$store.state.registerFormState" @click="registerBtn" >Register</button>
         <div v-show="$store.state.loginFormState">
         <login />
         </div>
@@ -11,7 +11,7 @@
         </div>
       </div>
       <div id="logged-in" v-else>
-        <h3>{{ $store.state.user.username }}</h3>
+        <h1>{{ $store.state.user.username }}</h1>
         <logout-btn />
         <create-game-btn />
         <game-list />

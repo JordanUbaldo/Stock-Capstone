@@ -33,17 +33,17 @@ VALUES (4001, 2003, 'testuser1', 100274.91),
        (4006, 2006, 'testuser4', 88379.35);
        
 INSERT INTO trades (trade_id, game_id, username, type_id, stock_ticker, stock_name, amount, purchase_date, price_per_share, shares)
-VALUES (5001, 2003, 'testuser1', 1, 'APPL', 'Apple', 99858.44, '2021-08-04', 146.42, 682),
+VALUES (5001, 2003, 'testuser1', 1, 'AAPL', 'Apple', 99858.44, '2021-08-04', 146.42, 682),
        (5002, 2003, 'testuser2', 1, 'AMZN', 'Amazon', 97169.72, '2021-08-04', 3350.68, 29),
-       (5003, 2004, 'testuser1', 1, 'APPL', 'Apple', 99858.44, '2021-08-04', 146.42, 682),
+       (5003, 2004, 'testuser1', 1, 'AAPL', 'Apple', 99858.44, '2021-08-04', 146.42, 682),
        (5004, 2004, 'testuser3', 1, 'TSLA', 'Tesla', 99984.09, '2021-08-04', 719.31, 139),
        (5005, 2005, 'testuser3', 1, 'MSFT', 'Microsoft', 99851.50, '2021-08-04', 285.29, 350),
        (5006, 2006, 'testuser4', 1, 'GOOG', 'Google', 97808.04, '2021-08-04', 2716.89, 36);
        
 INSERT INTO stocks (stock_id, game_id, username, stock_ticker, stock_name, shares)
-VALUES (6001, 2003, 'testuser1', 'APPL', 'Apple', 682),
+VALUES (6001, 2003, 'testuser1', 'AAPL', 'Apple', 682),
        (6002, 2003, 'testuser2', 'AMZN', 'Amazon', 29),
-       (6003, 2004, 'testuser1', 'APPL', 'Apple', 682),
+       (6003, 2004, 'testuser1', 'AAPL', 'Apple', 682),
        (6004, 2004, 'testuser3', 'TSLA', 'Tesla', 139),
        (6005, 2005, 'testuser3', 'MSFT', 'Microsoft', 350),
        (6006, 2006, 'testuser4', 'GOOG', 'Google', 36);

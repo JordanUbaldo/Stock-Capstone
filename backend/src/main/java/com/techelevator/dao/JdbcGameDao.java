@@ -288,7 +288,7 @@ public class JdbcGameDao implements GameDao{
 
     @Override
     public void changeGameStatusByGameId(int gameId) {
-        String sql = "UPDATE games SET game_active = false WHERE game_id = ?;";
+        String sql = "UPDATE games SET game_active = false WHERE game_id = ? AND game_active = true ;";
         try {
             jdbcTemplate.update(sql, gameId);
         } catch (DataAccessException e) {

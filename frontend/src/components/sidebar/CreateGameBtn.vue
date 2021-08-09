@@ -1,6 +1,6 @@
 <template>
     <div>
-        <router-link v-bind:to="{ name: 'create' }"><button>Create Game</button></router-link>
+        <router-link v-bind:to="{ name: 'create' }"><button class="sb-btn">Create Game</button></router-link>
     </div>
 </template>
 

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,9 +49,9 @@ public class JdbcTradeDao implements TradeDao {
     public List<TradeResponse> getTradesByGameId(int gameId, Principal principal) {
         List<TradeResponse> result = new ArrayList<>();
         String username = principal.getName();
-        String sql = "SELECT game_id, shares, price_per_share, stock_name, stock_ticker, purchase_date, typ.type FROM trades AS tra " +
+        String sql = "SELECT trade_id, game_id, shares, price_per_share, stock_name, stock_ticker, purchase_date, typ.type FROM trades AS tra " +
                 "JOIN trade_type AS typ ON tra.type_id = typ.type_id " +
-                "WHERE game_id = ? and username = ? ORDER BY stock_ticker;";
+                "WHERE game_id = ? and username = ? ORDER BY purchase_date;";
         try {
             SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, gameId, username);
             while (rowSet.next()) {
@@ -63,7 +64,7 @@ public class JdbcTradeDao implements TradeDao {
     }
 
     @Override
-    public void tradeStocks(TradeRequest trade, Principal principal) throws InsufficientFundsException, InsufficientSharesException, NonExistentStockException {
+    public void tradeStocks(TradeRequest trade, String username) throws InsufficientFundsException, InsufficientSharesException, NonExistentStockException {
         String sqlForTrade = "INSERT INTO trades (game_id, username, type_id, stock_ticker, stock_name, amount, purchase_date, price_per_share, shares) " +
                 "VALUES (?,?,?,?,?,?,?,?,?);";
         String sqlForGetBalance = "SELECT * FROM balances WHERE game_id = ? AND username = ?;";
@@ -75,8 +76,8 @@ public class JdbcTradeDao implements TradeDao {
         String sqlInsertStock = "INSERT INTO stocks (game_id, username, stock_ticker, stock_name, shares) VALUES (?,?,?,?,?);";
 
         Balance balance = new Balance();
-        String username = principal.getName();
         int typeId = getTypeId(trade.getTradeType());
+        BigDecimal amountOfMoney = trade.getPurchasePrice().multiply(new BigDecimal(trade.getNumberOfShares()));
         try {
             SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sqlForGetBalance, trade.getGameId(), username);
             if (rowSet.next()) {
@@ -85,9 +86,10 @@ public class JdbcTradeDao implements TradeDao {
 
             //To check if has enough money to buy stocks
             if (trade.getTradeType().equalsIgnoreCase("Buy")) {
-                if (balance.getAmount().subtract(new BigDecimal("19.95")).compareTo(trade.getAmountOfMoney()) >= 0) {
-                    BigDecimal newBalance = balance.getAmount().subtract(new BigDecimal("19.95")).subtract(trade.getAmountOfMoney());
-                    jdbcTemplate.update(sqlForTrade, trade.getGameId(), username, typeId, trade.getStockTicker(), trade.getStockName(), trade.getAmountOfMoney(), LocalDate.now(), trade.getPurchasePrice(), trade.getNumberOfShares());
+
+                if (balance.getAmount().subtract(new BigDecimal("19.95")).compareTo(amountOfMoney) >= 0) {
+                    BigDecimal newBalance = balance.getAmount().subtract(new BigDecimal("19.95")).subtract(amountOfMoney);
+                    jdbcTemplate.update(sqlForTrade, trade.getGameId(), username, typeId, trade.getStockTicker(), trade.getStockName(), amountOfMoney, LocalDate.now(), trade.getPurchasePrice(), trade.getNumberOfShares());
                     jdbcTemplate.update(sqlForUpdateBalance, newBalance, trade.getGameId(), username);
                     //check if this stock exist, if exist then update, if not exist then insert
                     SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlCheckStock, trade.getGameId(), username, trade.getStockTicker());
@@ -101,12 +103,12 @@ public class JdbcTradeDao implements TradeDao {
                 }
             }//Sell stocks and update balance amount
             else if (trade.getTradeType().equalsIgnoreCase("Sell")) {
-                BigDecimal newBalance = balance.getAmount().subtract(new BigDecimal("19.95")).add(trade.getAmountOfMoney());
+                BigDecimal newBalance = balance.getAmount().subtract(new BigDecimal("19.95")).add(amountOfMoney);
                 SqlRowSet rs = jdbcTemplate.queryForRowSet(sqlCheckStock, trade.getGameId(), username, trade.getStockTicker());
                 if (rs.next()) {
                     Stock sellStock = mapRowToStockCheck(rs);
                     if (sellStock.getShares() >= trade.getNumberOfShares()) {
-                        jdbcTemplate.update(sqlForTrade, trade.getGameId(), username, typeId, trade.getStockTicker(), trade.getStockName(), trade.getAmountOfMoney(), LocalDate.now(), trade.getPurchasePrice(), trade.getNumberOfShares());
+                        jdbcTemplate.update(sqlForTrade, trade.getGameId(), username, typeId, trade.getStockTicker(), trade.getStockName(), amountOfMoney, LocalDate.now(), trade.getPurchasePrice(), trade.getNumberOfShares());
                         jdbcTemplate.update(sqlForUpdateBalance, newBalance, trade.getGameId(), username);
                         jdbcTemplate.update(sqlForUpdateStockOfSell, trade.getNumberOfShares(), trade.getGameId(),username, trade.getStockTicker());
                     } else {
@@ -122,31 +124,22 @@ public class JdbcTradeDao implements TradeDao {
     }
 
     @Override
-    public List<Stock> getListOfStocks(int gameId) {
-        List<Stock> result = new ArrayList<>();
+    public List<TradeRequest> getListOfStocks() {
+        List<TradeRequest> result = new ArrayList<>();
 
-        String sql = "SELECT * FROM stocks WHERE game_id = ? ORDER BY stock_ticker";
+        String sql = "SELECT s.game_id, s.username, s.stock_ticker, s.stock_name, s.shares, 'Sell' as trade_type_name " +
+                "FROM stocks s " +
+                "JOIN games g ON g.game_id = s.game_id " +
+                "WHERE g.end_date IN (SELECT CURRENT_DATE) ORDER BY s.game_id;";
         try {
-            SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, gameId);
+            SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql);
             while (rowSet.next()) {
-                result.add(mapRowToStockCheck(rowSet));
+                result.add(mapRowToTradeRequest(rowSet));
             }
         } catch (DataAccessException e) {
             throw new RuntimeException(e);
         }
         return result;
-    }
-
-    @Override
-    public void changeBalance(int gameId, String username, BigDecimal amount) {
-        String sql = "UPDATE balances SET amount = amount + ? WHERE game_id = ? AND username = ?;";
-        String sqlForStock = "UPDATE stocks SET shares = 0 WHERE game_id = ? AND username = ?;";
-        try {
-            jdbcTemplate.update(sql, amount, gameId, username);
-            jdbcTemplate.update(sqlForStock, gameId, username);
-        } catch (DataAccessException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Override
@@ -164,7 +157,6 @@ public class JdbcTradeDao implements TradeDao {
         }
         return result;
     }
-
 
     private int getTypeId(String tradeType) {
         String sql = "SELECT type_id FROM trade_type WHERE type = ?";
@@ -198,6 +190,7 @@ public class JdbcTradeDao implements TradeDao {
 
     private TradeResponse mapRowToTrade(SqlRowSet rowSet) {
         TradeResponse result = new TradeResponse();
+        result.setTradeId(rowSet.getInt("trade_id"));
         result.setGameId(rowSet.getInt("game_id"));
         result.setNumberOfShares(rowSet.getInt("shares"));
         result.setPurchasePrice(rowSet.getBigDecimal("price_per_share"));
@@ -205,6 +198,17 @@ public class JdbcTradeDao implements TradeDao {
         result.setStockTicker(rowSet.getString("stock_ticker"));
         result.setTradeDate(rowSet.getDate("purchase_date").toString());
         result.setTradeType(rowSet.getString("type"));
+        return result;
+    }
+
+    private TradeRequest mapRowToTradeRequest(SqlRowSet rowSet) {
+        TradeRequest result = new TradeRequest();
+        result.setGameId(rowSet.getInt("game_id"));
+        result.setUsername(rowSet.getString("username"));
+        result.setStockTicker(rowSet.getString("stock_ticker"));
+        result.setStockName(rowSet.getString("stock_name"));
+        result.setNumberOfShares(rowSet.getInt("shares"));
+        result.setTradeType(rowSet.getString("trade_type_name"));
         return result;
     }
 

@@ -1,15 +1,17 @@
 <template>
-  <div id="router_view">
-    <div id="summary">
+<div>
+  <div id="game_view">
+    <div id="summary" class="main-div">
     <game-summary />
     </div>
-    <div id="details">
+    <div id="details" class="main-div">
     <game-details />
     </div>
-    <div id="leaderboard">
+    <div id="leaderboard" class="main-div">
     <leader-board />
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -41,20 +43,19 @@ export default {
 <style>
     #summary {
         grid-area: summary;
-        border: 1px solid black;
     }
 
     #details {
         grid-area: details;
-        border: 1px solid black;
     }
 
-    #leaderBoard {
+    #leaderboard {
         grid-area: leaderboard;
     }
-    #router_view {
+
+    #game_view {
         display: grid;
-        grid-template-columns: 2fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
         grid-template-areas:
             "summary summary summary"
             "details details leaderboard"
@@ -63,5 +64,14 @@ export default {
             "details details leaderboard";
     }
 
-
+    @media only screen and (max-width: 1024px) {
+    #game_view {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "summary"
+            "details"
+            "leaderboard";
+    }
+    }
 </style>
