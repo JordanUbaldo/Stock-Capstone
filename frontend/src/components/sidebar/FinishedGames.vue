@@ -1,6 +1,6 @@
 <template>
   <div>    
-    <h2>Finished Games</h2>
+    <h2 v-show="!games.length < 1">Finished Games</h2>
       <ul>
         <li class="game-list" v-for="game in games" v-bind:key="game.gameId" @click="routeToFinishedGameView(game.gameId, game.gameName, game.endDate)">{{ game.gameName }}<img class="hostImage" v-show="game.host == $store.state.user.username" src="@/assets/Crown.png" alt="Host Image"></li>
       </ul>

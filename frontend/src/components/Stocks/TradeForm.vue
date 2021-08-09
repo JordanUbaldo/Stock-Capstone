@@ -9,12 +9,10 @@
                 <option value="Sell">Sell</option>
             </select>
           </div>
-          <br>
           <div class="trade">
               <label for="numberOfShares">Number of Shares: </label>
               <input class="form-control" type="text" id="numberOfShares" v-model="numberOfShares" v-on:change="setTotalCost" onfocus="this.value=''" ref="numShares">
           </div>
-          <br>
           <div class="trade">
               <label for="priceOfStocks">Cost of Stocks: </label>
               <input class="form-control" type="text" id="priceOfStocks" v-model="priceOfStocks" v-on:change="setNumberOfShares" >
@@ -24,8 +22,6 @@
                   Total Cost: {{ this.currencyFormatter.format(totalCost) }}
               </p>
           </div>
-          <br>
-          <br>
           <button class="btn" type="submit">Submit Trade</button>
           <button class="btn" type="reset" v-on:click="cancel">Cancel</button>
           <p>*Markets move fast; the price you see may not be the price the trade is executed at.</p>
@@ -37,6 +33,7 @@
 <script>
 import stockService from '@/services/StockService';
 import userService from '@/services/UserService';
+import gamesService from "@/services/GamesService";
 
 export default {
     name: "trade-form",
@@ -91,6 +88,13 @@ export default {
             } catch (error) {
                 alert(`Error: ${error.response.data.status}\n${error.response.data.message}`);
             }
+            const response = await gamesService.getLeaderboard(this.$store.state.currentGameId, this.$store.state.token);
+            const leaderboard= response.data.sort((a,b) => b.amount - a.amount)
+            this.$store.commit('SET_CURRENT_LEADERBOARD', leaderboard);
+            const userIndex = this.$store.state.currentLeaderboard.findIndex(user => user.username === this.$store.state.user.username);
+            const portfolio = this.$store.state.currentLeaderboard[userIndex].amount
+            this.$store.commit("SET_USER_PORTFOLIO_BALANCE", portfolio);
+
 
             const stockList = await stockService.getStocks(this.currentGameId, this.$store.state.token);
             this.$store.commit('SET_CURRENT_USER_STOCKS', stockList.data);

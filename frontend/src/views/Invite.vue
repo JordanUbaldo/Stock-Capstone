@@ -1,8 +1,12 @@
 <template>
+<div>
     <div>
-        <h1>Invite Players</h1>
-        <send-invites />
+        <div class="main-div">
+            <h1>Invite Players</h1>
+            <send-invites />
+        </div>
     </div>
+</div>
 </template>
 
 <script>
