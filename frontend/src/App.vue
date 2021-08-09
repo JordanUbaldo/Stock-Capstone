@@ -91,7 +91,7 @@ export default ({
   }
 
   .btn {
-    margin: 20px;
+    margin: 20px 5px 20px 5px;
     padding: 10px 0px 10px 0px;
     width: 150px;
     background-color: #eeeeee;
@@ -107,7 +107,7 @@ export default ({
   }
 
   .sb-btn {
-    margin: 10px;
+    margin: 5px;
     padding: 10px 0px 10px 0px;
     width: 150px;
     background-color: #04460e;
@@ -126,7 +126,7 @@ export default ({
     display: inline-block;
     text-align: center;
     width: 70%;
-    margin: 10px 0px 10px 0px;
+    margin: 5px;
     padding: 10px 0px 10px 0px;
     width: 150px;
     background-color: #04460e;
@@ -134,41 +134,41 @@ export default ({
     border: 1px solid #033a0c;
     font-size: 16px;
     color: #eeeeee;
-}
+  }
 
-.game-list a {
-    color: #eeeeee;
-    text-decoration: none;
-}
+  .game-list a {
+      color: #eeeeee;
+      text-decoration: none;
+  }
 
-.game-list:hover {
-    background-color: #022507;
-    cursor: pointer;
-}
+  .game-list:hover {
+      background-color: #022507;
+      cursor: pointer;
+  }
 
-.hostImage {
-    padding-left: 10px;
-    width: auto;
-    height: 14px;
-}
+  .hostImage {
+      padding-left: 10px;
+      width: auto;
+      height: 14px;
+  }
 
-table {
-    margin: auto;
-    border:none;
-    border-collapse: collapse;
-}
+  table {
+      margin: auto;
+      border:none;
+      border-collapse: collapse;
+  }
 
-table td {
-    padding: 5px 10px 5px 10px;
-    border-left: 2px solid #eeeeee;
-    border-right: 2px solid #eeeeee;
-}
+  table td {
+      padding: 5px 10px 5px 10px;
+      border-left: 2px solid #eeeeee;
+      border-right: 2px solid #eeeeee;
+  }
 
-table td:first-child {
-    border-left: none;
-}
+  table td:first-child {
+      border-left: none;
+  }
 
-table td:last-child {
-    border-right: none;
-}
+  table td:last-child {
+      border-right: none;
+  }
 </style>
