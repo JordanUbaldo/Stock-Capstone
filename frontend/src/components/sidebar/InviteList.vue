@@ -4,8 +4,8 @@
       <ul>
           <li class="invite-list" v-for="invite in invited" v-bind:key="invite.gameId">
             {{invite.gameName}}
-            <button class="sb-btn" @click="accept(invite.gameId)">Accept</button>
-            <button class="sb-btn" @click="decline(invite.gameId)">Decline</button>
+            <button id="accept" class="sb-btn" @click="accept(invite.gameId)">Accept</button>
+            <button id="decline" class="sb-btn" @click="decline(invite.gameId)">Decline</button>
           </li>
       </ul>
   </div>
@@ -89,5 +89,12 @@ export default {
 </script>
 
 <style>
+
+#accept {
+    width: 30%
+}
+#decline{
+    width: 30%
+}
 
 </style>
