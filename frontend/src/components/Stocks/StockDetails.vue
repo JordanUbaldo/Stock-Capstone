@@ -9,15 +9,15 @@
       <table>
         <tr>
           <td>Latest Price</td>
-          <td>{{ currentStockDetails.latestPrice }}</td>
+          <td>{{ currencyFormatter.format(currentStockDetails.latestPrice) }}</td>
         </tr>
         <tr>
           <td>Latest Update</td>
-          <td>{{ currentStockDetails.latestUpdate }}</td>
+          <td>{{ currentStockDetails.latestTime }}</td>
         </tr>
         <tr>
           <td>Previous Close</td>
-          <td>{{ currentStockDetails.previousClose }}</td>
+          <td>{{ currencyFormatter.format(currentStockDetails.previousClose) }}</td>
         </tr>
         <tr>
           <td>Change</td>
@@ -42,6 +42,11 @@ export default {
     name: 'stock-details',
     data() {
       return {
+          currencyFormatter: new Intl.NumberFormat('en-US', {
+              style: 'currency',
+              currency: 'USD',
+              maximumFractionDigits: 2
+          })
       }
     },
     computed: {

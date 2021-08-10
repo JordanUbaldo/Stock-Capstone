@@ -1,6 +1,6 @@
 <template>
     <form v-on:submit.prevent="getStockDetails" id="searchForm">
-      <input class="form-control" type="text" v-model="stockTicker" placeholder="Ticker Symbol">
+      <input class="form-control" type="text" v-model="stockTicker" placeholder="Ticker Symbol" ref="tickerSearch">
       <button class="btn" type="submit">Get Stock</button>
     </form>
 </template>
@@ -26,6 +26,9 @@ export default {
             this.$store.commit('SET_SHOW_FORM_TRUE');
             document.getElementById('searchForm').reset()
         }
+    },
+    mounted() {
+        this.$refs.tickerSearch.focus();
     }
 }
 </script>

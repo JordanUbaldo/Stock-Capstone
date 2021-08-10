@@ -1,7 +1,7 @@
 <template>
   <div id="home_view">
     <div class="home">
-      <h1>Diamond Hands</h1>
+      <h1>Super Stonks</h1>
       <img id="home-image" src= "../assets/DiamondHands.png" alt="Home Image">
     </div>
   </div>
@@ -18,7 +18,7 @@ export default {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 50%;
+  width: 35%;
 }
 
 #home_view {
