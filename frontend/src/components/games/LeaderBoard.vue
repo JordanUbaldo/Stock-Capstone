@@ -5,15 +5,24 @@
       <winner-display v-bind:winner="winner" />
     </div>
       <h2>Leaderboard:</h2>
-      <p>You:</p>
-      <p class="highlight">{{  userIndex+1 }}  {{ fullLeaderboard[userIndex].username }}  ${{ new Intl.NumberFormat().format(fullLeaderboard[userIndex].amount) }}</p>
+      <table>
+        <tr class="highlight">
+          <td>{{  userIndex+1 }}</td>
+          <td>{{ fullLeaderboard[userIndex].username }}</td>
+          <td>${{ new Intl.NumberFormat().format(fullLeaderboard[userIndex].amount) }}</td>
+        </tr>
+      </table>
       <p></p>
       <p></p>
     </div>
-    <p>---------------------------</p>
-    <div v-bind:key="user.username" v-for="user in fullLeaderboard">
-    <p v-bind:class="(user.username===$store.state.user.username)?'highlight':''">{{ fullLeaderboard.indexOf(user)+1 }}  {{ user.username }}  ${{ new Intl.NumberFormat().format(user.amount) }}</p>
-    <p></p>
+    <div>
+        <table>
+            <tr td v-bind:class="(user.username===$store.state.user.username)?'highlight':''" v-bind:key="user.username" v-for="user in fullLeaderboard">
+                <td>{{ fullLeaderboard.indexOf(user)+1 }}</td>
+                <td>{{ user.username }}</td>
+                <td>${{ new Intl.NumberFormat().format(user.amount) }}</td>
+            </tr>
+        </table>
     </div>
   </div> 
 </template>

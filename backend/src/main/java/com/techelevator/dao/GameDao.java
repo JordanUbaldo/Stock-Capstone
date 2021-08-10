@@ -17,4 +17,5 @@ public interface GameDao {
     Game findGameByGameId(int gameId);
     void changeGameStatusByGameId(int gameId);
     List<Balance> getBalancesByGameId(int gameId, String username);
+    List<Balance> getHighScores();
 }
