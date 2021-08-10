@@ -107,19 +107,10 @@ public class JdbcGameDao implements GameDao{
             } catch (DataAccessException e) {
                 System.out.println("Error accessing data " + e.getMessage());
             }
-        } else if (status.equals("Accepted") && username.equals(currentUser)) {
-            sql = "UPDATE user_status SET user_status = 'Accepted' WHERE username = ? AND game_id = ?;";
+        } else if ((status.equals("Accepted") || status.equals("Declined"))  && username.equals(currentUser)) {
+            sql = "UPDATE user_status SET user_status = ? WHERE username = ? AND game_id = ?;";
             try {
-                jdbcTemplate.update(sql, username, gameId);
-                // if successful - turning result boolean to true
-                result = true;
-            } catch (DataAccessException e) {
-                System.out.println("Error accessing data " + e.getMessage());
-            }
-        } else if (status.equals("Declined") && username.equals(currentUser)) {
-            sql = "UPDATE user_status SET user_status = 'Declined' WHERE username = ? AND game_id = ?;";
-            try {
-                jdbcTemplate.update(sql, username, gameId);
+                jdbcTemplate.update(sql, status, username, gameId);
                 // if successful - turning result boolean to true
                 result = true;
             } catch (DataAccessException e) {
@@ -153,7 +144,7 @@ public class JdbcGameDao implements GameDao{
     @Override
     public Game findGameByGameId(int gameId) {
         Game game = new Game();
-        String sql = "SELECT game_id, game_name, game_active, host, start_game, end_date FROM games WHERE game_id = ?;";
+        String sql = "SELECT game_id, game_name, game_active, host, start_date, end_date FROM games WHERE game_id = ?;";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, gameId);
             if(results.next()) {
@@ -207,14 +198,12 @@ public class JdbcGameDao implements GameDao{
 
         if(userInTheGame) {
             // getting the list of all stocks in the game
-//        String sqlForTickersInGame = "SELECT stock_ticker, shares FROM trades WHERE game_id = ?;";
-            String sqlForTickersInGame = "SELECT stock_ticker, shares FROM stocks WHERE game_id = ? AND shares > 0";
+            String sqlForTickersInGame = "SELECT stock_ticker, shares FROM stocks WHERE game_id = ? AND shares > 0;";
             List<Share> allStocksInGame = new ArrayList<>();
             try {
                 SqlRowSet results = jdbcTemplate.queryForRowSet(sqlForTickersInGame, gameId);
                 while (results.next()) {
                     Share share = mapRowToShare(results);
-                    System.out.println("Line 196 Printing share added to shares list " + share.getTickerName());
                     allStocksInGame.add(share);
                 }
             } catch (DataAccessException e) {
@@ -225,9 +214,7 @@ public class JdbcGameDao implements GameDao{
             Map<String, BigDecimal> sharePrices = new HashMap<>();
             for (Share share : allStocksInGame) {
                 try {
-                    System.out.println("Line 207 printing share price of which I am calling to external API " + share.getTickerName());
                     BigDecimal sharePrice = price.getPrice(share.getTickerName(), false).getPrice();
-                    System.out.println("Line 209 printing sharePrice " + sharePrice);
                     sharePrices.put(share.getTickerName(), sharePrice);
                 } catch (RestClientException e) {
                     System.out.println("External API is broke! " + e.getMessage());
