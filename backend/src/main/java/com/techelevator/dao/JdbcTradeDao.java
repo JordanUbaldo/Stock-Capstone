@@ -81,7 +81,7 @@ public class JdbcTradeDao implements TradeDao {
         String sqlForUpdateStockOfBuy = "UPDATE users_stocks_games\n" +
                                         "SET shares = shares + ?\n" +
                                         "FROM stocks s\n" +
-                                        "WHERE s.stock_id = userS_stocks_games.stock_id\n" +
+                                        "WHERE s.stock_id = users _stocks_games.stock_id\n" +
                                         "AND game_id = ? AND username = ? AND stock_ticker = ?;";
 
         String sqlForUpdateStockOfSell = "UPDATE users_stocks_games\n" +

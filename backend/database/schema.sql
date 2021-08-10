@@ -44,7 +44,7 @@ CREATE SEQUENCE seq_trade_id
   NO MAXVALUE
   NO MINVALUE
   CACHE 1;
-  
+
 CREATE SEQUENCE seq_stock_id
   INCREMENT BY 1
   NO MAXVALUE
@@ -136,6 +136,15 @@ CREATE TABLE price_per_hour (
 
     CONSTRAINT FK_stock_id FOREIGN KEY (stock_id) REFERENCES stocks (stock_id)
 );
+
+CREATE TABLE periodic_portfolio_value (
+    username varchar(50) NOT NULL,
+    portfolio_value decimal NOT NULL,
+    updated_date TIMESTAMPTZ DEFAULT NOW(),
+
+    CONSTRAINT FK_username FOREIGN KEY (username) REFERENCES users (username)
+);
+
 
 INSERT INTO trade_type (type) VALUES ('Buy');
 INSERT INTO trade_type (type) VALUES ('Sell');

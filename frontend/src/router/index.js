@@ -8,6 +8,7 @@ import store from '../store/index'
 import CreateGame from '../views/CreateGame.vue'
 import Invite from '../views/Invite.vue'
 import GameOver from '@/views/GameOver.vue'
+import Visualization from '@/components/visualizations/Visualization'
 
 Vue.use(Router)
 
@@ -25,9 +26,14 @@ const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: '/vis',
+      name: 'visuals',
+      component: Visualization
+    },
+    {
       path: '/',
       name: 'home',
-      component: Home,
+      component: Home
     },
     {
       path: "/logout",

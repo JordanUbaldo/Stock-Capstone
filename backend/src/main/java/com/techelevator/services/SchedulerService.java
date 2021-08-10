@@ -1,8 +1,10 @@
 package com.techelevator.services;
 
 
+import com.techelevator.dao.GameDao;
 import com.techelevator.dao.JdbcGameDao;
 import com.techelevator.dao.JdbcTradeDao;
+import com.techelevator.dao.TradeDao;
 import com.techelevator.exception.InsufficientFundsException;
 import com.techelevator.exception.InsufficientSharesException;
 import com.techelevator.exception.NonExistentStockException;
@@ -23,25 +25,43 @@ import java.util.TimeZone;
 @Component
 public class SchedulerService {
 
-    private JdbcTradeDao jdbcTradeDao;
-    private JdbcGameDao jdbcGameDao;
+    private TradeDao tradeDao;
+    private GameDao gameDao;
 
-    public SchedulerService(JdbcTradeDao jdbcTradeDao, JdbcGameDao jdbcGameDao) {
-        this.jdbcTradeDao = jdbcTradeDao;
-        this.jdbcGameDao = jdbcGameDao;
+    public SchedulerService(TradeDao tradeDao, GameDao gameDao) {
+        this.tradeDao = tradeDao;
+        this.gameDao = gameDao;
     }
 
     // Checks database every weekday at 4:00 pm US Eastern Standard Time, when the markets close.
     @Scheduled(cron = "0 0 16 * * MON-FRI", zone = "US/Eastern")
     public void tester() throws InsufficientFundsException, InsufficientSharesException, NonExistentStockException {
-        System.out.println("Hello");
-        List<TradeRequest> stockList =  jdbcTradeDao.getListOfStocks();
+        List<TradeRequest> stockList =  tradeDao.getListOfStocks();
         for (int i = 0; i < stockList.size(); i++) {
             BigDecimal currentPrice = getLatestPrice(stockList.get(i).getStockTicker());
             stockList.get(i).setPurchasePrice(currentPrice);
-            jdbcTradeDao.tradeStocks(stockList.get(i), stockList.get(i).getUsername());
-            jdbcGameDao.changeGameStatusByGameId(stockList.get(i).getGameId());
+            tradeDao.tradeStocks(stockList.get(i), stockList.get(i).getUsername());
+            gameDao.changeGameStatusByGameId(stockList.get(i).getGameId());
         }
+    }
+
+    @Scheduled(fixedDelay = 5000)
+    public void storePortfolioBalancesForActiveGames() {
+        // for all gameids
+        List<Integer> gameIds = gameDao.getAllActiveGameIds();
+
+        for (Integer id: gameIds) {
+            List<Balance> b = gameDao.leaderboard(id);
+        }
+
+        System.out.println("Hello");
+        System.out.println(gameIds.size());
+        for (Integer id: gameIds) {
+            System.out.println("Game ID: " + id);
+        }
+        //    call leaderboard
+        //    for all balances
+        //
     }
 
     private BigDecimal getLatestPrice(String stockTicker) {

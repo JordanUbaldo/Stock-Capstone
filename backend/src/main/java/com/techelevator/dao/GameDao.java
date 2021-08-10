@@ -10,6 +10,9 @@ import java.util.List;
 public interface GameDao {
     int createGame(Game game);
     List<Game> viewGames(String username, String status);
+
+    List<Integer> getAllActiveGameIds();
+
     List<Player> viewUsersInTheGame(int gameId);
     List<Balance> leaderboard(int gameId);
     boolean invitePlayers(String username, String status, int gameId);
