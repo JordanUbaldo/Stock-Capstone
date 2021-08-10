@@ -17,7 +17,9 @@
         <game-list />
         <invite-list />
         <finished-games />
+        
       </div>
+      <router-link to="/"><img id="logo" src= "../assets/stonks.png" alt="Home Image"></router-link>
   </div>
 </template>
 
@@ -63,5 +65,8 @@ export default {
 </script>
 
 <style>
+#logo{
+  width: 40px
+}
 
 </style>

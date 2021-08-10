@@ -19,7 +19,7 @@ export default ({
   body {
     font-size: 16px;
     font-family: Avenir, Helvetica, Arial, sans-serif;
-    background-image: url("../src/assets/green:blue.jpg");
+    background-image: url("../src/assets/wallstreet.jpg");
     background-repeat:no-repeat;
     background-size: cover;
     background-color: #04460e;
@@ -61,7 +61,7 @@ export default ({
     border-radius: 10px;
     white-space: normal;
 
-    background-color:rgba(255, 255, 255, 0.562);
+    background-color:rgba(255, 255, 255, 0.72);
     box-shadow:none;
   }
 
@@ -70,7 +70,7 @@ export default ({
     padding: 8px;
     border-radius: 10px;
     white-space: normal;
-    background-color:rgba(255, 255, 255, 0.507);
+    background-color:rgba(255, 255, 255, 0.72);
     box-shadow:none;
   }
 

@@ -278,6 +278,27 @@ public class JdbcGameDao implements GameDao{
         return leaders;
     }
 
+    @Override
+    public List<Balance> getHighScores() {
+        List<Balance> highScores = new ArrayList<>();
+        String sql = "SELECT b.balance_id, b.game_id, b.username, b.amount " +
+                "FROM balances b " +
+                "JOIN games g ON b.game_id = g.game_id " +
+                "WHERE g.game_active = false " +
+                "ORDER BY b.amount DESC " +
+                "LIMIT 10;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+            while (results.next()) {
+                Balance score = mapRowToBalance(results);
+                highScores.add(score);
+            }
+        } catch (RestClientException j) {
+            System.out.println("Access to api error! " + j.getMessage());
+        }
+        return highScores;
+    }
+
     // helper method to create Share object
     private Share mapRowToShare (SqlRowSet s) {
         Share share = new Share();

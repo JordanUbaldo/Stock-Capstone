@@ -1,24 +1,26 @@
 <template>
   <div id="home_view">
     <div class="home">
-      <h1>Super Stonks</h1>
-      <img id="home-image" src= "../assets/DiamondHands.png" alt="Home Image">
+      <high-scores />
+      <img id="home-image" src= "../assets/stonks.png" alt="Home Image">
+
     </div>
   </div>
 </template>
 
 <script>
+import HighScores from '../components/games/HighScores.vue';
 export default {
-  name: "home"
-};
+  name: "home",
+  components: {
+    HighScores
+    },
+}
 </script>
 
 <style>
 #home-image {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 35%;
+  width: 200px
 }
 
 #home_view {
