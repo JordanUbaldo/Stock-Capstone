@@ -1,8 +1,9 @@
 <template>
   <div id="home_view">
     <div class="home">
+      <h1>Welcome to</h1>
+      <img id="home-image" src= "../assets/super_bull.png" alt="Home Image">
       <high-scores />
-      <img id="home-image" src= "../assets/stonks.png" alt="Home Image">
 
     </div>
   </div>
@@ -20,12 +21,12 @@ export default {
 
 <style>
 #home-image {
-  width: 200px
+  width: 500px
 }
 
 #home_view {
   height: 100vh;
-  background-color: #eeeeee;
+  background-color: #eeeeeece;
   margin: 10px;
   padding: 8px;
   border-radius: 10px;

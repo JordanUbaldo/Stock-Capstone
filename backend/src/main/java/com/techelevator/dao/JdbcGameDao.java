@@ -153,7 +153,7 @@ public class JdbcGameDao implements GameDao{
     @Override
     public Game findGameByGameId(int gameId) {
         Game game = new Game();
-        String sql = "SELECT game_id, game_name, game_active, host, start_game, end_date FROM games WHERE game_id = ?;";
+        String sql = "SELECT game_id, game_name, game_active, host, start_date, end_date FROM games WHERE game_id = ?;";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, gameId);
             if(results.next()) {

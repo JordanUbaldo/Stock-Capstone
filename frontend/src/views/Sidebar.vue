@@ -2,7 +2,8 @@
   <div>
       <div id="logged-out" v-if="!$store.state.token">
         <button class="sb-btn" v-show="!$store.state.loginFormState" @click="loginBtn" >Login</button>
-        <button class="sb-btn" v-show="!$store.state.registerFormState" @click="registerBtn" >Register</button>
+        <h2 v-show="!$store.state.registerFormState">Don't have an account?</h2>
+        <button class="sb-btn" v-show="!$store.state.registerFormState" @click="registerBtn" >Join Us</button>
         <div v-show="$store.state.loginFormState">
         <login />
         </div>
@@ -19,7 +20,7 @@
         <finished-games />
         
       </div>
-      <router-link to="/"><img id="logo" src= "../assets/stonks.png" alt="Home Image"></router-link>
+      <router-link to="/"><img id="logo" src= "../assets/super_bull.png" alt="Home Image"></router-link>
   </div>
 </template>
 
@@ -66,7 +67,7 @@ export default {
 
 <style>
 #logo{
-  width: 40px
+  width: 100px
 }
 
 </style>
