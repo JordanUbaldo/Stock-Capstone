@@ -33,7 +33,11 @@ public class JdbcTradeDao implements TradeDao {
     public List<StockResponse> getStocksByGameId(int gameId, Principal principal) {
         List<StockResponse> result = new ArrayList<>();
         String username = principal.getName();
-        String sql = "SELECT stock_ticker, stock_name, shares FROM stocks WHERE game_id = ? AND username = ? AND shares > 0 ORDER BY stock_ticker";
+        String sql = "SELECT stock_ticker, stock_name, shares\n" +
+                     "FROM stocks\n" +
+                     "JOIN users_stocks_games\n" +
+                     "ON stocks.stock_id = users_stocks_games.stock_id\n" +
+                     "AND game_id = ? AND username = ? AND shares > 0 ORDER BY stock_ticker";
         try {
             SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, gameId, username);
             while (rowSet.next()) {
@@ -49,9 +53,12 @@ public class JdbcTradeDao implements TradeDao {
     public List<TradeResponse> getTradesByGameId(int gameId, Principal principal) {
         List<TradeResponse> result = new ArrayList<>();
         String username = principal.getName();
-        String sql = "SELECT trade_id, game_id, shares, price_per_share, stock_name, stock_ticker, purchase_date, typ.type FROM trades AS tra " +
-                "JOIN trade_type AS typ ON tra.type_id = typ.type_id " +
-                "WHERE game_id = ? and username = ? ORDER BY purchase_date;";
+        String sql = "SELECT trade_id, game_id, shares, price_per_share, stock_name, stock_ticker, purchase_date, type\n" +
+                     "FROM trades\n" +
+                     "JOIN trade_type\n" +
+                     "ON trade_type.type_id = trades.type_id " +
+                     "WHERE game_id = ? and username = ?\n" +
+                     "ORDER BY purchase_date;";
         try {
             SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, gameId, username);
             while (rowSet.next()) {
@@ -70,10 +77,31 @@ public class JdbcTradeDao implements TradeDao {
         String sqlForGetBalance = "SELECT * FROM balances WHERE game_id = ? AND username = ?;";
         String sqlForUpdateBalance = "UPDATE balances SET amount = ? " +
                 "WHERE game_id = ? AND username = ?;";
-        String sqlForUpdateStockOfBuy = "UPDATE stocks SET shares = shares + ? WHERE game_id = ? AND username = ? AND stock_ticker = ?;";
-        String sqlForUpdateStockOfSell = "UPDATE stocks SET shares = shares - ? WHERE game_id = ? AND username = ? AND stock_ticker = ?;";
-        String sqlCheckStock = "SELECT * FROM stocks WHERE game_id = ? AND username = ? AND stock_ticker = ?;";
-        String sqlInsertStock = "INSERT INTO stocks (game_id, username, stock_ticker, stock_name, shares) VALUES (?,?,?,?,?);";
+
+        String sqlForUpdateStockOfBuy = "UPDATE users_stocks_games\n" +
+                                        "SET shares = shares + ?\n" +
+                                        "FROM stocks s\n" +
+                                        "WHERE s.stock_id = userS_stocks_games.stock_id\n" +
+                                        "AND game_id = ? AND username = ? AND stock_ticker = ?;";
+
+        String sqlForUpdateStockOfSell = "UPDATE users_stocks_games\n" +
+                                         "SET shares = shares - ?\n" +
+                                         "FROM stocks s\n" +
+                                         "WHERE s.stock_id = users_stocks_games.stock_id\n" +
+                                         "AND game_id = ? AND username = ? AND stock_ticker = ?;";
+
+        String sqlCheckStock = "SELECT game_id, username, stocks.stock_id, shares, stock_ticker, stock_name\n" +
+                               "FROM stocks\n" +
+                               "JOIN users_stocks_games\n" +
+                               "ON stocks.stock_id = users_stocks_games.stock_id\n" +
+                               "WHERE game_id = ? AND username = ? AND stock_ticker = ?;";
+
+        String sqlInsertStock = "INSERT INTO stocks (stock_ticker, stock_name)\n" +
+                                "VALUES (?,?);";
+        String sqlInsertUsersStocksGames = "INSERT INTO users_stocks_games (game_id, username, stock_id, shares)\n" +
+                                           "SELECT ?, ?, stock_id, ?\n" +
+                                           "FROM stocks\n" +
+                                           "WHERE stocks.stock_name = ?;";
 
         Balance balance = new Balance();
         int typeId = getTypeId(trade.getTradeType());
@@ -96,7 +124,8 @@ public class JdbcTradeDao implements TradeDao {
                     if (rs.next()) {
                         jdbcTemplate.update(sqlForUpdateStockOfBuy, trade.getNumberOfShares(), trade.getGameId(),username, trade.getStockTicker());
                     } else {
-                        jdbcTemplate.update(sqlInsertStock, trade.getGameId(), username, trade.getStockTicker(), trade.getStockName(), trade.getNumberOfShares());
+                        jdbcTemplate.update(sqlInsertStock, trade.getStockTicker(), trade.getStockName());
+                        jdbcTemplate.update(sqlInsertUsersStocksGames, trade.getGameId(), username, trade.getNumberOfShares(), trade.getStockName());
                     }
                 } else {
                     throw new InsufficientFundsException();
@@ -127,9 +156,12 @@ public class JdbcTradeDao implements TradeDao {
     public List<TradeRequest> getListOfStocks() {
         List<TradeRequest> result = new ArrayList<>();
 
-        String sql = "SELECT s.game_id, s.username, s.stock_ticker, s.stock_name, s.shares, 'Sell' as trade_type_name " +
-                "FROM stocks s " +
-                "JOIN games g ON g.game_id = s.game_id " +
+        String sql = "SELECT games.game_id, username, stock_ticker, stock_name, shares, 'Sell' as trade_type_name\n" +
+                "FROM users_stocks_games\n" +
+                "JOIN stocks\n" +
+                "ON stocks.stock_id = users_stocks_games\n" +
+                "JOIN games\n" +
+                "ON games.game_id = users_stocks_games.game_id\n" +
                 "WHERE g.end_date IN (SELECT CURRENT_DATE) ORDER BY s.game_id;";
         try {
             SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql);

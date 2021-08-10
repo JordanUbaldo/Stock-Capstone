@@ -113,14 +113,28 @@ CREATE TABLE trades (
 
 CREATE TABLE stocks (
 	stock_id int DEFAULT nextval('seq_stock_id'::regclass) NOT NULL,
-	game_id int NOT NULL,
-	username varchar(50) NOT NULL,
 	stock_ticker varchar(10) NOT NULL,
 	stock_name varchar(50) NOT NULL,
-	shares int NOT NULL,
-	CONSTRAINT PK_stocks PRIMARY KEY (stock_id),
-	CONSTRAINT FK_game_id FOREIGN KEY (game_id) REFERENCES games (game_id),
-	CONSTRAINT FK_username FOREIGN KEY (username) REFERENCES users (username)
+	CONSTRAINT PK_stocks PRIMARY KEY (stock_id)
+);
+
+CREATE TABLE users_stocks_games (
+    stock_id int,
+    game_id int,
+    username varchar(50),
+    shares int,
+    PRIMARY KEY(stock_id, game_id, username),
+        CONSTRAINT FK_game_id FOREIGN KEY (game_id) REFERENCES games (game_id),
+        CONSTRAINT FK_stock_id FOREIGN KEY (stock_id) REFERENCES stocks (stock_id),
+        CONSTRAINT FK_username FOREIGN KEY (username) REFERENCES users (username)
+);
+
+CREATE TABLE price_per_hour (
+    stock_id int,
+    price decimal,
+    updated_date TIMESTAMPTZ DEFAULT NOW(),
+
+    CONSTRAINT FK_stock_id FOREIGN KEY (stock_id) REFERENCES stocks (stock_id)
 );
 
 INSERT INTO trade_type (type) VALUES ('Buy');
