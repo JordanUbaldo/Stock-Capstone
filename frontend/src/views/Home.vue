@@ -2,7 +2,7 @@
   <div id="home_view">
     <div class="home">
       <h1>Welcome to</h1>
-      <img id="home-image" src= "../assets/super_bull.png" alt="Home Image">
+      <img id="home-image" src= "../assets/logo_final_circle.png" alt="Home Image">
       <high-scores />
 
     </div>

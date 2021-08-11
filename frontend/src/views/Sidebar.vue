@@ -20,7 +20,7 @@
         <finished-games />
         
       </div>
-      <router-link to="/"><img id="logo" src= "../assets/super_bull.png" alt="Home Image"></router-link>
+      <router-link to="/"><img id="logo" src= "../assets/logo_final_circle.png" alt="Home Image"></router-link>
   </div>
 </template>
 
