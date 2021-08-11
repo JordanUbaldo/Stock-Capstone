@@ -53,8 +53,9 @@ export default {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-areas:
-      "introduction"
-      "top-leaderboard";
+      "top-leaderboard"
+      "introduction";
+        
   }
   }
 </style>

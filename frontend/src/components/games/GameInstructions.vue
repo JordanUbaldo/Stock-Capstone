@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="game-instructions">
 <h2 class="title">Getting Started</h2>
 <ul id="instructions">
 <li>Select ‘Create Game’ from the sidebar, set a name and an end date, then invite other members to join you</li>
@@ -33,12 +33,12 @@ export default {
     text-decoration: underline;
 }
 
-li {
+#game-instructions {
     text-align: left;
-    text-indent: 20px;
+    padding-left: 20px;
 }
-#instructions {
-    line-height: 50px;
+#instructions li {
+    padding-bottom: 25px;
 }
 
 .q {
@@ -49,6 +49,10 @@ li {
 
 .a {
     padding-bottom: 30px;
+}
+
+.title {
+    text-align: center;
 }
 
 </style>
