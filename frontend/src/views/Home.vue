@@ -5,7 +5,7 @@
   </div>
   <div id="home_view">
     <div id="introduction" class="main-div">
-
+      <game-instructions/>
     </div>
     <div id="top-leaderboard" class="main-div">
       <high-scores />
@@ -16,10 +16,12 @@
 
 <script>
 import HighScores from '../components/games/HighScores.vue';
+import GameInstructions from '../components/games/GameInstructions.vue';
 export default {
   name: "home",
   components: {
-    HighScores
+    HighScores,
+    GameInstructions
     },
 }
 </script>
