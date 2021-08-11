@@ -22,14 +22,12 @@
 </template>
 
 <script>
-import stockService from '@/services/StockService';
 
 export default {
     name: 'trade-history',
     data() {
         return {
             tradeId: 0,
-            trades: [],
             currencyFormatter: new Intl.NumberFormat('en-US', {
                 style: 'currency',
                 currency: 'USD',
@@ -40,12 +38,11 @@ export default {
     computed: {
         currentGameId() {
             return this.$store.state.currentGameId;
+        },
+        trades() {
+            return this.$store.state.currentTradeHistory;
         }
 
-    },
-    async created() {
-         let tradeData = (await stockService.getTrades(this.currentGameId, this.$store.state.token)).data;
-         this.trades = tradeData.sort()
     }
 }
 </script>
