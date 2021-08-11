@@ -1,14 +1,14 @@
 <template>
-    <div>
-        <div>
-            <div>
+<div>
+    <div id="gameover-view">
+        <div id="gameover-summary" class="main-div">
             <game-summary />
-            </div>
-            <div>
+        </div>
+        <div id="gameover-leaderboard" class="main-div">
             <leader-board />
         </div>
-        </div>
     </div>
+</div>
 </template>
 
 <script>
@@ -23,5 +23,19 @@ export default {
 </script>
 
 <style>
+    #gameover-summary {
+        grid-area: gameover-summary;
+    }
 
+    #gameover-leaderboard {
+        grid-area: gameover-leaderboard;
+    }
+
+    #gameover-view {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "gameover-summary"
+            "gameover-leaderboard";
+    }
 </style>

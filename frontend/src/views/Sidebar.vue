@@ -68,7 +68,7 @@ export default {
 <style>
 #logo{
   width: 150px;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 </style>

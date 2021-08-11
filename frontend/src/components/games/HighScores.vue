@@ -9,7 +9,7 @@
             </tr>
         </table>
         <p>Think you can do better?</p>
-    </div>
+        </div>
     </div>
 </template>
 

@@ -4,17 +4,16 @@
     <div v-if="$route.name.match('game-over')">
       <winner-display v-bind:winner="winner" />
     </div>
-      <h2>Leaderboard:</h2>
-      <table>
+      <h2 v-if="!$route.name.match('game-over')">Leaderboard</h2>
+      <table v-if="!$route.name.match('game-over')">
         <tr class="highlight">
           <td>{{  userIndex+1 }}</td>
           <td>{{ fullLeaderboard[userIndex].username }}</td>
           <td>${{ new Intl.NumberFormat().format(fullLeaderboard[userIndex].amount) }}</td>
         </tr>
       </table>
-      <p></p>
-      <p></p>
     </div>
+    <br>
     <div>
         <table>
             <tr td v-bind:class="(user.username===$store.state.user.username)?'highlight':''" v-bind:key="user.username" v-for="user in fullLeaderboard">
@@ -23,6 +22,7 @@
                 <td>${{ new Intl.NumberFormat().format(user.amount) }}</td>
             </tr>
         </table>
+        <br>
     </div>
   </div> 
 </template>
