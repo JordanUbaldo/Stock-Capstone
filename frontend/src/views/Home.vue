@@ -1,12 +1,17 @@
 <template>
+<div>
+  <div class="main-div">
+      <h1>Welcome to Super Stonks</h1>
+  </div>
   <div id="home_view">
-    <div class="home">
-      <h1>Welcome to</h1>
-      <img id="home-image" src= "../assets/logo_final_circle.png" alt="Home Image">
-      <high-scores />
+    <div id="introduction" class="main-div">
 
     </div>
+    <div id="top-leaderboard" class="main-div">
+      <high-scores />
+    </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -20,16 +25,30 @@ export default {
 </script>
 
 <style>
-#home-image {
-  width: 500px
-}
 
-#home_view {
-  height: 100vh;
-  background-color: #eeeeeece;
-  margin: 10px;
-  padding: 8px;
-  border-radius: 10px;
-  white-space: normal;
-}
+  #introduction {
+    grid-area: introduction;
+  }
+
+  #top-leaderboard {
+    grid-area: top-leaderboard;
+  }
+
+  #home_view {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas:
+      "introduction introduction top-leaderboard";
+  }
+
+  @media only screen and (max-width: 1024px) {
+  #home_view {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "welcome"
+      "introduction"
+      "top-leaderboard";
+  }
+  }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div v-show="highScores.length > 0" class="main-div">
+    <div class="main-div">
         <div>
         <h2>Highscores</h2>
         <table>
