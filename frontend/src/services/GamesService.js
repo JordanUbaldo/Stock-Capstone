@@ -21,6 +21,7 @@ export default {
         return http.get(`/games/${gameId}/leaderboard`, {headers: {'Authorization': `Bearer ${token}`}});
     },
     getPortfolioValueHistory(gameId, token) {
+        console.log(gameId);
         return http.get(`/games/${gameId}/visualizations`, {headers: {'Authorization': `Bearer ${token}`}});
     }
 }

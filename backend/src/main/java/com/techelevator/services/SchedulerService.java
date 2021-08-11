@@ -45,7 +45,7 @@ public class SchedulerService {
         }
     }
 
-    @Scheduled(fixedDelay = 5000)
+    @Scheduled(fixedDelay = 10000)
     public void storePortfolioBalancesForActiveGames() {
         List<Integer> gameIds = gameDao.getAllActiveGameIds();
 

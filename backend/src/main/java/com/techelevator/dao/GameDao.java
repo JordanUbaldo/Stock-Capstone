@@ -20,6 +20,8 @@ public interface GameDao {
 
     void addToPortfolioHistory(Balance portfolioSnapshot, int gameId);
 
+    List<Balance> getPortfolioHistory(int gameId, String username);
+
     void changeGameStatusByGameId(int gameId);
     List<Balance> getBalancesByGameId(int gameId);
 }

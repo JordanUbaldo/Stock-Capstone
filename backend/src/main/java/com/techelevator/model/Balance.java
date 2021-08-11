@@ -1,6 +1,7 @@
 package com.techelevator.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public class Balance {
 
@@ -8,8 +9,18 @@ public class Balance {
     private int gameId;
     private String username;
     private BigDecimal amount = new BigDecimal(100000);
+    private LocalDateTime timestamp;
 
     public Balance() { }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
     //Constructor for putting into DB after received from FE
     public Balance(int gameId, String username) {
         this.gameId = gameId;

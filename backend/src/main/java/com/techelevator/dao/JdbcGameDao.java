@@ -10,6 +10,7 @@ import org.springframework.web.client.RestClientException;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -294,6 +295,26 @@ public class JdbcGameDao implements GameDao{
         }
     }
 
+    @Override
+    public List<Balance> getPortfolioHistory(int gameId, String username) {
+        List<Balance> portfolioHistory = new ArrayList<>();
+        String sql = "SELECT *\n" +
+                     "FROM periodic_portfolio_value\n" +
+                     "WHERE game_id = ? AND username = ?;";
+        System.out.println(username);
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, gameId, username);
+            while(results.next()) {
+                Balance balance = mapRowToPortfolioSnapshot(results);
+                portfolioHistory.add(balance);
+            }
+        } catch (DataAccessException j) {
+            System.out.println("Data Access error! " + j);
+        }
+
+        return portfolioHistory;
+    }
+
     // helper method to create Share object
     private Share mapRowToShare (SqlRowSet s) {
         Share share = new Share();
@@ -343,5 +364,14 @@ public class JdbcGameDao implements GameDao{
         return balance;
     }
 
+    private Balance mapRowToPortfolioSnapshot(SqlRowSet b) {
+        Balance balance = new Balance();
+        balance.setGameId(b.getInt("game_id"));
+        balance.setUsername(b.getString("username"));
+        balance.setAmount(b.getBigDecimal("portfolio_value"));
+        balance.setTimestamp(b.getDate("updated_date"));
+
+        return balance;
+    }
 
 }
