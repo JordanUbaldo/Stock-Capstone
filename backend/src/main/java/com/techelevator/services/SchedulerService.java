@@ -35,7 +35,7 @@ public class SchedulerService {
 
     // Checks database every weekday at 4:00 pm US Eastern Standard Time, when the markets close.
     @Scheduled(cron = "0 0 16 * * MON-FRI", zone = "US/Eastern")
-    public void tester() throws InsufficientFundsException, InsufficientSharesException, NonExistentStockException {
+    public void checkGameEndAtMarketClose() throws InsufficientFundsException, InsufficientSharesException, NonExistentStockException {
         List<TradeRequest> stockList =  tradeDao.getListOfStocks();
         for (int i = 0; i < stockList.size(); i++) {
             BigDecimal currentPrice = getLatestPrice(stockList.get(i).getStockTicker());
@@ -47,21 +47,14 @@ public class SchedulerService {
 
     @Scheduled(fixedDelay = 5000)
     public void storePortfolioBalancesForActiveGames() {
-        // for all gameids
         List<Integer> gameIds = gameDao.getAllActiveGameIds();
 
         for (Integer id: gameIds) {
-            List<Balance> b = gameDao.leaderboard(id);
+            List<Balance> gamePortfolioValues = gameDao.leaderboard(id);
+            for (Balance portfolioSnapshot: gamePortfolioValues) {
+                gameDao.addToPortfolioHistory(portfolioSnapshot, id);
+            }
         }
-
-        System.out.println("Hello");
-        System.out.println(gameIds.size());
-        for (Integer id: gameIds) {
-            System.out.println("Game ID: " + id);
-        }
-        //    call leaderboard
-        //    for all balances
-        //
     }
 
     private BigDecimal getLatestPrice(String stockTicker) {

@@ -281,6 +281,19 @@ public class JdbcGameDao implements GameDao{
         return leaders;
     }
 
+    @Override
+    public void addToPortfolioHistory(Balance portfolioSnapshot, int gameId) {
+        String sql = "INSERT INTO periodic_portfolio_value\n" +
+                     "(username, game_id, portfolio_value)\n" +
+                     "VALUES(?, ?, ?);";
+
+        try {
+            jdbcTemplate.update(sql, portfolioSnapshot.getUsername(), gameId ,portfolioSnapshot.getAmount());
+        } catch (DataAccessException e) {
+            System.out.println(e);
+        }
+    }
+
     // helper method to create Share object
     private Share mapRowToShare (SqlRowSet s) {
         Share share = new Share();
