@@ -1,7 +1,6 @@
 <template>
   <div id="login" class="text-center">
     <form class="form-signin" @submit.prevent="login">
-      <h2>Have an account?</h2>
       <h2>Sign In</h2>
       <div
         class="alert alert-danger"
