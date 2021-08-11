@@ -61,6 +61,11 @@ public class GameController {
         return gameDao.leaderboard(gameId);
     }
 
+    @RequestMapping(path = "/games/{gameId}/visualizations", method = RequestMethod.GET)
+    public List<Balance> getValueOverTime(@Valid @PathVariable int gameId, Principal principal) {
+        return gameDao.getPortfolioHistory(gameId, principal.getName());
+    }
+
 //    @RequestMapping(path = "/games/{ticker}/price", method = RequestMethod.GET)
 //    public Share getPrice(@Valid @PathVariable String ticker) {
 //        WebApiService price = new WebApiService();

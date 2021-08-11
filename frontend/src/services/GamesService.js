@@ -19,5 +19,8 @@ export default {
     },
     getLeaderboard(gameId, token) {
         return http.get(`/games/${gameId}/leaderboard`, {headers: {'Authorization': `Bearer ${token}`}});
+    },
+    getPortfolioValueHistory(gameId, token) {
+        return http.get(`/games/${gameId}/visualizations`, {headers: {'Authorization': `Bearer ${token}`}});
     }
 }

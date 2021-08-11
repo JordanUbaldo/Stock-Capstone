@@ -40,5 +40,4 @@ public class StockController {
         String username = principal.getName();
         tradeDao.tradeStocks(trade, username);
     }
-
 }
