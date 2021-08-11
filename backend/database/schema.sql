@@ -139,9 +139,11 @@ CREATE TABLE price_per_hour (
 
 CREATE TABLE periodic_portfolio_value (
     username varchar(50) NOT NULL,
+    game_id int NOT NULL,
     portfolio_value decimal NOT NULL,
     updated_date TIMESTAMPTZ DEFAULT NOW(),
 
+    CONSTRAINT FK_game_id FOREIGN KEY (game_id) REFERENCES games (game_id),
     CONSTRAINT FK_username FOREIGN KEY (username) REFERENCES users (username)
 );
 
