@@ -19,10 +19,10 @@ export default ({
   body {
     font-size: 16px;
     font-family: Avenir, Helvetica, Arial, sans-serif;
-    background-image: url("../src/assets/green:blue.jpg");
+    background-image: url("../src/assets/wallstreet.jpg");
     background-repeat:no-repeat;
     background-size: cover;
-    background-color: #04460e;
+    background-color: #04460a;
     white-space: nowrap;
   }
 
@@ -33,7 +33,7 @@ export default ({
     grid-template-areas:
       "sidebar content";
     text-align: center;
-    color: #2e645f;
+    color: #000000;
     margin-top: 60px;
   }
 
@@ -61,7 +61,7 @@ export default ({
     border-radius: 10px;
     white-space: normal;
 
-    background-color:rgba(255, 255, 255, 0.562);
+    background-color:rgba(255, 255, 255, 0.75);
     box-shadow:none;
   }
 
@@ -70,12 +70,12 @@ export default ({
     padding: 8px;
     border-radius: 10px;
     white-space: normal;
-    background-color:rgba(255, 255, 255, 0.507);
+    background-color:rgba(255, 255, 255, 0.75);
     box-shadow:none;
   }
 
   .main-div {
-    background-color:#2e645f;
+    background-color:#2f8f4f;
     margin: 10px;
     padding: 8px;
     border-radius: 10px;
@@ -104,7 +104,7 @@ export default ({
     border-radius: 5px;
     border: 1px solid #c4c4c4;
     font-size: 16px;
-    color:#2e645f;
+    color: #2f8f4f;
   }
 
   .btn:hover {
@@ -116,7 +116,7 @@ export default ({
     margin: 5px;
     padding: 10px 0px 10px 0px;
     width: 150px;
-    background-color: #2e645faf;;
+    background-color: #2f8f4f;
     border-radius: 5px;
     border: 1px solid #033a0c;
     font-size: 16px;
@@ -135,7 +135,7 @@ export default ({
     margin: 5px;
     padding: 10px 0px 10px 0px;
     width: 150px;
-    background-color: #2e645f;;
+    background-color: #2f8f4f;
     border-radius: 5px;
     border: 1px solid #033a0c;
     font-size: 16px;
@@ -155,7 +155,7 @@ export default ({
   .hostImage {
       padding-left: 10px;
       width: auto;
-      height: 14px;
+      height: 15px;
   }
 
   table {

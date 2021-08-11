@@ -1,32 +1,56 @@
 <template>
+<div>
+  <div class="main-div">
+      <h1>Welcome to Super Stonks</h1>
+  </div>
   <div id="home_view">
-    <div class="home">
-      <h1>Super Stonks</h1>
-      <img id="home-image" src= "../assets/DiamondHands.png" alt="Home Image">
+    <div id="introduction" class="main-div">
+      <game-instructions/>
+    </div>
+    <div id="top-leaderboard" class="main-div">
+      <high-scores />
     </div>
   </div>
+</div>
 </template>
 
 <script>
+import HighScores from '../components/games/HighScores.vue';
+import GameInstructions from '../components/games/GameInstructions.vue';
 export default {
-  name: "home"
-};
+  name: "home",
+  components: {
+    HighScores,
+    GameInstructions
+    },
+}
 </script>
 
 <style>
-#home-image {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 35%;
-}
 
-#home_view {
-  height: 100vh;
-  background-color: #eeeeee;
-  margin: 10px;
-  padding: 8px;
-  border-radius: 10px;
-  white-space: normal;
-}
+  #introduction {
+    grid-area: introduction;
+  }
+
+  #top-leaderboard {
+    grid-area: top-leaderboard;
+  }
+
+  #home_view {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas:
+      "introduction introduction top-leaderboard";
+  }
+
+  @media only screen and (max-width: 1024px) {
+  #home_view {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "welcome"
+      "introduction"
+      "top-leaderboard";
+  }
+  }
 </style>

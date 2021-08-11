@@ -19,5 +19,8 @@ export default {
     },
     getLeaderboard(gameId, token) {
         return http.get(`/games/${gameId}/leaderboard`, {headers: {'Authorization': `Bearer ${token}`}});
+    },
+    getHighScores(){
+        return http.get('/games/high-scores');
     }
 }

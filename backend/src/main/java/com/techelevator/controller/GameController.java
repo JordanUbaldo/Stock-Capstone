@@ -65,6 +65,12 @@ public class GameController {
         return gameDao.leaderboard(gameId, principal.getName());
     }
 
+    @PreAuthorize("permitAll")
+    @RequestMapping(path = "/games/high-scores", method = RequestMethod.GET)
+    public List<Balance> highScores() {
+        return gameDao.getHighScores();
+    }
+
 //    @RequestMapping(path = "/games/{ticker}/price", method = RequestMethod.GET)
 //    public Share getPrice(@Valid @PathVariable String ticker) {
 //        WebApiService price = new WebApiService();

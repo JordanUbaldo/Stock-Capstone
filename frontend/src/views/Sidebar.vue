@@ -1,14 +1,17 @@
 <template>
   <div>
+    <router-link to="/"><img id="logo" src= "../assets/logo_final_circle.png" alt="Home Image"></router-link>
       <div id="logged-out" v-if="!$store.state.token">
-        <button class="sb-btn" v-show="!$store.state.loginFormState" @click="loginBtn" >Login</button>
-        <button class="sb-btn" v-show="!$store.state.registerFormState" @click="registerBtn" >Register</button>
         <div v-show="$store.state.loginFormState">
         <login />
         </div>
+        <p v-show="!$store.state.registerFormState">Don't have an account?</p>
+        <button class="sb-btn" v-show="!$store.state.registerFormState" @click="registerBtn" >Join Us</button>
         <div v-show="$store.state.registerFormState">
         <register />
         </div>
+        <p v-show="!$store.state.loginFormState">Have an account?</p>
+        <button class="sb-btn" v-show="!$store.state.loginFormState" @click="loginBtn" >Login</button>
       </div>
       <div id="logged-in" v-else>
         <h1>{{ $store.state.user.username }}</h1>
@@ -63,5 +66,9 @@ export default {
 </script>
 
 <style>
+#logo{
+  width: 150px;
+  margin-top: 20px;
+}
 
 </style>
