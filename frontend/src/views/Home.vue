@@ -2,6 +2,7 @@
 <div>
   <div class="main-div">
       <h1>Welcome to Super Stonks</h1>
+      <h3>The premier gamified paper trading platform</h3>
   </div>
   <div id="home_view">
     <div id="introduction" class="main-div">
@@ -32,6 +33,10 @@ export default {
     grid-area: introduction;
   }
 
+  #introduction p {
+    text-align: left;
+  }
+
   #top-leaderboard {
     grid-area: top-leaderboard;
   }
@@ -48,7 +53,6 @@ export default {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-areas:
-      "welcome"
       "introduction"
       "top-leaderboard";
   }
