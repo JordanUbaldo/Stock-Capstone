@@ -1,9 +1,9 @@
 <template>
     <div class="main-div">
         <div>
-        <h2>Highscores</h2>
+        <h2 class="title">Highscores</h2>
         <table>
-            <tr v-for="score in highScores" v-bind:key="score.username">
+            <tr v-for="score in highScores" v-bind:key="score.balanceId">
                 <td>{{ score.username }}</td>
                 <td>${{ new Intl.NumberFormat().format(score.amount) }}</td>
             </tr>
