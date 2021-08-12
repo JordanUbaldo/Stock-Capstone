@@ -1,6 +1,7 @@
 <template>
   <div>
-    <router-link to="/"><img id="logo" src= "../assets/logo_final_circle.png" alt="Home Image"></router-link>
+    <router-link to="/" v-show="!hover"><img @mouseover="hover=true" id="logo" src="../assets/logo_final_circle.png"></router-link>
+    <router-link to="/" v-show="hover"><img @mouseleave="hover = false" id="logo" src="../assets/logo_hover.png"></router-link>
       <div id="logged-out" v-if="!$store.state.token">
         <div v-show="$store.state.loginFormState">
         <login />
@@ -37,7 +38,8 @@ export default {
     name: "TheSidebar",
     data() {
       return {
-      }  
+        hover: false
+      }
     },
     components: {
         GameList,
@@ -49,6 +51,11 @@ export default {
         FinishedGames
     },
     methods: {
+      flipImage(){
+        if(this.myImage != this.otherImage){
+        this.myImage = this.otherImage
+        }
+      },
       loginBtn(){
         if(this.$route.path != '/'){
         this.$router.push("/");
