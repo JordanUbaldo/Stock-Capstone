@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-      <h2>Your Stocks:</h2>
+      <h2>Your Stocks</h2>
       <table>
           <tr id="tableHead">
               <td>Ticker Symbol</td>

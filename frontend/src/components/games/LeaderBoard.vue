@@ -4,7 +4,7 @@
     <div v-if="$route.name.match('game-over')">
       <winner-display v-bind:winner="winner" />
     </div>
-      <h2 v-if="!$route.name.match('game-over')">Leaderboard</h2>
+      <h2 v-if="!$route.name.match('game-over')">Current Position</h2>
       <table v-if="!$route.name.match('game-over')">
         <tr class="highlight">
           <td>{{  userIndex+1 }}</td>
@@ -13,8 +13,8 @@
         </tr>
       </table>
     </div>
-    <br>
     <div>
+      <h2>Leaderboard</h2>
         <table>
             <tr td v-bind:class="(user.username===$store.state.user.username)?'highlight':''" v-bind:key="user.username" v-for="user in fullLeaderboard">
                 <td>{{ fullLeaderboard.indexOf(user)+1 }}</td>
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import winnerDisplay from '@/components/WinnerDisplay'
+import winnerDisplay from '@/components/games/WinnerDisplay'
 export default {
     name: "leader-board",
     components: {
@@ -54,5 +54,9 @@ export default {
 <style>
 .highlight {
   color: gold;
+}
+
+hr {
+  border: 1px solid #eeeeee;
 }
 </style>
