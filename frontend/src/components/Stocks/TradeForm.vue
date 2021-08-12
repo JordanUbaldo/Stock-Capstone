@@ -1,5 +1,6 @@
 <template>
   <div id="content">
+      <br>
       <form class="create-trade" v-on:submit.prevent="postTrade" id="tradeForm">
           <div class="trade">
             <label for="tradeType">Buy/Sell: </label>
@@ -12,7 +13,6 @@
               <label for="numberOfShares">Number of Shares: </label>
               <input class="form-control" type="text" id="numberOfShares" v-model="numberOfShares" v-on:change="setTotalCost" onfocus="this.value=''" ref="numShares">
           </div>
-          <br>
           <div class="trade">
               <label for="priceOfStocks">Cost of Stocks: </label>
               <input class="form-control" type="text" id="priceOfStocks" v-model="priceOfStocks" v-on:change="setNumberOfShares" >
@@ -22,8 +22,6 @@
                   Total Cost: {{ this.currencyFormatter.format(totalCost) }}
               </p>
           </div>
-          <br>
-          <br>
           <button class="btn" type="submit">Submit Trade</button>
           <button class="btn" type="reset" v-on:click="cancel">Cancel</button>
           <p>*Markets move fast; the price you see may not be the price the trade is executed at.</p>
