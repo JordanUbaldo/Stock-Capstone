@@ -107,6 +107,7 @@ export default {
     flex-basis: 100%;
     height: 0;
     margin: 0;
+    margin-top: 5px;
     border: 0;
 }
 
@@ -119,7 +120,7 @@ export default {
     border-radius: 5px;
     border: 1px solid #c4c4c4;
     font-size: 16px;
-    color: #30642e;
+    color: #2f8f4f;
 }
 
 #inv-accept:hover, #inv-decline:hover {

@@ -1,6 +1,5 @@
 <template>
-    <div class="main-div">
-        <div>
+    <div>
         <h2 class="title">Highscores</h2>
         <table>
             <tr v-for="score in highScores" v-bind:key="score.balanceId">
@@ -9,7 +8,6 @@
             </tr>
         </table>
         <p>Think you can do better?</p>
-        </div>
     </div>
 </template>
 
