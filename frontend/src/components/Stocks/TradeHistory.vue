@@ -22,7 +22,7 @@
 </template>
 
 <script>
-
+import stockService from '@/services/StockService';
 export default {
     name: 'trade-history',
     data() {
@@ -43,6 +43,11 @@ export default {
             return this.$store.state.currentTradeHistory;
         }
 
+    },
+    created(){
+        const rawTradeHistory = stockService.getTrades(this.currentGameId, this.$store.state.token);
+        const tradeHistory = rawTradeHistory.data;
+        this.$store.commit('SET_CURRENT_TRADE_HISTORY', tradeHistory); 
     }
 }
 </script>
