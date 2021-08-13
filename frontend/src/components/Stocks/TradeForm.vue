@@ -1,7 +1,7 @@
 <template>
   <div id="content">
+      <br>
       <form class="create-trade" v-on:submit.prevent="postTrade" id="tradeForm">
-          <br>
           <div class="trade">
             <label for="tradeType">Buy/Sell: </label>
             <select class="form-control" name="tradeType" id="tradeType" v-model="tradeType">
@@ -32,8 +32,7 @@
 
 <script>
 import stockService from '@/services/StockService';
-import userService from '@/services/UserService';
-import gamesService from "@/services/GamesService";
+import userService from '@/services/UserService';  
 
 export default {
     name: "trade-form",
@@ -88,13 +87,6 @@ export default {
             } catch (error) {
                 alert(`Error: ${error.response.data.status}\n${error.response.data.message}`);
             }
-            const response = await gamesService.getLeaderboard(this.$store.state.currentGameId, this.$store.state.token);
-            const leaderboard= response.data.sort((a,b) => b.amount - a.amount)
-            this.$store.commit('SET_CURRENT_LEADERBOARD', leaderboard);
-            const userIndex = this.$store.state.currentLeaderboard.findIndex(user => user.username === this.$store.state.user.username);
-            const portfolio = this.$store.state.currentLeaderboard[userIndex].amount
-            this.$store.commit("SET_USER_PORTFOLIO_BALANCE", portfolio);
-
 
             const stockList = await stockService.getStocks(this.currentGameId, this.$store.state.token);
             this.$store.commit('SET_CURRENT_USER_STOCKS', stockList.data);
@@ -105,6 +97,10 @@ export default {
             this.$store.commit('CLEAR_CURRENT_STOCK_DETAILS');
             document.getElementById('tradeForm').reset();
             this.$store.commit('SET_SHOW_FORM_FALSE');
+
+            const rawTradeHistory = await stockService.getTrades(this.currentGameId, this.$store.state.token);
+            const tradeHistory = rawTradeHistory.data;
+            this.$store.commit('SET_CURRENT_TRADE_HISTORY', tradeHistory); 
         },
         cancel() {
             this.$store.commit('CLEAR_CURRENT_STOCK_DETAILS');

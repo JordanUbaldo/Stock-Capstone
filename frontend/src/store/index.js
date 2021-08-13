@@ -76,6 +76,7 @@ export default new Vuex.Store({
     currentStockDetails: {}, //stockDetails ||
     currentBalances: [], //balances ||
     currentLeaderboard: [],
+    currentTradeHistory: [],
     userPortfolioBalance: 0,
     currentGameEndDate: '',
     registerFormState: false,
@@ -189,6 +190,9 @@ export default new Vuex.Store({
     },
     SET_CURRENT_LEADERBOARD(state, data) {
       state.currentLeaderboard = data;
+    },
+    SET_CURRENT_TRADE_HISTORY(state, data) {
+      state.currentTradeHistory = data;
     },
     SET_USER_PORTFOLIO_BALANCE(state, data) {
       state.userPortfolioBalance = data;
