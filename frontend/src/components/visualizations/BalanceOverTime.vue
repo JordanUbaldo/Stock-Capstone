@@ -6,7 +6,7 @@ export default {
     name: 'balance-over-time',
     props: {
         chartdata: {
-            type: Array,
+            type: Object,
             default: null
         },
         options: {

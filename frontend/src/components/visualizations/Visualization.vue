@@ -2,7 +2,7 @@
   <div>
     <p>This should show the chart</p>
     <button v-on:click="getPortfolioHistory">View Portfolio History</button>
-    <balance-over-time v-if="isDataLoaded" v-bind:chartdata="balanceData"/>
+    <balance-over-time id=balanceChart v-if="isDataLoaded" v-bind:chartdata="balanceData"/>
   </div>
 </template>
 
@@ -34,30 +34,32 @@ export default {
         async getPortfolioHistory() {
             let response = await gamesService.getPortfolioValueHistory(this.currentGameId, this.$store.state.token);
             let balanceHistory = response.data;
-            console.log(balanceHistory);
+            // balanceHistory.forEach(element => console.log(element));
+            
             let balances = balanceHistory.map(element => {
                 return element.amount;
             })
 
-            // let times = balanceHistory.map(element => {
-            //     return element.
-            // })
+            let times = balanceHistory.map(element => {
+                return element.timestamp;
+            })
 
-            console.log(balances);
+            times.forEach(element => {
+                console.log(element);
+            });
+
             this.balanceData = {
-                labels: ['label1', 'label2', 'label3', 'label4'],
+                labels: times,
                 datasets: [
                     {
                         label: "Balance",
                         data: balances,
-                        borderWidth: 1
+                        borderWidth: 1,
+                        tension: 0
                     }
                 ]
             }
 
-        
-            
-            // balances;
             this.isDataLoaded = true;
         }
     }
@@ -65,5 +67,8 @@ export default {
 </script>
 
 <style>
-
+    #balanceChart {
+        height: 10vh;
+        width: 10vh;
+    }
 </style>
