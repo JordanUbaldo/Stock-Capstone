@@ -7,11 +7,11 @@ VALUES (1001, 'Sarah', '$2a$10$.iJYmcFRAeBIJArsAvGwi.vWIs34aU8ddFBd5DK2FEPu9lpq/
 
 INSERT INTO games (game_id, game_name, game_active, host, start_date, end_date) 
 VALUES (2001, 'Stonks', FALSE, 'Sarah', '2021-08-01', '2021-08-02'),
-       (2002, 'To The moon', FALSE, 'testuser2', '2021-08-02', '2021-08-03'),
+       (2002, 'To The moon', FALSE, 'Josh', '2021-08-02', '2021-08-03'),
        (2003, 'Bull Market', FALSE, 'Sarah', '2021-08-08', '2021-08-10'),
        (2004, 'Bear Market', TRUE, 'Sarah', '2021-08-12', '2021-08-14'),
-       (2005, 'Paper Hands', TRUE, 'testuser2', '2021-08-12', '2021-08-14'),
-       (2006, 'Diamond Hands', TRUE, 'testuser3', '2021-08-12', '2021-08-14');
+       (2005, 'Paper Hands', TRUE, 'Josh', '2021-08-12', '2021-08-14'),
+       (2006, 'Diamond Hands', TRUE, 'Alan', '2021-08-12', '2021-08-14');
 
 INSERT INTO user_status (game_id, username, user_status)
 VALUES (2001, 'Sarah', 'Accepted'),
