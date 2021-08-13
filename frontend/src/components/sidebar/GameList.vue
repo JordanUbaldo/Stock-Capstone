@@ -69,5 +69,6 @@ ul, li {
     list-style-position:inside;
     margin:0;
     padding:0;
+    
 }
 </style>
