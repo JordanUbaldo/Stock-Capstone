@@ -1,6 +1,6 @@
 <template>
   <div>
-        <button v-on:click="getPortfolioHistory">View Portfolio History</button>
+         <button v-on:click="getPortfolioHistory">View Portfolio History</button>
       <!-- User Balance -->
       <balance />
       <!-- List of User's Stocks, Trade Button per Stock -->
@@ -11,7 +11,7 @@
 <script>
 import StockParent from "@/components/stocks/StockParent.vue"
 import Balance from "@/components/games/Balance"
-import gamesService from "@/services/GamesService"
+// import gamesService from "@/services/GamesService"
 
 export default {
   name: "game-details",
@@ -25,14 +25,16 @@ export default {
         }
     },
   methods: {
-    async getPortfolioHistory() {
-      console.log(this.currentGameId);
-        let response = await gamesService.getPortfolioValueHistory(this.currentGameId, this.$store.state.token);
-        let balanceHistory = response.data;
+    getPortfolioHistory() {
+        this.$router.push({ name: 'visuals', params: { gameId : this.currentGameId}});
+        // console.log(this.currentGameId);
+
+        // let response = await gamesService.getPortfolioValueHistory(this.currentGameId, this.$store.state.token);
+        // let balanceHistory = response.data;
         
-        balanceHistory.forEach(element => {
-              console.log(element);
-        });
+        // balanceHistory.forEach(element => {
+        //       console.log(element);
+        // });
     }
   }
 

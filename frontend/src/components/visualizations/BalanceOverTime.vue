@@ -4,23 +4,19 @@ import { Line } from 'vue-chartjs';
 export default {
     extends: Line,
     name: 'balance-over-time',
-    props: ['data', 'options'],
-    mounted() {
-        // this.renderChart(this.data, this.options);
-        this.renderChart({
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-            datasets: [
-                {
-                    label: 'GitHub Commits',
-                    backgroundColor: '#f87979',
-                    data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
-                }
-            ]
+    props: {
+        chartdata: {
+            type: Array,
+            default: null
         },
-        {
-            responsive: true,
-            maintainAspectRatio: false
-        })
+        options: {
+            type: Object,
+            default: null
+        }
+    },
+    mounted() {
+        // console.log(this.chartdata);
+        this.renderChart(this.chartdata, this.options);
     }
 }
 </script>
