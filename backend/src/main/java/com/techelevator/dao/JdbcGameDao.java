@@ -76,9 +76,9 @@ public class JdbcGameDao implements GameDao{
     @Override
     public List<Player> viewUsersInTheGame(int gameId, String username) {
         List<Player> users = new ArrayList<>();
-        String sql = "SELECT game_id, username, user_status FROM user_status WHERE game_id = ? AND username = ?;";
+        String sql = "SELECT game_id, username, user_status FROM user_status WHERE game_id = ?;";
         try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, gameId, username);
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, gameId);
             while (results.next()) {
                 Player player = mapRowToPlayer(results);
                 users.add(player);
