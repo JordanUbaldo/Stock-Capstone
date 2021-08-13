@@ -43,6 +43,10 @@ export default {
 
                 const rawBalanceResponse = await userService.getBalancesForGame(gameId, this.$store.state.token);
                 this.$store.commit('SET_CURRENT_BALANCES', rawBalanceResponse.data);
+
+                const rawTradeHistory = await stockService.getTrades(this.$store.state.currentGameId, this.$store.state.token);
+                const tradeHistory = rawTradeHistory.data;
+                this.$store.commit('SET_CURRENT_TRADE_HISTORY', tradeHistory); 
                 
                 this.$store.commit('CLEAR_CURRENT_STOCK_DETAILS');
                 this.$store.commit('SET_SHOW_FORM_FALSE');

@@ -44,8 +44,8 @@ export default {
         }
 
     },
-    created(){
-        const rawTradeHistory = stockService.getTrades(this.currentGameId, this.$store.state.token);
+    async created(){
+        const rawTradeHistory = await stockService.getTrades(this.currentGameId, this.$store.state.token);
         const tradeHistory = rawTradeHistory.data;
         this.$store.commit('SET_CURRENT_TRADE_HISTORY', tradeHistory); 
     }
