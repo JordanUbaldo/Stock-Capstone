@@ -33,6 +33,7 @@ public class GameController {
 //        } else {
 //            status = "Declined";
 //        }
+// Random comment to test git.
         return gameDao.viewGames(principal.getName(), status);
     }
 
